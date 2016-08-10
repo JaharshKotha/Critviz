@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+body {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.dot {
+  
+}
+
+.g_main {
+  // ..
+  pointer-events: all;
+}
+
+.stringLabels
+{
+  font-size: 20px;
+}
+
+text.label{
+  font-size: 12px;
+}
+
+</style>
+<body bgcolor="white">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+<script src="showdetails.js" type=text/javascript></script>
+<script src="Allocate.js"></script>
+<script src="enlargePeers.js"></script>
+<script src="curveFitting.js"></script>
+<script src="SpringVisualization.js"></script> 
+<script>
+
+var line;
+var focusedStudent;
+var margin = {top: 100, right: 100, bottom: 30, left: 100},
+    width = 1200 - margin.left - margin.right,
+    height = 800 - margin.top - margin.bottom;
+
+var x = d3.scale.linear()
+    .range([0, width]);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var color = d3.scale.category10();
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left");
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+c=0;
+first_name = [], last_name=[],url=[], rank_avg=[], rank1=[], rank2 = [], rank3 = [], rank4 = [], rank5 = [], rank=[],v=[];
+
+headerNames=[], studentId=[],matrix=[],numberOfStudents=0,focusedStudent=0;
+
+d3.csv("matrix.csv", function(error, data) {
+  headerNames = d3.keys(data[0]);
+  if (error) throw error;
+  //Allocate();
+  data.forEach(function(d,i) {
+            matrix[i] = d;
+            studentId[i] = +d['-'];
+            numberOfStudents++;
+
+            //first_name[c] = d['first_name'];
+            //last_name[c] = d['last_name'];
+            //url[c] = d['url'];
+            rank_avg[c] = d['Average'];
+            rank1[c] = d['rank1'];
+            rank2[c] = d['rank2'];
+            rank3[c] = d['rank3'];
+            rank4[c] = d['rank4'];
+            rank5[c] = d['rank5'];
+            rank[c] = [rank1[c], rank2[c], rank3[c], rank4[c], rank5[c]];
+            v[c]=0;
+            for (i=0;i<5;i++)
+                {
+                    if(rank[c][i]=="")
+                        break;
+                    v[c] = v[c] + Math.pow(rank[c][i]-rank_avg[c],2);
+                    
+                }
+                v[c] = v[c]/i;
+            c++;
+  });
+
+  x.domain([5,1]);
+  y.domain([0,d3.max(v)]);
+
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis)
+    .append("text")
+      .attr("class", "label")
+      .attr("x", width)
+      .attr("y", -6)
+      .style("text-anchor", "end")
+      .text("Rank Average");
+
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("class", "label")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Confidence")
+
+circles = d3.range(34).map(function(i) {
+   return {index: i};
+ });
+
+
+
+/*force = d3.layout.force().nodes(data).size([width, height])
+            .gravity(0)
+            .charge(-10000)
+            .on("tick", tick)
+ 
+            .start();*/
+displx=[],disply=[],displx2=[],circleposx=0;
+  circle = svg.selectAll(".dot")
+      .data(data)
+    .enter().append("circle")
+      .attr("class", "dot")
+      .attr("cx",function(d,i){ 
+          return x(rank_avg[i]);
+        })
+      .attr("cy", function(d,i) { return y(d3.max(v)-v[i]); })
+      .attr("r", function(d,i){ return 20;})
+      .style("fill", function(d,i) { return 'rgb(35,163,143)'; })
+      //.style("fill-opacity",function(d,i){ return (0.2 + (d3.max(v)-v[i])/d3.max(v))})
+       .on("mouseover",function(d,j){
+         d3.selectAll(".dot")
+        .transition().duration(500)
+        //.attr("r",function(d,i){if (i==focusedStudent) return 25; else return 20;})
+        .attr("cx",function(d,i){
+          displx[i] = 0;
+         
+          for(t1=0;t1<i;t1++){
+           
+              if(x(rank_avg[i]) == x(rank_avg[t1]) && y(d3.max(v)-v[i]) ==  y(d3.max(v)-v[t1]) && x(rank_avg[i])==x(rank_avg[j]) && y(d3.max(v)-v[i]) ==  y(d3.max(v)-v[j]))
+                displx[i]++;
+
+          }
+          circleposx[i] = x(rank_avg[i]) - displx[i]*30;
+          return x(rank_avg[i]) - displx[i]*30;
+          })
+
+       //   d3.selectAll("text.label").data(studentId)
+       //  .attr("x", function(d,i) { 
+            
+       //   label = d.valueOf();
+       //   console.log(label);
+       //    //   displx[i] = 0;
+         
+       //    //  for(t1=0;t1<i;t1++){
+           
+       //    //      if(x(rank_avg[i]) == x(rank_avg[t1]) && y(d3.max(v)-v[i]) ==  y(d3.max(v)-v[t1]) && x(rank_avg[i])==x(rank_avg[j]) && y(d3.max(v)-v[i]) ==  y(d3.max(v)-v[j]))
+       //    //        displx[i]++;
+
+       //    // }
+       //    // console.log(i);
+       //    // console.log(x(rank_avg[i]));
+       //   return x(rank_avg[studentId.indexOf[label]]); })
+     
+
+        })
+
+
+
+
+
+
+       .on("click", function(d,j) { 
+        studentId[j] = d['-'];
+        Allocate();
+        
+        //console.log(studentId[i]);
+        
+
+       
+
+        //  d3.selectAll("text.label")
+        // .transition().duration(500)
+        // .attr("x",function(d,i){
+        //   displx[i] = 0;
+         
+        //   for(t1=0;t1<i;t1++){
+           
+        //       if(x(rank_avg[i]) == x(rank_avg[t1]) && y(d3.max(v)-v[i]) ==  y(d3.max(v)-v[t1]) && x(rank_avg[i])==x(rank_avg[j]) && y(d3.max(v)-v[i]) ==  y(d3.max(v)-v[j]))
+        //         displx[i]++;
+
+        //   }
+        //   return x(rank_avg[i]) - displx[i]*30;
+        //   })
+        
+
+
+//This has an issue
+        /*d3.selectAll("text.label").attr("x",function(d,i){ 
+           displx2[i] = 0;
+          for(t1=0;t1<i;t1++)
+            if(x(rank_avg[i]) == x(rank_avg[t1]) && y(d3.max(v)-v[i]) ==  y(d3.max(v)-v[t1]) && x(rank_avg[i])==x(rank_avg[j]) && y(d3.max(v)-v[i]) ==  y(d3.max(v)-v[j]))
+                displx2[i]++;
+          return x(rank_avg[i]) - 30;})
+*/
+
+
+/*
+          console.log(x(rank_avg[i]) - displx[i]*30);
+            return x(rank_avg[i]) - displx[i]*30;});
+        */
+        console.log("j="+j)
+        focusedStudent = studentId[j];
+        enlargePeers(j);
+        SpringVisualization();
+         
+
+        })
+       
+    .transition()
+    .duration(750)
+    .delay(function(d, i) { return i * 5; })
+    .attrTween("r", function(d) {
+      var i = d3.interpolate(0, 20);
+      return function(t) { return d.radius = i(t); };
+    });
+
+    svg.append("g").selectAll("text.label").data(studentId).enter().append("text")
+        .text(function(d,i){return studentId[i];})
+        .attr("class", "label")
+        .attr("y",function(d,i){ 
+           disply[i] = 1;
+          for(t1=0;t1<i;t1++)
+            if(x(rank_avg[i]) == x(rank_avg[t1]) && y(d3.max(v)-v[i]) ==  y(d3.max(v)-v[t1]))
+                disply[i]++;
+          return  y(d3.max(v)-v[i]) - 15*disply[i] - 15;
+        })
+      .attr("x", function(d,i) { console.log(x(rank_avg[i])); return x(rank_avg[i]); })
+      // .on("mouseover",function(d,i){
+      //   .attr("x", function(d,i) { 
+
+
+      //        //  for(t1=0;t1<i;t1++){
+           
+      //     //      if(x(rank_avg[i]) == x(rank_avg[t1]) && y(d3.max(v)-v[i]) ==  y(d3.max(v)-v[t1]) && x(rank_avg[i])==x(rank_avg[j]) && y(d3.max(v)-v[i]) ==  y(d3.max(v)-v[j]))
+      //     //        displx[i]++;
+
+      //     // }
+      //     // console.log(i);
+      //     // console.log(x(rank_avg[i]));
+      //    return x(rank_avg[i]); })
+     
+      // })
+      })
+      
+
+//var fill = d3.scale.category10();
+
+// var circles = d3.range(10).map(function(i) {
+//   return {index: i};
+// });
+
+
+
+/*var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+*/
+// var node = svg.selectAll(".node")
+//     .data(circles)
+//   .enter().append("circle")
+//     .attr("class", "node")
+//     .attr("cx", function(d) { return d.x; })
+//     .attr("cy", function(d) { return d.y; })
+//     .attr("r", 8)
+//     .style("fill", function(d, i) { return fill(i & 3); })
+//     .style("stroke", function(d, i) { return d3.rgb(fill(i & 3)).darker(2); })
+//   /*
+/*svg.style("opacity", 1e-6)
+  .transition()
+    .duration(1000)
+    .style("opacity", 1);
+
+d3.select("body")
+    .on("mousedown", mousedown);*/
+
+/*function tick(e) {
+
+  // Push different nodes in different directions for clustering.
+  var k = 6 * e.alpha;
+  // circles.forEach(function(o, i) {
+  //   o.y += i & 1 ? k : -k;
+  //   o.x += i & 2 ? k : -k;
+  displx=0;
+  circle.attr("cx", function(d,i) {
+      
+        //check if x,y already in array
+        for(t1=0;t1<i;t1++){
+            if(x(rank_avg[i]) == x(rank_avg[t1]) && y(d3.max(v)-v[i]) ==  y(d3.max(v)-v[t1]) )
+                displx[i]++;
+
+     return x(rank_avg[i] - displx[i]*10); })
+
+        }
+      .attr("cy", function(d,i) { return y(d3.max(v)-v[i])-30; });
+
+
+
+ 
+
+}*/
+/*
+function mousedown() {
+  circles.forEach(function(o, i) {
+    o.x += (Math.random() - .5) * 40;
+    o.y += (Math.random() - .5) * 40;
+  });
+  force.resume();
+}
+
+function gravity(alpha) {
+        return function (d) {
+            d.y += (d.cy - d.y) * alpha;
+            d.x += (d.cx - d.x) * alpha;
+        };
+    }   
+
+function collide(alpha) {
+        var padding = 6
+        var quadtree = d3.geom.quadtree(dot);
+        return function (d) {
+            var r = d.r + radiusp.domain()[1] + padding,
+                nx1 = d.x - r,
+                nx2 = d.x + r,
+                ny1 = d.y - r,
+                ny2 = d.y + r;
+            quadtree.visit(function (quad, x1, y1, x2, y2) {
+                if (quad.point && (quad.point !== d)) {
+                    var x = d.x - quad.point.x,
+                        y = d.y - quad.point.y,
+                        l = Math.sqrt(x * x + y * y),
+                        r = d.r + quad.point.r + (d.color !== quad.point.color) * padding;
+                    if (l < r) {
+                        l = (l - r) / l * alpha;
+                        d.x -= x *= l;
+                        d.y -= y *= l;
+                        quad.point.x += x;
+                        quad.point.y += y;
+                    }
+                }
+                return x1 > nx2 || x2 < nx1 || y1 > ny2 || y2 < ny1;
+            });
+        };
+    }*/
+
+
+
+</script>
+</body>
+
+     
