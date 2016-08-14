@@ -18,11 +18,11 @@ p=0;
 for(var i=0;i<jsonData[0].data.length;i++){
   rankings[i] = []
   for(var j=0;j<jsonData[0].data[i].values.length;j++){
-  rankings[i].push(jsonData[0].data[i].values[j]);
-  allrankings[p] = jsonData[0].data[i].values[j];
+  rankings[i].push(jsonData[0].data[i].values[j]); //rankings is a multidimensional array with rankings of each student
+  allrankings[p] = jsonData[0].data[i].values[j];  //allrankings is single dimensional array with rankings of each students in order
   p++;
   }
-rankings[i].rank_avg = jsonData[0].data[i].primary_value;
+rankings[i].rank_avg = jsonData[0].data[i].primary_value; //rank avg corresponds to primary value in json file for each student
 }
 
 
@@ -30,7 +30,10 @@ rankings[i].rank_avg = jsonData[0].data[i].primary_value;
 
 var labels="";
 
-hideLabels = false;
+hideLabels = false;   //hidelabels are used to indicate if student names should be hidden in x axis or not.
+
+//Note how all the dimensions are a percentage of the window size. This makes the visualization window size independent.
+//This is very important part of creating a responsive page.
 var margin = {top: 0.1 * window.innerHeight, right: 0.01 * window.innerWidth, bottom: 0.0, left: 0.05 * window.innerWidth},
     width = window.innerWidth*0.9;
     height = (window.innerHeight * 0.6) -  margin.top - margin.bottom;
