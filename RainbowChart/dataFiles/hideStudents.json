@@ -15,8 +15,8 @@
 	},
 
 	"data": [{
-		"first_name": "Rajat",
-		"last_name": "Aggarwal",
+		"first_name": "",
+		"last_name": "",
 		"column_url": "/assignments/737/responses/54715/showcrit?crit_assignment_id=744",
 		"primary_value": 1.285714286,
 		"secondary_value": 0.489795918,
@@ -324,7 +324,7 @@
 		"values": [1]
 	},
 {
-		"first_name": "R",
+		"first_name": "Rajat",
 		"last_name": "Aggarwal",
 		"column_url": "/assignments/737/responses/54715/showcrit?crit_assignment_id=7440",
 		"primary_value": 1.285714286,
