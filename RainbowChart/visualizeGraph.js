@@ -6,10 +6,10 @@ brushCheck=false;
 hideLabels= false;  //hidelabels are used to indicate if student names should be hidden in x axis or not.
 function visualizeGraph(){
 //inputColorScheme=document.getElementById("inputColorScheme").value;
-document.getElementById("title").innerHTML =  metadata.title;
 inputColorScheme=metadata["color-scheme"];
-//inputColorScheme= metadata.color-scheme;
-//console.log(inputColorScheme);
+
+document.getElementById("title").innerHTML =  metadata.title;
+
 if(svg!=null)
   d3.select("#svg").remove();
 
@@ -32,8 +32,6 @@ rankScale = Math.abs(metadata['worst-value-possible']-metadata['best-value-possi
 
 
 var labels="";
-
-
 
 //Note how all the dimensions are a percentage of the window size. This makes the visualization window size independent.
 //This is very important part of creating a responsive page.
@@ -58,25 +56,19 @@ y.domain([metadata['worst-value-possible']+0.5,metadata['best-value-possible']])
 if (brushCheck==false){
     
     x = d3.scale.ordinal()
-    .rangeBands([0, width], .1);
+    .rangeBands([0, width]);
 
 xAxis = d3.svg.axis()
     .scale(x)
     .orient("bottom");
-<<<<<<< HEAD
-x.domain(jsonData[0].data.map(function(d,i) {if(d.first_name!="") return (d.first_name); else {hideLabels = false;} return(d.first_name); }));
-
-slider();
-=======
 
 // If no student names are specified in the json file, d3 needs something unique on x-axis to plot the graph.
 // In that case, it would be column_url. Also note that we hideLabels as we dont want to show column_url in this case. 
 //TODO: Why does it not require column_url in return statement. It still works if it does not return.
-x.domain(jsonData[0].data.map(function(d,i) {if(d.first_name!="") return (d.first_name); else { hideLabels = true;  return("");  } }));
+x.domain(jsonData[0].data.map(function(d,i) {if(d.first_name!="") return (d.first_name); else  return(d.column_url);  }));
   
 //slider function takes care of building the navigation graph on top of our original graph.
-slider();  
->>>>>>> b278d7c19fa3dd18722b61a3b4aaef0f9f265470
+//slider();  
 }
 
 //=====================================this needs to be replaced later=====================
@@ -133,13 +125,11 @@ rankings[i].rank_avg = jsonData[0].data[f+i].primary_value;
       .selectAll(".tick text")
       .attr("transform", "rotate(-90)")
       .attr("dx",-35)
-      .attr("dy",-29)
+      .attr("dy",-5)
 
-      svg.selectAll("g.tick line")
-      .attr("x1",-19)
-      .attr("x2",-19);
-
-  svg.select("g").append("tick")
+  
+    
+  //svg.select("g").append("tick")
 
   svg.append("g")
       .attr("class", "y axis")
@@ -163,7 +153,7 @@ t=0;
 t2=0;
 t3=0;
 t4=0;
-abnv=0;
+
 //https://coolors.co/browser
 
 
@@ -172,7 +162,7 @@ abnv=0;
       .data(allrankings)
     .enter().append("rect")
       .attr("class", "bar")
-      .attr("x", function(d,i) {t3++;if(rankings[p3].length==0){p3++;} if(t3>rankings[p3].length) {p3++; t3=1; return ((width/rankings.length)*(p3));} return ((width/rankings.length)*(p3)); })
+      .attr("x", function(d,i) {t3++; if(rankings[p3].length==0){p3++;} if(t3>rankings[p3].length) {p3++; t3=1; return ((width/rankings.length)*(p3));} return ((width/rankings.length)*(p3)); })
       .attr("width", function(){return width/rankings.length})
       .attr("y", function(d,i) { t++; if(rankings[p].length==0) { p++; return 0;} if(t>rankings[p].length) {p++; t=1; return y(rankings[p].rank_avg) + (t-1) * ((height - y(rankings[p].rank_avg))/rankings[p].length);}   return y(rankings[p].rank_avg) + (t-1) * ((height - y(rankings[p].rank_avg))/rankings[p].length);  })
       .attr("height", function(d,i) {  t2++; if(t2==rankings[p2].length+1) {p2++; t2=1;} if(rankings[p2].length==0) { p2++; return 0;} if(d==0) {p2++;  return 100;}   return (height - y(rankings[p2].rank_avg))/rankings[p2].length - 1})
@@ -184,7 +174,7 @@ abnv=0;
     
 
   svg.select("g")
-      .selectAll(".tick text")
+      .selectAll(".tick")
       .filter(function(d){ return d=="" || d.startsWith("/")})  //this is a temporary logic. If our x axis parameter is other than url, then this will change.
       .remove();
 
@@ -215,7 +205,7 @@ if(svg2!=null){
 }
 
 x2 = d3.scale.ordinal()
-    .rangeRoundBands([0, width], .1);
+    .rangeRoundBands([0, width]);
 
 
 y2 = d3.scale.linear()
@@ -301,7 +291,6 @@ selected =  x2.domain().filter(function(d){
 function brushed() {
 //d3.event.stopPropagation();
 brushCheck=true;
-
 if (!d3.event.sourceEvent) return;  
       selected =  x2.domain().filter(function(d){
         return (brush.extent()[0] <= x2(d)) && (x2(d) <= brush.extent()[1])});                     

@@ -53,7 +53,6 @@ function readJSON() {
         }
 
         metadata = jsonData[0].metadata;
-		
         visualizeGraph();
 
     })
