@@ -2,8 +2,8 @@
 var svg,svg2;
 var selected;
 inputColorScheme="5a";
-rankScale = 5;
 brushCheck=false;
+hideLabels= false;  //hidelabels are used to indicate if student names should be hidden in x axis or not.
 function visualizeGraph(){
 //inputColorScheme=document.getElementById("inputColorScheme").value;
 document.getElementById("title").innerHTML =  metadata.title;
@@ -27,12 +27,13 @@ for(var i=0;i<jsonData[0].data.length;i++){
 rankings[i].rank_avg = jsonData[0].data[i].primary_value; //rank avg corresponds to primary value in json file for each student
 }
 
+rankScale = Math.abs(metadata['worst-value-possible']-metadata['best-value-possible'] + 1);
 
 
 
 var labels="";
 
-hideLabels = false;   //hidelabels are used to indicate if student names should be hidden in x axis or not.
+
 
 //Note how all the dimensions are a percentage of the window size. This makes the visualization window size independent.
 //This is very important part of creating a responsive page.
@@ -52,31 +53,42 @@ yAxis = d3.svg.axis()
 
 y.domain([metadata['worst-value-possible']+0.5,metadata['best-value-possible']]);
 
- 
+
+//If the user has not use brushing yet, this will make sure that all the students are being shown in the main graph.
 if (brushCheck==false){
     
     x = d3.scale.ordinal()
-    .rangeRoundBands([0, width], .1);
+    .rangeBands([0, width], .1);
 
 xAxis = d3.svg.axis()
     .scale(x)
-    .innerTickSize(10)
-    .outerTickSize(10)
     .orient("bottom");
+<<<<<<< HEAD
 x.domain(jsonData[0].data.map(function(d,i) {if(d.first_name!="") return (d.first_name); else {hideLabels = false;} return(d.first_name); }));
 
 slider();
+=======
+
+// If no student names are specified in the json file, d3 needs something unique on x-axis to plot the graph.
+// In that case, it would be column_url. Also note that we hideLabels as we dont want to show column_url in this case. 
+//TODO: Why does it not require column_url in return statement. It still works if it does not return.
+x.domain(jsonData[0].data.map(function(d,i) {if(d.first_name!="") return (d.first_name); else { hideLabels = true;  return("");  } }));
+  
+//slider function takes care of building the navigation graph on top of our original graph.
+slider();  
+>>>>>>> b278d7c19fa3dd18722b61a3b4aaef0f9f265470
 }
 
 //=====================================this needs to be replaced later=====================
-if(brushCheck==true)
-{f = 0;
-if(selected!=undefined)
-  find = selected[0];
-else
-  find = 0;
-while(jsonData[0].data[f].column_url!=find && jsonData[0].data[f].first_name!=find)
-  {
+
+
+if(brushCheck==true){
+  f = 0;
+  if(selected!=undefined)
+    find = selected[0];
+  else
+    find = 0;
+  while(jsonData[0].data[f].column_url!=find && jsonData[0].data[f].first_name!=find){
     f++;
   }
 
@@ -171,16 +183,10 @@ abnv=0;
      .on("mouseout", function(d,i) {  this.style.fill = colorKey[inputColorScheme][Math.floor(((d-1)*colorKey[inputColorScheme].length / rankScale))]; })
     
 
-if(hideLabels==true){
   svg.select("g")
       .selectAll(".tick text")
+      .filter(function(d){ return d=="" || d.startsWith("/")})  //this is a temporary logic. If our x axis parameter is other than url, then this will change.
       .remove();
-
-      svg.select("g")
-      .selectAll(".tick")
-      .remove();
-}
-
 
 }
 
@@ -194,20 +200,19 @@ function type(d) {
 
 
 function slider(){
-
-
+    
+    //Note how percentatges are used to make the navigation graph too responsive with window size.
+    //So resizing the window does not crop the graph.
 
     var margin = {top: 0.0 * window.innerHeight, right: 0.01 * window.innerWidth, bottom: 0.05*window.innerHeight, left: 0.05 * window.innerWidth},
     width = window.innerWidth*0.9;
     var height = (window.innerHeight * 0.2) -  margin.top - margin.bottom;
 
 
+// If appending/refreshing slider, remove the one earlier present.
 if(svg2!=null){
   d3.select("#svg2").remove();
 }
-
-
-
 
 x2 = d3.scale.ordinal()
     .rangeRoundBands([0, width], .1);
@@ -215,20 +220,21 @@ x2 = d3.scale.ordinal()
 
 y2 = d3.scale.linear()
     .range([height, 0]);
-xAxis2 = d3.svg.axis().scale(x2).orient("bottom");
 
+xAxis2 = d3.svg.axis()
+        .scale(x2)
+        .orient("bottom");
+
+//Brush is the rectangular bar that floats on the navigation graph. This is not the call, but just definition of function.
+//This function will be called later.
 brush = d3.svg.brush()
     .x(x2)
     .extent([0,400])
     .on("brush", brushed)
 
 
-
 x2.domain(jsonData[0].data.map(function(d,i) {  if(d.first_name!="") return (d.first_name); else {hideLabels = true;} return d.column_url; }));
 y2.domain([rankScale+0.5,0]);
-
-
-
 
 svg2 = d3.select("body").append("svg")
     .attr("id","svg2")
@@ -252,7 +258,7 @@ bar2 = svg2.selectAll(".bar")
       .data(rankings)
     .enter().append("rect")
       .attr("class", "bar")
-      .attr("x", function(d,i) { return (width/rankings.length) * i })
+      .attr("x", function(d,i) { return (width/rankings.length) * i }) //draw the vertical bar at increasing positions.
       .attr("width", width/rankings.length)
       .attr("y", function(d){ if(d.rank_avg==0) return y2(rankScale+0.5); else return y2(d.rank_avg)})
       .attr("height", function(d){ if(d.rank_avg==0) return height - y2(rankScale+0.5); if (d.rank_avg!=0) return (height - y2(d.rank_avg)); else return 0; })
@@ -261,6 +267,7 @@ bar2 = svg2.selectAll(".bar")
     .attr("ry",4);
 
 
+//We don't need any labels on navigator. Remove the labels that come by default.
   svg2.select("g")
       .selectAll(".tick text")
       .remove();
@@ -270,20 +277,27 @@ bar2 = svg2.selectAll(".bar")
       .remove();
 
 
-
+// We have specified the brush earlier, now it is time to use it to draw it.
 var gBrush = svg2.append("g")
     .attr("class", "brush")
-    .call(brush);
+    .call(brush); //this will draw the brush - with all the properties of 'brush'
 
 gBrush.selectAll("rect")
     .attr("height", height);
 
+
+// Selected variable will specify what values are selected by brush
+// This will create an array "selected" with values corresponding to x-axis values of students selected on navigation bar.
+
 selected =  x2.domain().filter(function(d){
-        return (brush.extent()[0] <= x2(d)) && (x2(d) <= brush.extent()[1])});                     
+        //This is being performed for all students because d3 iterates to the length of data
+        return (brush.extent()[0] <= x2(d)) && (x2(d) <= brush.extent()[1])
+      }
+    );                     
       
 
 
-
+//This is a nested function only accessible to slider function
 function brushed() {
 //d3.event.stopPropagation();
 brushCheck=true;
