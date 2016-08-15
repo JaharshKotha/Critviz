@@ -15,14 +15,14 @@
 	},
 
 	"data": [{
-		"first_name": "First",
+		"first_name": "",
 		"last_name": "",
 		"column_url": "/assignments/737/responses/54715/showcrit?crit_assignment_id=744",
 		"primary_value": 1.285714286,
 		"secondary_value": 0.489795918,
 		"values": [1, 1, 1, 1, 1, 1, 3]
 	}, {
-		"first_name": "A",
+		"first_name": "",
 		"last_name": "",
 		"column_url": "/assignments/737/responses/54771/showcrit?crit_assignment_id=744",
 		"primary_value": 1.666666667,
@@ -354,7 +354,7 @@
 	}, {
 		"first_name": "",
 		"last_name": "",
-		"column_url": "/assignments/737/responses/54914/showcrit?crit_assignment_id=744",
+		"column_url": "/assignments/737/responses/54914/showcrit?crit_assignment_id=7440",
 		"primary_value": 1.833333333,
 		"secondary_value": 1.138888889,
 		"values": [1, 1, 1, 2, 2, 4]
@@ -382,7 +382,7 @@
 	}, {
 		"first_name": "",
 		"last_name": "",
-		"column_url": "/assignments/737/responses/54854/showcrit?crit_assignment_id=744",
+		"column_url": "/assignments/737/responses/54854/showcrit?crit_assignment_id=7440",
 		"primary_value": 2.142857143,
 		"secondary_value": 1.265306122,
 		"values": [1, 1, 1, 2, 3, 3, 4]
@@ -403,7 +403,7 @@
 	}, {
 		"first_name": "",
 		"last_name": "",
-		"column_url": "/assignments/737/responses/54853/showcrit?crit_assignment_id=744",
+		"column_url": "/assignments/737/responses/54853/showcrit?crit_assignment_id=7440",
 		"primary_value": 2.25,
 		"secondary_value": 0.6875,
 		"values": [1, 2, 3, 3]

@@ -31,8 +31,6 @@ rankScale = Math.abs(metadata['worst-value-possible']-metadata['best-value-possi
 
 var labels="";
 
-
-
 //Note how all the dimensions are a percentage of the window size. This makes the visualization window size independent.
 //This is very important part of creating a responsive page.
 var margin = {top: 0.1 * window.innerHeight, right: 0.01 * window.innerWidth, bottom: 0.0, left: 0.05 * window.innerWidth},
@@ -56,7 +54,7 @@ y.domain([metadata['worst-value-possible']+0.5,metadata['best-value-possible']])
 if (brushCheck==false){
     
     x = d3.scale.ordinal()
-    .rangeBands([0, width], .1);
+    .rangeBands([0, width]);
 
 xAxis = d3.svg.axis()
     .scale(x)
@@ -65,7 +63,7 @@ xAxis = d3.svg.axis()
 // If no student names are specified in the json file, d3 needs something unique on x-axis to plot the graph.
 // In that case, it would be column_url. Also note that we hideLabels as we dont want to show column_url in this case. 
 //TODO: Why does it not require column_url in return statement. It still works if it does not return.
-x.domain(jsonData[0].data.map(function(d,i) {if(d.first_name!="") return (d.first_name); else { hideLabels = true;  return(d.column_url);  } }));
+x.domain(jsonData[0].data.map(function(d,i) {if(d.first_name!="") return (d.first_name); else  return(d.column_url);  }));
   
 //slider function takes care of building the navigation graph on top of our original graph.
 slider();  
@@ -125,11 +123,11 @@ rankings[i].rank_avg = jsonData[0].data[f+i].primary_value;
       .selectAll(".tick text")
       .attr("transform", "rotate(-90)")
       .attr("dx",-35)
-      .attr("dy",-9)
+      .attr("dy",-5)
 
-      svg.selectAll("g.tick line")
+  
     
-  svg.select("g").append("tick")
+  //svg.select("g").append("tick")
 
   svg.append("g")
       .attr("class", "y axis")
@@ -205,7 +203,7 @@ if(svg2!=null){
 }
 
 x2 = d3.scale.ordinal()
-    .rangeRoundBands([0, width], .1);
+    .rangeRoundBands([0, width]);
 
 
 y2 = d3.scale.linear()
