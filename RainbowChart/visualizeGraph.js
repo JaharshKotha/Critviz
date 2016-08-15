@@ -65,7 +65,7 @@ xAxis = d3.svg.axis()
 // If no student names are specified in the json file, d3 needs something unique on x-axis to plot the graph.
 // In that case, it would be column_url. Also note that we hideLabels as we dont want to show column_url in this case. 
 //TODO: Why does it not require column_url in return statement. It still works if it does not return.
-x.domain(jsonData[0].data.map(function(d,i) {if(d.first_name!="") return (d.first_name); else { hideLabels = true;  return("");  } }));
+x.domain(jsonData[0].data.map(function(d,i) {if(d.first_name!="") return (d.first_name); else { hideLabels = true;  return(d.column_url);  } }));
   
 //slider function takes care of building the navigation graph on top of our original graph.
 slider();  
@@ -125,12 +125,10 @@ rankings[i].rank_avg = jsonData[0].data[f+i].primary_value;
       .selectAll(".tick text")
       .attr("transform", "rotate(-90)")
       .attr("dx",-35)
-      .attr("dy",-29)
+      .attr("dy",-9)
 
       svg.selectAll("g.tick line")
-      .attr("x1",-19)
-      .attr("x2",-19);
-
+    
   svg.select("g").append("tick")
 
   svg.append("g")
@@ -176,7 +174,7 @@ t4=0;
     
 
   svg.select("g")
-      .selectAll(".tick text")
+      .selectAll(".tick")
       .filter(function(d){ return d=="" || d.startsWith("/")})  //this is a temporary logic. If our x axis parameter is other than url, then this will change.
       .remove();
 
