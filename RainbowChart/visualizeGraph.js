@@ -5,9 +5,11 @@ inputColorScheme="5a";
 rankScale = 5;
 brushCheck=false;
 function visualizeGraph(){
-inputColorScheme=document.getElementById("inputColorScheme").value;
+//inputColorScheme=document.getElementById("inputColorScheme").value;
 document.getElementById("title").innerHTML =  metadata.title;
-
+inputColorScheme=metadata["color-scheme"];
+//inputColorScheme= metadata.color-scheme;
+//console.log(inputColorScheme);
 if(svg!=null)
   d3.select("#svg").remove();
 
@@ -61,7 +63,8 @@ xAxis = d3.svg.axis()
     .innerTickSize(10)
     .outerTickSize(10)
     .orient("bottom");
-x.domain(jsonData[0].data.map(function(d,i) {if(d.first_name!="") return (d.first_name); else {hideLabels = true;} return(d.column_url); }));
+x.domain(jsonData[0].data.map(function(d,i) {if(d.first_name!="") return (d.first_name); else {hideLabels = false;} return(d.first_name); }));
+
 slider();
 }
 
@@ -148,7 +151,7 @@ t=0;
 t2=0;
 t3=0;
 t4=0;
-
+abnv=0;
 //https://coolors.co/browser
 
 
@@ -157,7 +160,7 @@ t4=0;
       .data(allrankings)
     .enter().append("rect")
       .attr("class", "bar")
-      .attr("x", function(d,i) {t3++; if(rankings[p3].length==0){p3++;} if(t3>rankings[p3].length) {p3++; t3=1; return ((width/rankings.length)*(p3));} return ((width/rankings.length)*(p3)); })
+      .attr("x", function(d,i) {t3++;if(rankings[p3].length==0){p3++;} if(t3>rankings[p3].length) {p3++; t3=1; return ((width/rankings.length)*(p3));} return ((width/rankings.length)*(p3)); })
       .attr("width", function(){return width/rankings.length})
       .attr("y", function(d,i) { t++; if(rankings[p].length==0) { p++; return 0;} if(t>rankings[p].length) {p++; t=1; return y(rankings[p].rank_avg) + (t-1) * ((height - y(rankings[p].rank_avg))/rankings[p].length);}   return y(rankings[p].rank_avg) + (t-1) * ((height - y(rankings[p].rank_avg))/rankings[p].length);  })
       .attr("height", function(d,i) {  t2++; if(t2==rankings[p2].length+1) {p2++; t2=1;} if(rankings[p2].length==0) { p2++; return 0;} if(d==0) {p2++;  return 100;}   return (height - y(rankings[p2].rank_avg))/rankings[p2].length - 1})
@@ -284,6 +287,7 @@ selected =  x2.domain().filter(function(d){
 function brushed() {
 //d3.event.stopPropagation();
 brushCheck=true;
+
 if (!d3.event.sourceEvent) return;  
       selected =  x2.domain().filter(function(d){
         return (brush.extent()[0] <= x2(d)) && (x2(d) <= brush.extent()[1])});                     

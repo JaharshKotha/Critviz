@@ -44,7 +44,7 @@ function init(){
 
 
 function readJSON() {
-    d3.json("dataFiles/showStudents.json", function (data) {
+    d3.json("dataFiles/hideStudents.json", function (data) {
         jsonData = data;
         init();
         for(var j=0;j < jsonData[0].data.length;j++) {
@@ -53,6 +53,7 @@ function readJSON() {
         }
 
         metadata = jsonData[0].metadata;
+		
         visualizeGraph();
 
     })
