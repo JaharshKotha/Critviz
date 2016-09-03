@@ -1,3 +1,4 @@
+//Scatter
 var line;
 var focusedStudent=-1;
 var color = d3.scale.category10();
