@@ -9,13 +9,13 @@
 		"worst-value-possible": 5,
 		"y-axis-label": "Rank Average",
 		"x-axis-label": "Students",
-		"color-scheme": "3a",
+		"color-scheme": "5c",
 		"secondary-value-label": "variance"
 
 	},
 
 	"data": [{
-		"first_name": "jahu",
+		"first_name": "first name only",
 		"last_name": "",
 		"column_url": "/assignments/737/responses/54715/showcrit?crit_assignment_id=744",
 		"primary_value": 1.285714286,
