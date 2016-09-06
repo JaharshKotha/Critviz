@@ -39,14 +39,17 @@ rankings[i].rank_avg = jsonData[0].data[i].primary_value; //rank avg corresponds
 		ccarray = [];
 		ccstu = [];
 		ccvalues = [];
+		new_cc = [];
 		curval=0;
 		ccrit=0;
 		flg=0;
 		for(var j=0;j<jsonData[0].data.length;j++)
 		{
 			ccarray[j] = [];
+			new_cc[j] = [];
 			ccvalues[j] = [];
 			ccarray[j][0]=jsonData[0].data[j].stuid;
+			new_cc[j][0] = jsonData[0].data[j].stuid;
 			ccstu[j]=jsonData[0].data[j].stuid;
 			ccvalues[j][0]=jsonData[0].data[j].stuid;
 			for(var k=0;k<cclen[j];k++)
@@ -84,6 +87,7 @@ rankings[i].rank_avg = jsonData[0].data[i].primary_value; //rank avg corresponds
 						{
 							flg=0;
 							ccarray[j].push(jsonData[0].data[j].critcomparer[ij].critid);
+							new_cc[j].push(jsonData[0].data[j].critcomparer[ij].critid);
 						}
 					}
 					
@@ -93,6 +97,7 @@ rankings[i].rank_avg = jsonData[0].data[i].primary_value; //rank avg corresponds
 				++tem;
 			}
 		}
+	
 	
 	stcc=[];
 	ct=0;
@@ -121,6 +126,10 @@ rankings[i].rank_avg = jsonData[0].data[i].primary_value; //rank avg corresponds
 		}
 		
 		console.log(ccarray);
+		console.log(ccstu);
+		console.log(ccvalues);
+		console.log(stcc);
+		console.log(new_cc);
 		
 
 		
@@ -235,7 +244,8 @@ rankings[i].rank_avg = jsonData[0].data[f+i].primary_value;
       .attr("transform", "rotate(-90)")
       .attr("dx",-35)
       .attr("dy",-5)
-	  .attr("xstuid",function(d,i){ return stids[i];})
+	  .attr("id",function(d,i){ return stids[i];})
+	  .attr("class",function(d,i){ return "stutags";})
 
   
     
@@ -284,8 +294,149 @@ cclen=0;
 	  .attr("stuid",function(d,i){ return stids[i];})
 	  .attr("class","blocks")
 	  .attr("id",function(d,i){return stcc[i];})
-	  .on("mouseover", function() { this.style.fill = "gray"; })
-     .on("mouseout", function(d,i) {  this.style.fill = colorKey[inputColorScheme][Math.floor(((d-1)*colorKey[inputColorScheme].length / rankScale))]; })
+	  .on("mouseover", function() { 
+									idFromCircle = this.getAttribute("id");
+									split_id = idFromCircle.split("%");
+									critsplitid = split_id[1];
+									
+									stags = svg.selectAll(".stutags");
+									ih=0;
+									
+									
+									for(ih=0;ih < stags[0].length;ih++) 
+									{
+										
+												if(parseInt(stags[0][ih].getAttribute("id")) == critsplitid)
+												{
+													
+													stags[0][ih].style.fill = "red";
+													stags[0][ih].style.fontSize  = "15px";
+													
+												}
+												
+									
+									}
+									
+									ccval_len = ccvalues.length;
+									tx = 0;
+									while(ccval_len>0)
+									{
+										if(ccvalues[tx][0] == split_id[0])
+										{
+											break;
+										}
+										else{--ccval_len;++tx;}
+									}
+									
+									
+									ccval_len = ccvalues[tx].length;
+									ty = 1;
+									while(ccval_len>0)
+									{
+										if(new_cc[tx][ty] == split_id[1])
+										{
+											break;
+										}
+										else{--ccval_len;++ty;}
+									}
+									ot_arr = ccarray[tx][ty];
+									
+									for(ik=0;ik<ot_arr.length;ik++)
+									{
+										ih=0;
+										stags = svg.selectAll(".stutags");
+										
+										for(ih=0;ih < stags[0].length;ih++) 
+										{
+											
+													if(parseInt(stags[0][ih].getAttribute("id")) == ot_arr[ik])
+													{
+														
+														stags[0][ih].style.fill = "blue";
+														stags[0][ih].style.fontSize  = "15px";
+														stags[0][ih].style.backgroundColor   = "red";
+														
+													}
+													
+										
+										}
+									}
+
+									})
+     .on("mouseout", function(d,i) {  this.style.fill = colorKey[inputColorScheme][Math.floor(((d-1)*colorKey[inputColorScheme].length / rankScale))]; 
+	 
+	 
+									idFromCircle = this.getAttribute("id");
+									split_id = idFromCircle.split("%");
+									critsplitid = split_id[1];
+									
+									stags = svg.selectAll(".stutags");
+									ih=0;
+									
+									
+									for(ih=0;ih < stags[0].length;ih++) 
+									{
+										
+												if(parseInt(stags[0][ih].getAttribute("id")) == critsplitid)
+												{
+													
+													stags[0][ih].style.fill = "black";
+													stags[0][ih].style.fontSize  = "10px";
+													
+												}
+												
+									
+									}
+									
+									ccval_len = ccvalues.length;
+									tx = 0;
+									while(ccval_len>0)
+									{
+										if(ccvalues[tx][0] == split_id[0])
+										{
+											break;
+										}
+										else{--ccval_len;++tx;}
+									}
+									
+									
+									ccval_len = ccvalues[tx].length;
+									ty = 1;
+									while(ccval_len>0)
+									{
+										if(new_cc[tx][ty] == split_id[1])
+										{
+											break;
+										}
+										else{--ccval_len;++ty;}
+									}
+									ot_arr = ccarray[tx][ty];
+									
+									for(ik=0;ik<ot_arr.length;ik++)
+									{
+										ih=0;
+										stags = svg.selectAll(".stutags");
+										
+										for(ih=0;ih < stags[0].length;ih++) 
+										{
+											
+													if(parseInt(stags[0][ih].getAttribute("id")) == ot_arr[ik])
+													{
+														
+														stags[0][ih].style.fill = "black";
+														stags[0][ih].style.fontSize  = "10px";
+														stags[0][ih].style.backgroundColor   = "white";
+														
+													}
+													
+										
+										}
+									}
+
+	 
+	 
+	 
+	 })
     
 
   svg.select("g")
