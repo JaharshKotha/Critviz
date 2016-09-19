@@ -24,11 +24,24 @@
  "secondary_value": 0.489795918, //variance in critviz, ignore
  "values": [1, 1, 1, 1, 1, 1, 3], //ranks in critviz
  */
-var jsonData; //this variable will store all data read from json
-var student = [];
-var metadata;
+ var Rainbowgraph;
+ 
+function init(){
+Rainbowgraph=function (data){
+this.jsonData=data; //this variable will store all data read from json
+this. metadata=jsonData[0].metadata;
+var svg,svg2;
+var selected;
+inputColorScheme="5a";
+brushCheck=false;
+hideLabels= false;
+//var visFlag = false;
+
+}
+}
 // var visFlag = false;
 //create studentVariable accessible using student_id
+/*
 var Student; //global Class
 function init(){
     Student = function(jsonData,j){
@@ -39,7 +52,7 @@ function init(){
         this.rankings = jsonData.data[j].values;
     }
 }
-
+*/
 
 
 
@@ -47,13 +60,16 @@ function readJSON() {
     d3.json("dataFiles/hideStudents.json", function (data) {
         jsonData = data;
         init();
+		/*
         for(var j=0;j < jsonData[0].data.length;j++) {
             student[j] = Object.create(new Student(jsonData[0], j));
 
         }
-
-        metadata = jsonData[0].metadata;
-        visualizeGraph();
+*/
+       // metadata = jsonData[0].metadata;
+	    rc = new Rainbowgraph(data);
+	   
+        visualizeGraph(rc);
 
     })
 

@@ -1,33 +1,30 @@
 
-var svg,svg2;
-var selected;
-inputColorScheme="5a";
-brushCheck=false;
-hideLabels= false;  //hidelabels are used to indicate if student names should be hidden in x axis or not.
-function visualizeGraph(){
-//inputColorScheme=document.getElementById("inputColorScheme").value;
-inputColorScheme=metadata["color-scheme"];
+  //rc.hideLabels are used to indicate if student names should be hidden in x axis or not.
+function visualizeGraph(Rainbowgraph rc){
+//rc.inputColorScheme=document.getElementById("rc.inputColorScheme").value;
+rc.inputColorScheme=rc.metadata["color-scheme"];
 
-document.getElementById("title").innerHTML =  metadata.title;
+document.getElementById("title").innerHTML =  rc.metadata.title;
 
-if(svg!=null)
+if(rc.svg!=null)
   d3.select("#svg").remove();
 
 //=====================================this needs to be replaced later=====================
 rankings = []
 allrankings = []
 p=0;
-for(var i=0;i<jsonData[0].data.length;i++){
+
+for(var i=0;i<rc.jsonData[0].data.length;i++){
   rankings[i] = []
-  for(var j=0;j<jsonData[0].data[i].values.length;j++){
-  rankings[i].push(jsonData[0].data[i].values[j]); //rankings is a multidimensional array with rankings of each student
-  allrankings[p] = jsonData[0].data[i].values[j];  //allrankings is single dimensional array with rankings of each students in order
+  for(var j=0;j<rc.jsonData[0].data[i].values.length;j++){
+  rankings[i].push(rc.jsonData[0].data[i].values[j]); //rankings is a multidimensional array with rankings of each student
+  allrankings[p] = rc.jsonData[0].data[i].values[j];  //allrankings is single dimensional array with rankings of each students in order
   p++;
   }
-rankings[i].rank_avg = jsonData[0].data[i].primary_value; //rank avg corresponds to primary value in json file for each student
+rankings[i].rank_avg = rc.jsonData[0].data[i].primary_value; //rank avg corresponds to primary value in json file for each student
 }
 
-rankScale = Math.abs(metadata['worst-value-possible']-metadata['best-value-possible'] + 1);
+rankScale = Math.abs(rc.metadata['worst-value-possible']-rc.metadata['best-value-possible'] + 1);
 
 
 
@@ -49,11 +46,11 @@ yAxis = d3.svg.axis()
     .tickPadding(10)
     .orient("left");
 
-y.domain([metadata['worst-value-possible']+0.5,metadata['best-value-possible']]);
+y.domain([rc.metadata['worst-value-possible']+0.5,rc.metadata['best-value-possible']]);
 
 
 //If the user has not use brushing yet, this will make sure that all the students are being shown in the main graph.
-if (brushCheck==false){
+if (rc.brushCheck==false){
     
     x = d3.scale.ordinal()
     .rangeBands([0, width]);
@@ -63,9 +60,9 @@ xAxis = d3.svg.axis()
     .orient("bottom");
 
 // If no student names are specified in the json file, d3 needs something unique on x-axis to plot the graph.
-// In that case, it would be column_url. Also note that we hideLabels as we dont want to show column_url in this case. 
+// In that case, it would be column_url. Also note that we rc.hideLabels as we dont want to show column_url in this case. 
 //TODO: Why does it not require column_url in return statement. It still works if it does not return.
-x.domain(jsonData[0].data.map(function(d,i) {if(d.first_name!="") return (d.first_name); else  return(d.column_url);  }));
+x.domain(rc.jsonData[0].data.map(function(d,i) {if(d.first_name!="") return (d.first_name); else  return(d.column_url);  }));
   
 //slider function takes care of building the navigation graph on top of our original graph.
 //slider();  
@@ -74,23 +71,23 @@ x.domain(jsonData[0].data.map(function(d,i) {if(d.first_name!="") return (d.firs
 //=====================================this needs to be replaced later=====================
 
 
-if(brushCheck==true){
+if(rc.brushCheck==true){
   f = 0;
-  if(selected!=undefined)
-    find = selected[0];
+  if(rc.selected!=undefined)
+    find = rc.selected[0];
   else
     find = 0;
-  while(jsonData[0].data[f].column_url!=find && jsonData[0].data[f].first_name!=find){
+  while(rc.jsonData[0].data[f].column_url!=find && rc.jsonData[0].data[f].first_name!=find){
     f++;
   }
 
 fextent = 0
-if(selected!=undefined)
-  find = selected[selected.length-1];
+if(rc.selected!=undefined)
+  find = rc.selected[rc.selected.length-1];
 else
   find = x.domain()[x.domain().length-1];
 
-while(jsonData[0].data[fextent].column_url!=find && jsonData[0].data[fextent].first_name!=find)
+while(rc.jsonData[0].data[fextent].column_url!=find && rc.jsonData[0].data[fextent].first_name!=find)
   fextent++;
 
 rankings = [];
@@ -98,17 +95,17 @@ allrankings = [];
 p=0;
 for(var i=0;i<fextent-f;i++){
   rankings[i] = []
-  for(var j=0;j<jsonData[0].data[f+i].values.length;j++){
-  rankings[i].push(jsonData[0].data[f+i].values[j]);
-  allrankings[p] = jsonData[0].data[f+i].values[j];
+  for(var j=0;j<rc.jsonData[0].data[f+i].values.length;j++){
+  rankings[i].push(rc.jsonData[0].data[f+i].values[j]);
+  allrankings[p] = rc.jsonData[0].data[f+i].values[j];
   p++;
   }
-rankings[i].rank_avg = jsonData[0].data[f+i].primary_value;
+rankings[i].rank_avg = rc.jsonData[0].data[f+i].primary_value;
 }
 }
 //=========================================================================================
     
- svg = d3.select("body").append("svg")
+ rc.svg = d3.select("body").append("svg")
     .attr("id","svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom+100)
@@ -118,7 +115,7 @@ rankings[i].rank_avg = jsonData[0].data[f+i].primary_value;
 
   
   
-  svg.append("g")
+  rc.svg.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0," + height + ")")
       .call(xAxis)
@@ -131,7 +128,7 @@ rankings[i].rank_avg = jsonData[0].data[f+i].primary_value;
     
   //svg.select("g").append("tick")
 
-  svg.append("g")
+  rc.svg.append("g")
       .attr("class", "y axis")
       .call(yAxis)
     .append("text")
@@ -140,7 +137,7 @@ rankings[i].rank_avg = jsonData[0].data[f+i].primary_value;
       .attr("x",-(height/2))
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text(metadata['y-axis-label']);
+      .text(rc.metadata['y-axis-label']);
 
 
 
@@ -158,7 +155,7 @@ t4=0;
 
 
 
-  bar = svg.selectAll(".bar")
+  bar = rc.svg.selectAll(".bar")
       .data(allrankings)
     .enter().append("rect")
       .attr("class", "bar")
@@ -166,14 +163,14 @@ t4=0;
       .attr("width", function(){return width/rankings.length})
       .attr("y", function(d,i) { t++; if(rankings[p].length==0) { p++; return 0;} if(t>rankings[p].length) {p++; t=1; return y(rankings[p].rank_avg) + (t-1) * ((height - y(rankings[p].rank_avg))/rankings[p].length);}   return y(rankings[p].rank_avg) + (t-1) * ((height - y(rankings[p].rank_avg))/rankings[p].length);  })
       .attr("height", function(d,i) {  t2++; if(t2==rankings[p2].length+1) {p2++; t2=1;} if(rankings[p2].length==0) { p2++; return 0;} if(d==0) {p2++;  return 100;}   return (height - y(rankings[p2].rank_avg))/rankings[p2].length - 1})
-	  .style("fill",function(d){return colorKey[inputColorScheme][Math.floor(((d-1)*colorKey[inputColorScheme].length / rankScale))];})
+	  .style("fill",function(d){return colorKey[rc.inputColorScheme][Math.floor(((d-1)*colorKey[rc.inputColorScheme].length / rankScale))];})
 	  .attr("rx",8)
 	  .attr("ry",8)
 	  .on("mouseover", function() { this.style.fill = "gray"; })
-     .on("mouseout", function(d,i) {  this.style.fill = colorKey[inputColorScheme][Math.floor(((d-1)*colorKey[inputColorScheme].length / rankScale))]; })
+     .on("mouseout", function(d,i) {  this.style.fill = colorKey[rc.inputColorScheme][Math.floor(((d-1)*colorKey[rc.inputColorScheme].length / rankScale))]; })
     
 
-  svg.select("g")
+  rc.svg.select("g")
       .selectAll(".tick")
       .filter(function(d){ return d=="" || d.startsWith("/")})  //this is a temporary logic. If our x axis parameter is other than url, then this will change.
       .remove();
@@ -200,7 +197,7 @@ function slider(){
 
 
 // If appending/refreshing slider, remove the one earlier present.
-if(svg2!=null){
+if(rc.svg2!=null){
   d3.select("#svg2").remove();
 }
 
@@ -223,28 +220,28 @@ brush = d3.svg.brush()
     .on("brush", brushed)
 
 
-x2.domain(jsonData[0].data.map(function(d,i) {  if(d.first_name!="") return (d.first_name); else {hideLabels = true;} return d.column_url; }));
+x2.domain(rc.jsonData[0].data.map(function(d,i) {  if(d.first_name!="") return (d.first_name); else {rc.hideLabels = true;} return d.column_url; }));
 y2.domain([rankScale+0.5,0]);
 
-svg2 = d3.select("body").append("svg")
+rc.svg2 = d3.select("body").append("svg")
     .attr("id","svg2")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    svg2.append("g")
+    rc.svg2.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0," + height + ")")
       .call(xAxis2);
 
-svg2.append("rect")
+rc.svg2.append("rect")
     .attr("class", "grid-background")
     .attr("width", width)
     .attr("height", height);
 
 
-bar2 = svg2.selectAll(".bar")
+bar2 = rc.svg2.selectAll(".bar")
       .data(rankings)
     .enter().append("rect")
       .attr("class", "bar")
@@ -258,17 +255,17 @@ bar2 = svg2.selectAll(".bar")
 
 
 //We don't need any labels on navigator. Remove the labels that come by default.
-  svg2.select("g")
+  rc.svg2.select("g")
       .selectAll(".tick text")
       .remove();
 
-      svg2.select("g")
+     rc.svg2.select("g")
       .selectAll(".tick")
       .remove();
 
 
 // We have specified the brush earlier, now it is time to use it to draw it.
-var gBrush = svg2.append("g")
+var gBrush = rc.svg2.append("g")
     .attr("class", "brush")
     .call(brush); //this will draw the brush - with all the properties of 'brush'
 
@@ -279,7 +276,7 @@ gBrush.selectAll("rect")
 // Selected variable will specify what values are selected by brush
 // This will create an array "selected" with values corresponding to x-axis values of students selected on navigation bar.
 
-selected =  x2.domain().filter(function(d){
+rc.selected =  x2.domain().filter(function(d){
         //This is being performed for all students because d3 iterates to the length of data
         return (brush.extent()[0] <= x2(d)) && (x2(d) <= brush.extent()[1])
       }
@@ -290,11 +287,11 @@ selected =  x2.domain().filter(function(d){
 //This is a nested function only accessible to slider function
 function brushed() {
 //d3.event.stopPropagation();
-brushCheck=true;
+rc.brushCheck=true;
 if (!d3.event.sourceEvent) return;  
-      selected =  x2.domain().filter(function(d){
+      rc.selected =  x2.domain().filter(function(d){
         return (brush.extent()[0] <= x2(d)) && (x2(d) <= brush.extent()[1])});                     
-      x.domain(selected);
+      x.domain(rc.selected);
       visualizeGraph();
   
 
