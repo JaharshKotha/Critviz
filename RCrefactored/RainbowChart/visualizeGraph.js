@@ -1,10 +1,9 @@
-
   //rc.hideLabels are used to indicate if student names should be hidden in x axis or not.
-function visualizeGraph(Rainbowgraph rc){
+function visualizeGraph(rc){
 //rc.inputColorScheme=document.getElementById("rc.inputColorScheme").value;
 rc.inputColorScheme=rc.metadata["color-scheme"];
 
-document.getElementById("title").innerHTML =  rc.metadata.title;
+document.getElementById("title").innerHTML = rc.metadata.title;
 
 if(rc.svg!=null)
   d3.select("#svg").remove();
@@ -51,13 +50,14 @@ y.domain([rc.metadata['worst-value-possible']+0.5,rc.metadata['best-value-possib
 
 //If the user has not use brushing yet, this will make sure that all the students are being shown in the main graph.
 if (rc.brushCheck==false){
-    
+    console.log("this");
     x = d3.scale.ordinal()
     .rangeBands([0, width]);
 
 xAxis = d3.svg.axis()
     .scale(x)
     .orient("bottom");
+	
 
 // If no student names are specified in the json file, d3 needs something unique on x-axis to plot the graph.
 // In that case, it would be column_url. Also note that we rc.hideLabels as we dont want to show column_url in this case. 

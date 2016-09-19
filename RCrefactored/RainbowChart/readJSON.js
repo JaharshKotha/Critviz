@@ -29,11 +29,11 @@
 function init(){
 Rainbowgraph=function (data){
 this.jsonData=data; //this variable will store all data read from json
-this. metadata=jsonData[0].metadata;
+this.metadata=data[0].metadata;
 var svg,svg2;
-var selected;
+this.selected;
 inputColorScheme="5a";
-brushCheck=false;
+this.brushCheck=false;
 hideLabels= false;
 //var visFlag = false;
 
@@ -67,8 +67,9 @@ function readJSON() {
         }
 */
        // metadata = jsonData[0].metadata;
+       //console.log(data);
 	    rc = new Rainbowgraph(data);
-	   
+	  // console.log(rc.metadata);
         visualizeGraph(rc);
 
     })
