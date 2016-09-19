@@ -57,7 +57,7 @@ function init(){
 
 
 function readJSON() {
-    d3.json("dataFiles/hideStudents.json", function (data) {
+    d3.json("dataFiles/showStudents.json", function (data) {
         jsonData = data;
         init();
 		/*
