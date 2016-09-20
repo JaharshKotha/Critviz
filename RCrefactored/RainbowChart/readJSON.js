@@ -35,7 +35,7 @@ this.selected;
 inputColorScheme="5a";
 this.brushCheck=false;
 hideLabels= false;
-//var visFlag = false;
+
 
 }
 }
@@ -53,8 +53,18 @@ function init(){
     }
 }
 */
+var sort_by = function(field, reverse, primer){
 
+   var key = primer ? 
+       function(x) {return primer(x[field])} : 
+       function(x) {return x[field]};
 
+   reverse = !reverse ? 1 : -1;
+
+   return function (a, b) {
+       return a = key(a), b = key(b), reverse * ((a > b) - (b > a));
+     } 
+}
 
 function readJSON() {
     d3.json("dataFiles/showStudents.json", function (data) {
@@ -66,10 +76,30 @@ function readJSON() {
 
         }
 */
+
+
        // metadata = jsonData[0].metadata;
        //console.log(data);
 	    rc = new Rainbowgraph(data);
+		
+		console.log(rc.jsonData[0].data[0]);
+		for(var i=0;i<rc.jsonData[0].data.length;i++){
+			
+			if(rc.jsonData[0].data[i].primary_value == 0)
+			{
+			
+				rc.jsonData[0].data[i].primary_value=500;
+			}
+		}
+		
+		//rc.jsonData[0].data.sort();
 	  // console.log(rc.metadata);
+	  //rc.jsonData[0].data.sort(sort_by('primary_value', true, parseInt));
+	  rc.jsonData[0].data.sort(function(a, b) {
+    return parseFloat(a.primary_value) - parseFloat(b.primary_value);
+});
+
+		console.log(rc.jsonData[0].data[0]);
         visualizeGraph(rc);
 
     })

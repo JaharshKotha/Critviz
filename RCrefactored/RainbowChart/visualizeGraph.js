@@ -50,7 +50,7 @@ y.domain([rc.metadata['worst-value-possible']+0.5,rc.metadata['best-value-possib
 
 //If the user has not use brushing yet, this will make sure that all the students are being shown in the main graph.
 if (rc.brushCheck==false){
-    console.log("this");
+    
     x = d3.scale.ordinal()
     .rangeBands([0, width]);
 
