@@ -126,10 +126,10 @@ rankings[i].rank_avg = jsonData[0].data[i].primary_value; //rank avg corresponds
 		}
 		
 		console.log(ccarray);
-		console.log(ccstu);
-		console.log(ccvalues);
-		console.log(stcc);
-		console.log(new_cc);
+		//console.log(ccstu);
+		//console.log(ccvalues);
+		//console.log(stcc);
+		//console.log(new_cc);
 		
 
 		

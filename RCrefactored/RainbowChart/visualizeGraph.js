@@ -11,18 +11,121 @@ if(rc.svg!=null)
 //=====================================this needs to be replaced later=====================
 rankings = []
 allrankings = []
+stids = [];
+allstids = [];
 p=0;
+cclen=[];
 
 for(var i=0;i<rc.jsonData[0].data.length;i++){
   rankings[i] = []
+  stids[i] = rc.jsonData[0].data[i].stuid;
   for(var j=0;j<rc.jsonData[0].data[i].values.length;j++){
   rankings[i].push(rc.jsonData[0].data[i].values[j]); //rankings is a multidimensional array with rankings of each student
   allrankings[p] = rc.jsonData[0].data[i].values[j];  //allrankings is single dimensional array with rankings of each students in order
+  allstids[p] = stids[i];
   p++;
   }
 rankings[i].rank_avg = rc.jsonData[0].data[i].primary_value; //rank avg corresponds to primary value in json file for each student
+cclen[i]=rc.jsonData[0].data[i].critcomparer.length;
+
 }
 
+	ccarray = [];
+		ccstu = [];
+		ccvalues = [];
+		new_cc = [];
+		curval=0;
+		ccrit=0;
+		flg=0;
+		for(var j=0;j<rc.jsonData[0].data.length;j++)
+		{
+			ccarray[j] = [];
+			new_cc[j] = [];
+			ccvalues[j] = [];
+			ccarray[j][0]=rc.jsonData[0].data[j].stuid;
+			new_cc[j][0] = rc.jsonData[0].data[j].stuid;
+			ccstu[j]=rc.jsonData[0].data[j].stuid;
+			ccvalues[j][0]=rc.jsonData[0].data[j].stuid;
+			for(var k=0;k<cclen[j];k++)
+			{
+				ccvalues[j].push(rc.jsonData[0].data[j].values[k]);
+			}
+			var tem=0;
+			
+			for(var k=0;k<cclen[j];k++)
+			{
+				curval=ccvalues[j][k+1];
+				
+				for(var ij=0;ij<cclen[j];ij++)
+				{
+					if(curval==rc.jsonData[0].data[j].critcomparer[ij].rank)
+					{
+						ccrit=rc.jsonData[0].data[j].critcomparer[ij].critid;
+						
+						var te =1;
+						for(var ji=0;ji<(ccarray[j].length-1);ji++)
+						{
+							
+							
+							if(ccrit==ccarray[j][te])
+							{flg=1;break;}
+						++te;
+						
+						}
+						if(flg==1)
+						{
+							flg=0;
+							continue;
+						}
+						else
+						{
+							flg=0;
+							ccarray[j].push(rc.jsonData[0].data[j].critcomparer[ij].critid);
+							new_cc[j].push(rc.jsonData[0].data[j].critcomparer[ij].critid);
+						}
+					}
+					
+				}
+				//ccarray[j][tem]=jsonData[0].data[0].critcomparer[tem];
+				//ccstu[j].push(jsonData[0].);
+				++tem;
+			}
+		}
+	
+	
+	stcc=[];
+	ct=0;
+		for(var ij=0;ij<ccarray.length;ij++)
+		{
+			for(var ji=1;ji<ccarray[ij].length;ji++)
+			{
+			stcc[ct]=ccarray[ij][0]+'%'+ccarray[ij][ji];
+			++ct;
+			}
+		}
+		
+			for(var ij=0;ij<ccarray.length;ij++)
+		{
+			for(var ji=1;ji<ccarray[ij].length;ji++)
+			{
+			ccarray[ij][ji]=[];
+			len = jsonData[0].data[ij].critcomparer[ji-1].otherstu.length;
+			while(len>0)
+			{
+				ccarray[ij][ji].push(jsonData[0].data[ij].critcomparer[ji-1].otherstu[len-1]);
+				len--;
+			}
+			
+			}
+		}
+		
+		//console.log(ccarray);
+		//console.log(ccstu);
+		//console.log(ccvalues);
+		//console.log(stcc);
+		//console.log(new_cc);
+		
+//console.log(allstids);
 rankScale = Math.abs(rc.metadata['worst-value-possible']-rc.metadata['best-value-possible'] + 1);
 
 
@@ -123,6 +226,7 @@ rankings[i].rank_avg = rc.jsonData[0].data[f+i].primary_value;
       .attr("transform", "rotate(-90)")
       .attr("dx",-35)
       .attr("dy",-5)
+	  .attr("id",function(d,i){ return stids[i];})
 
   
     
@@ -150,7 +254,10 @@ t=0;
 t2=0;
 t3=0;
 t4=0;
-
+cx=0;
+cy=0;
+wid=0;
+hei=0;
 //https://coolors.co/browser
 
 
@@ -158,7 +265,7 @@ t4=0;
   bar = rc.svg.selectAll(".bar")
       .data(allrankings)
     .enter().append("rect")
-      .attr("class", "bar")
+      .attr("class", function(d,i){ return allstids[i];})
       .attr("x", function(d,i) {t3++; if(rankings[p3].length==0){p3++;} if(t3>rankings[p3].length) {p3++; t3=1; return ((width/rankings.length)*(p3));} return ((width/rankings.length)*(p3)); })
       .attr("width", function(){return width/rankings.length})
       .attr("y", function(d,i) { t++; if(rankings[p].length==0) { p++; return 0;} if(t>rankings[p].length) {p++; t=1; return y(rankings[p].rank_avg) + (t-1) * ((height - y(rankings[p].rank_avg))/rankings[p].length);}   return y(rankings[p].rank_avg) + (t-1) * ((height - y(rankings[p].rank_avg))/rankings[p].length);  })
@@ -166,8 +273,93 @@ t4=0;
 	  .style("fill",function(d){return colorKey[rc.inputColorScheme][Math.floor(((d-1)*colorKey[rc.inputColorScheme].length / rankScale))];})
 	  .attr("rx",8)
 	  .attr("ry",8)
-	  .on("mouseover", function() { this.style.fill = "gray"; })
-     .on("mouseout", function(d,i) {  this.style.fill = colorKey[rc.inputColorScheme][Math.floor(((d-1)*colorKey[rc.inputColorScheme].length / rankScale))]; })
+	  .attr("id",function(d,i){return stcc[i];})
+	  .on("mouseover", function() { cx=this.getAttribute("id");
+									split_id = cx.split("%");
+									critsplitid = split_id[1];
+									
+									var x = document.getElementsByClassName(critsplitid);
+									var y=x.length;
+									
+									ccx=x[0].getAttribute("x");
+									ccy=x[y-1].getAttribute("y");
+									wid=x[0].getAttribute("width");
+									hei=x[0].getAttribute("height");
+									ccy=parseInt(ccy)+parseInt(hei)+15;
+									ccx=parseInt(ccx)+parseInt(wid)/2;
+									draw_circle(ccx,ccy);
+									
+									ccval_len = ccvalues.length;
+									tx = 0;
+									while(ccval_len>0)
+									{
+										if(ccvalues[tx][0] == split_id[0])
+										{
+											break;
+										}
+										else{--ccval_len;++tx;}
+									}
+									
+									
+									ccval_len = ccvalues[tx].length;
+									ty = 1;
+									while(ccval_len>0)
+									{
+										if(new_cc[tx][ty] == split_id[1])
+										{
+											break;
+										}
+										else{--ccval_len;++ty;}
+									}
+									ot_arr = ccarray[tx][ty];
+									
+									var li=0;
+									for(li=0;li<ot_arr.length;li++)
+									{
+										var ind = ot_arr[li]+"%"+critsplitid;
+										console.log(ind);
+									 document.getElementById(ind).style.opacity =0.5;
+									document.getElementById(ind).style.stroke ="red";	
+									}
+									
+									})
+     .on("mouseout", function(d,i) {  
+	 remcircle();
+	 this.style.fill = colorKey[rc.inputColorScheme][Math.floor(((d-1)*colorKey[rc.inputColorScheme].length / rankScale))];
+	 ccval_len = ccvalues.length;
+									tx = 0;
+									while(ccval_len>0)
+									{
+										if(ccvalues[tx][0] == split_id[0])
+										{
+											break;
+										}
+										else{--ccval_len;++tx;}
+									}
+									
+									
+									ccval_len = ccvalues[tx].length;
+									ty = 1;
+									while(ccval_len>0)
+									{
+										if(new_cc[tx][ty] == split_id[1])
+										{
+											break;
+										}
+										else{--ccval_len;++ty;}
+									}
+									ot_arr = ccarray[tx][ty];
+									
+									var li=0;
+									for(li=0;li<ot_arr.length;li++)
+									{
+										var ind = ot_arr[li]+"%"+critsplitid;
+										console.log(ind);
+									 document.getElementById(ind).style.opacity =1;
+									 document.getElementById(ind).style.stroke ="none";
+										
+									}
+	 })
     
 
   rc.svg.select("g")
@@ -177,8 +369,20 @@ t4=0;
 
 }
 
-
-
+function remcircle()
+{
+	d3.selectAll("circle").remove();
+}
+function draw_circle(x,y)
+{
+	//<circle cx=ccx cy=ccy r="10" stroke="green" stroke-width="4" fill="yellow" />
+	d3.select("g").append("circle").attr("cx", x)
+                     .attr("cy", y)
+                       .attr("r", "10")
+                      .style("fill", "white")
+					  .style("stroke","pink")
+					  .style("stroke-width", "4");
+}
 
 function type(d) {
   d.rank_avg = +d.rank_avg;

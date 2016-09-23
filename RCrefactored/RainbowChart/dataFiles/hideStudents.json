@@ -21,6 +21,7 @@
 		"primary_value": 1.285714286,
 		"secondary_value": 0.489795918,
 		"values": [1, 1, 1, 1, 1, 1, 3]
+		
 	}, {
 		"first_name": "",
 		"last_name": "",
@@ -57,7 +58,7 @@
 		"secondary_value": 1.2,
 		"values": [1, 1, 2, 2, 4]
 	}, {
-		"first_name": "",
+		"first_name": "another1",
 		"last_name": "",
 		"column_url": "/assignments/737/responses/54916/showcrit?crit_assignment_id=744",
 		"primary_value": 2,
@@ -315,14 +316,7 @@
 		"primary_value": 5,
 		"secondary_value": 0,
 		"values": [5, 5, 5]
-	}, {
-		"first_name": "this",
-		"last_name": "",
-		"column_url": "/assignments/737/responses/54775/showcrit?crit_assignment_id=744",
-		"primary_value": 1,
-		"secondary_value": 0,
-		"values": [1]
-	},
+	}, 
 {
 		"first_name": "Rajat",
 		"last_name": "Aggarwal",

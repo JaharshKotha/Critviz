@@ -82,7 +82,7 @@ function readJSON() {
        //console.log(data);
 	    rc = new Rainbowgraph(data);
 		
-		console.log(rc.jsonData[0].data[0]);
+		
 		for(var i=0;i<rc.jsonData[0].data.length;i++){
 			
 			if(rc.jsonData[0].data[i].primary_value == 0)
@@ -99,7 +99,7 @@ function readJSON() {
     return parseFloat(a.primary_value) - parseFloat(b.primary_value);
 });
 
-		console.log(rc.jsonData[0].data[0]);
+		
         visualizeGraph(rc);
 
     })
