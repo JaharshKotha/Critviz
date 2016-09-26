@@ -9,7 +9,7 @@
 		"worst-value-possible": 5,
 		"y-axis-label": "Rank Average",
 		"x-axis-label": "Students",
-		"color-scheme": "3b",
+		"color-scheme": "5b",
 		"secondary-value-label": "variance"
 
 	},
@@ -21,93 +21,143 @@
     "first_name": "",
     "last_name": "Jones",
     "column_url": "/assignments/737/responses/54715/showcrit?crit_assignment_id=744",
-    "primary_value": 1.285714286,
+    "primary_value": 1,
     "secondary_value": 0.489795918,
-    "values": [3, 1, 1],
-	"stuid":4,
-	"current_login":1,
-	"critcomparer":[{"rank":1,"critid":10,"otherstu":[5,6]},{"rank":1,"critid":7,"otherstu":[5,6,8,9]},{"rank":3,"critid":8,"otherstu":[6,8,9]}]
-	
+    "values": [1, 1, 1],
+    "stuid":1,
+    "critcomparer":[
+    {"rank":1,"critid":4,"otherstu":[2,3]},
+    {"rank":1,"critid":7,"otherstu":[4,5]},
+    {"rank":1,"critid":2,"otherstu":[6,8]}
+    ]
   },
   {
-    "first_name": "Ryan",
+    "first_name": "",
     "last_name": "Starks",
     "column_url": "/assignments/737/responses/54771/showcrit?crit_assignment_id=744",
-    "primary_value": 1.666666667,
+    "primary_value": 1.3333,
     "secondary_value": 0.555555556,
-    "values": [ 5, 2, 3],
-	"stuid":5,
-	"current_login":0,
-	"critcomparer":[{"rank":2,"critid":10,"otherstu":[5,6]},{"rank":5,"critid":6,"otherstu":[5,6,8,9]},{"rank":3,"critid":8,"otherstu":[6,8,9]}]
-  },
-  
-  {
-    "first_name": "",
-    "last_name": "Evans",
-    "column_url": "/assignments/737/responses/54784/showcrit?crit_assignment_id=744",
-    "primary_value": 4.333333333,
-    "secondary_value": 0.888888889,
-    "values": [3, 5, 5],
-	"stuid":6,
-	"current_login":1,
-	"critcomparer":[{"rank":3,"critid":10,"otherstu":[5,6]},{"rank":5,"critid":7,"otherstu":[5,6,8,9]},{"rank":5,"critid":8,"otherstu":[6,8,9]}]
+    "values": [1, 1, 2],
+    "stuid":2,
+    "critcomparer":[
+    {"rank":1,"critid":10,"otherstu":[7,9]},
+    {"rank":1,"critid":9,"otherstu":[10,6]},
+    {"rank":2,"critid":4,"otherstu":[1,3]}
+
+    ]
   },
   {
-    "first_name": "",
-    "last_name": "Pudasaini",
-    "column_url": "/assignments/737/responses/54823/showcrit?crit_assignment_id=744",
-    "primary_value": 4.4,
-    "secondary_value": 1.44,
-    "values": [2, 5, 5],
-	"stuid":7,
-	"current_login":1,
-	"critcomparer":[{"rank":2,"critid":10,"otherstu":[5,6]},{"rank":5,"critid":7,"otherstu":[5,6,8,9]},{"rank":5,"critid":8,"otherstu":[6,8,9]}]
+    "first_name": "Mathew",
+    "last_name": "Fraser",
+    "column_url": "/assignments/737/responses/54781/showcrit?crit_assignment_id=744",
+    "primary_value": 1.66666,
+    "secondary_value": 1.346938776,
+    "values": [1, 1, 3],
+    "stuid":3,
+    "critcomparer":[
+    {"rank":1,"critid":2,"otherstu":[7,10]},
+    {"rank":1,"critid":1,"otherstu":[8,10]},
+    {"rank":3,"critid":4,"otherstu":[1,2]}
+    ]
   },
   {
     "first_name": "",
-    "last_name": "Harrington",
-    "column_url": "/assignments/737/responses/54802/showcrit?crit_assignment_id=744",
-    "primary_value": 4.6,
-    "secondary_value": 0.64,
-    "values": [3, 5, 5],
-	"stuid":8,
-	"current_login":1,
-	"critcomparer":[{"rank":3,"critid":10,"otherstu":[5,6]},{"rank":5,"critid":7,"otherstu":[5,6,8,9]},{"rank":5,"critid":8,"otherstu":[6,8,9]}]
-  },
-  {
-    "first_name": "",
-    "last_name": "Sullivan",
-    "column_url": "/assignments/737/responses/54770/showcrit?crit_assignment_id=744",
-    "primary_value": 4.666666667,
-    "secondary_value": 0.555555556,
-    "values": [3, 5, 5],
-	"stuid":9,
-	"current_login":1,
-	"critcomparer":[{"rank":3,"critid":10,"otherstu":[5,6]},{"rank":5,"critid":7,"otherstu":[5,6,8,9]},{"rank":5,"critid":8,"otherstu":[6,8,9]}]
-  },
-  {
-    "first_name": "",
-    "last_name": "Baral",
-    "column_url": "/assignments/737/responses/54777/showcrit?crit_assignment_id=744",
-    "primary_value": 5,
-    "secondary_value": 0,
-    "values": [5, 5, 5],
-	"stuid":10,
-	"current_login":1,
-	"critcomparer":[{"rank":5,"critid":10,"otherstu":[5,6]},{"rank":5,"critid":7,"otherstu":[5,6,8,9]},{"rank":5,"critid":8,"otherstu":[6,8,9]}]
+    "last_name": "Whaley",
+    "column_url": "/assignments/737/responses/54769/showcrit?crit_assignment_id=744",
+    "primary_value": 1.33333,
+    "secondary_value": 1.36,
+    "values":[1, 1, 2],
+    "stuid":4,
+    "critcomparer":[
+    {"rank":1,"critid":6,"otherstu":[8,9]},
+    {"rank":1,"critid":3,"otherstu":[7,9]},
+    {"rank":2,"critid":7,"otherstu":[1,5]}
+
+    ]
 
   },
-  
   {
     "first_name": "",
-    "last_name": "Pausch",
-    "column_url": "/assignments/737/responses/54775/showcrit?crit_assignment_id=744",
-    "primary_value": 5,
-    "secondary_value": 0,
-    "values": [5,5,5],
-	"stuid":11,
-	"current_login":1,
-	"critcomparer":[{"rank":5,"critid":10,"otherstu":[5,6]},{"rank":5,"critid":7,"otherstu":[5,6,8,9]},{"rank":5,"critid":8,"otherstu":[6,8,9]}]
+    "last_name": "Nunez",
+    "column_url": "/assignments/737/responses/54914/showcrit?crit_assignment_id=744",
+    "primary_value": 2,
+    "secondary_value": 1.138888889,
+    "values": [1, 3],
+    "stuid":5,
+    "critcomparer":[
+    {"rank":1,"critid":1,"otherstu":[6]},
+    {"rank":3,"critid":7,"otherstu":[1,4]}
+
+    ]
+  },
+  {
+    "first_name": "",
+    "last_name": "Sanchez",
+    "column_url": "/assignments/737/responses/54788/showcrit?crit_assignment_id=744",
+    "primary_value": 2,
+    "secondary_value": 1.2,
+    "values": [2, 2, 2],
+    "stuid":6,
+    "critcomparer":[
+    {"rank":2,"critid":1,"otherstu":[5]},
+    {"rank":2,"critid":2,"otherstu":[1,8]},
+    {"rank":2,"critid":9,"otherstu":[2,10]}
+
+    ]
+  },
+  {
+    "first_name": "",
+    "last_name": "Rael",
+    "column_url": "/assignments/737/responses/54916/showcrit?crit_assignment_id=744",
+    "primary_value": 2,
+    "secondary_value": 0.5,
+    "values": [2, 2, 2],
+    "stuid":7,
+    "critcomparer":[
+    {"rank":2,"critid":10,"otherstu":[1,9]},
+    {"rank":2,"critid":2,"otherstu":[3,10]},
+    {"rank":2,"critid":3,"otherstu":[4,9]}]
+  },
+  {
+    "first_name": "",
+    "last_name": "Horyza",
+    "column_url": "/assignments/737/responses/54815/showcrit?crit_assignment_id=744",
+    "primary_value": 2.3333,
+    "secondary_value": 1.836734694,
+    "values": [2, 2, 3],
+    "stuid":8,
+    "critcomparer":[
+    {"rank":2,"critid":1,"otherstu":[3,10]},
+    {"rank":2,"critid":6,"otherstu":[4,9]},
+    {"rank":3,"critid":2,"otherstu":[1,6]}
+    ]
+  },
+  {
+    "first_name": "",
+    "last_name": "thomson",
+    "column_url": "/assignments/737/responses/54854/showcrit?crit_assignment_id=744",
+    "primary_value": 3,
+    "secondary_value": 1.265306122,
+    "values": [3, 3, 3],
+    "stuid":9,
+    "critcomparer":[
+    {"rank":3,"critid":6,"otherstu":[4,8]},
+    {"rank":3,"critid":10,"otherstu":[2,7]},
+    {"rank":3,"critid":3,"otherstu":[4,7]}
+    ]
+  },
+  {
+    "first_name": "",
+    "last_name": "Kim",
+    "column_url": "/assignments/737/responses/54734/showcrit?crit_assignment_id=744",
+    "primary_value": 3,
+    "secondary_value": 2.6875,
+    "values": [3, 3, 3],
+    "stuid":10,
+    "critcomparer":[
+    {"rank":3,"critid":2,"otherstu":[3,7]},
+    {"rank":3,"critid":9,"otherstu":[2,6]},
+    {"rank":3,"critid":1,"otherstu":[3,8]}]
   }
 ]
 }]
