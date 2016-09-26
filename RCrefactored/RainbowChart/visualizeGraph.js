@@ -274,7 +274,8 @@ hei=0;
 	  .attr("rx",8)
 	  .attr("ry",8)
 	  .attr("id",function(d,i){return stcc[i];})
-	  .on("mouseover", function() { cx=this.getAttribute("id");
+	  .on("mouseover", function() { this.style.opacity =0.5;
+	  								cx=this.getAttribute("id");
 									split_id = cx.split("%");
 									critsplitid = split_id[1];
 									
@@ -285,7 +286,7 @@ hei=0;
 									ccy=x[y-1].getAttribute("y");
 									wid=x[0].getAttribute("width");
 									hei=x[0].getAttribute("height");
-									ccy=parseInt(ccy)+parseInt(hei)+15;
+									ccy=parseInt(ccy)+parseInt(hei)+20;
 									ccx=parseInt(ccx)+parseInt(wid)/2;
 									draw_circle(ccx,ccy);
 									
@@ -318,13 +319,14 @@ hei=0;
 									{
 										var ind = ot_arr[li]+"%"+critsplitid;
 										console.log(ind);
-									 document.getElementById(ind).style.opacity =0.5;
+									document.getElementById(ind).style.opacity =0.9;
 									document.getElementById(ind).style.stroke ="red";	
 									}
 									
 									})
      .on("mouseout", function(d,i) {  
 	 remcircle();
+	 this.style.opacity =1;
 	 this.style.fill = colorKey[rc.inputColorScheme][Math.floor(((d-1)*colorKey[rc.inputColorScheme].length / rankScale))];
 	 ccval_len = ccvalues.length;
 									tx = 0;
@@ -380,7 +382,7 @@ function draw_circle(x,y)
                      .attr("cy", y)
                        .attr("r", "10")
                       .style("fill", "white")
-					  .style("stroke","pink")
+					  .style("stroke","blue")
 					  .style("stroke-width", "4");
 }
 
