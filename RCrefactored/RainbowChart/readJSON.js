@@ -67,7 +67,7 @@ var sort_by = function(field, reverse, primer){
 }
 
 function readJSON() {
-    d3.json("dataFiles/showStudents.json", function (data) {
+    d3.json("dataFiles/showStudents.json_no_crit_comparer", function (data) {
         jsonData = data;
         init();
 		/*

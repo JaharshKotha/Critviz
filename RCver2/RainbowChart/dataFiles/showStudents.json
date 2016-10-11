@@ -23,10 +23,13 @@
     "column_url": "/assignments/737/responses/54715/showcrit?crit_assignment_id=744",
     "primary_value": 1.285714286,
     "secondary_value": 0.489795918,
-    "values": [3, 1, 1],
+    "values": [1, 1, 3],
 	"stuid":4,
-	"critcomparer":[{"rank":1,"critid":10,"otherstu":[5,6]},{"rank":1,"critid":7,"otherstu":[5,6,8,9]},{"rank":3,"critid":8,"otherstu":[6,8,9]}]
-	
+	"critcomparer":[
+      {"rank":1,"critid":10,"otherstu":[5,6]},
+      {"rank":1,"critid":7,"otherstu":[5,6,8,9]},
+      {"rank":3,"critid":8,"otherstu":[6,8,9]}
+    ]
   },
   {
     "first_name": "Craig",
@@ -34,7 +37,7 @@
     "column_url": "/assignments/737/responses/54771/showcrit?crit_assignment_id=744",
     "primary_value": 1.666666667,
     "secondary_value": 0.555555556,
-    "values": [ 5, 2, 3],
+    "values": [ 2, 3, 5],
 	"stuid":5,
 	"critcomparer":[{"rank":2,"critid":10,"otherstu":[5,6]},{"rank":5,"critid":7,"otherstu":[5,6,8,9]},{"rank":3,"critid":8,"otherstu":[6,8,9]}]
   },
