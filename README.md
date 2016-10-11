@@ -1,3 +1,3 @@
 # Critviz
-A peer review system/n
+A peer review system .
 Hosted live on (www.critviz.com) 
