@@ -10,7 +10,8 @@ function visualizeGraph(){
 //inputColorScheme=document.getElementById("inputColorScheme").value;
 inputColorScheme=metadata["color-scheme"];
 
-document.getElementById("title").innerHTML =  metadata.title;
+if (document.getElementById("title") != undefined)
+	document.getElementById("title").innerHTML =  metadata.title;
 
 if(svg!=null)
   d3.select("#svg").remove();
@@ -279,219 +280,218 @@ cclen=0;
 
 
 
-  bar = svg.selectAll(".bar")
+    var tooltip = d3.select("body")
+        .append("div")
+        .style("position", "absolute")
+        .style("z-index", "10")
+        .style("visibility", "hidden")
+        .text(function(d) { return d; });
+
+
+    bar = svg.selectAll(".bar")
       .data(allrankings)
-	  .enter().append("rect")
+      .enter().append("rect")
       .attr("class", "bar")
       .attr("x", function(d,i) {
-		  t3++;
-		  if(rankings[p3].length==0)p3++;
-		  if(t3>rankings[p3].length) {
-			  p3++;
-			  t3=1;
-			  return ((width/rankings.length)*(p3));
-		  }
-		  return ((width/rankings.length)*(p3));
-	  })
+          t3++;
+          if(rankings[p3].length==0)p3++;
+          if(t3>rankings[p3].length) {
+              p3++;
+              t3=1;
+              return ((width/rankings.length)*(p3));
+          }
+          return ((width/rankings.length)*(p3));
+      })
       .attr("width", function(){
-		  return width/rankings.length
-	  })
+          return width/rankings.length
+      })
       .attr("y", function(d,i) {
-		  t++;
-		  if(rankings[p].length==0) {
-			  p++;
-			  return 0;
-		  }
-		  if(t>rankings[p].length) {
-			  p++;
-			  t=1;
-			  return y(rankings[p].rank_avg) + (t-1) * ((height - y(rankings[p].rank_avg))/rankings[p].length);
-		  }
-		  return y(rankings[p].rank_avg) + (t-1) * ((height - y(rankings[p].rank_avg))/rankings[p].length);
-	  })
+          t++;
+          if(rankings[p].length==0) {
+              p++;
+              return 0;
+          }
+          if(t>rankings[p].length) {
+              p++;
+              t=1;
+              return y(rankings[p].rank_avg) + (t-1) * ((height - y(rankings[p].rank_avg))/rankings[p].length);
+          }
+          return y(rankings[p].rank_avg) + (t-1) * ((height - y(rankings[p].rank_avg))/rankings[p].length);
+      })
       .attr("height", function(d,i) {
-		  t2++;
-		  if(t2==rankings[p2].length+1) {
-			  p2++;
-			  t2=1;
-		  }
-		  if(rankings[p2].length==0) {
-			  p2++; return 0;
-		  }
-		  if(d==0) {
-			  p2++;
-			  return 100;
-		  }
-		  return (height - y(rankings[p2].rank_avg))/rankings[p2].length - 1
-	  })
-	  .style("fill",function(d){
-		  color_index = (metadata['best-value-possible'] > metadata['worst-value-possible']) ? metadata['best-value-possible'] - d - metadata['worst-value-possible'] : d - metadata['best-value-possible'];
-		  color_index = Math.round(color_index * colorKey[inputColorScheme].length / rankScale);
-		  //console.log("d: " + d + ", color_idx: " + color_index);
-		  return colorKey[inputColorScheme][Math.round(color_index)];
-	  })
-	  .attr("rx",8)
-	  .attr("ry",8)
-	  .attr("stuid",function(d,i){
-		  return stids[i];
-	  })
-	  .attr("class","blocks")
-	  .attr("id",function(d,i){
-		  return stcc[i];
-	  })
-	  .on("mouseover", function() {
-		idFromCircle = this.getAttribute("id");
-		//if crit comparer is defined in the json
-		if (idFromCircle != null){
-			split_id = idFromCircle.split("%");
-			critsplitid = split_id[1];
+          t2++;
+          if(t2==rankings[p2].length+1) {
+              p2++;
+              t2=1;
+          }
+          if(rankings[p2].length==0) {
+              p2++; return 0;
+          }
+          if(d==0) {
+              p2++;
+              return 100;
+          }
+          return (height - y(rankings[p2].rank_avg))/rankings[p2].length - 1
+      })
+      .style("fill",function(d){
+          color_index = (metadata['best-value-possible'] > metadata['worst-value-possible']) ? metadata['best-value-possible'] - d - metadata['worst-value-possible'] : d - metadata['best-value-possible'];
+          color_index = Math.round(color_index * colorKey[inputColorScheme].length / rankScale);
+          //console.log("d: " + d + ", color_idx: " + color_index);
+          return colorKey[inputColorScheme][Math.round(color_index)];
+      })
+      .attr("rx",8)
+      .attr("ry",8)
+      .attr("stuid",function(d,i){
+          return stids[i];
+      })
+      .attr("class","blocks")
+      .attr("id",function(d,i){
+          return stcc[i];
+      })
+      .on("mouseover", function(d, i) {
+          this.style.fill = "gray";
+          tooltip.text(d);
+          idFromCircle = this.getAttribute("id");
+          //if crit comparer is defined in the json
+          if (idFromCircle != null){
+            split_id = idFromCircle.split("%");
+            critsplitid = split_id[1];
 
-			stags = svg.selectAll(".stutags");
-			ih=0;
+            stags = svg.selectAll(".stutags");
+            ih=0;
 
+            for(ih=0;ih < stags[0].length;ih++)
+            {
+                if(parseInt(stags[0][ih].getAttribute("id")) == critsplitid)
+                {
+                    stags[0][ih].style.fill = "red";
+                    stags[0][ih].style.fontSize  = "15px";
+                }
+            }
 
-			for(ih=0;ih < stags[0].length;ih++)
-			{
-
-						if(parseInt(stags[0][ih].getAttribute("id")) == critsplitid)
-						{
-
-							stags[0][ih].style.fill = "red";
-							stags[0][ih].style.fontSize  = "15px";
-
-						}
-
-
-			}
-
-			ccval_len = ccvalues.length;
-			tx = 0;
-			while(ccval_len>0)
-			{
-				if(ccvalues[tx][0] == split_id[0])
-				{
-					break;
-				}
-				else{--ccval_len;++tx;}
-			}
+            ccval_len = ccvalues.length;
+            tx = 0;
+            while(ccval_len>0)
+            {
+                if(ccvalues[tx][0] == split_id[0])
+                {
+                    break;
+                }
+                else{--ccval_len;++tx;}
+            }
 
 
-			ccval_len = ccvalues[tx].length;
-			ty = 1;
-			while(ccval_len>0)
-			{
-				if(new_cc[tx][ty] == split_id[1])
-				{
-					break;
-				}
-				else{--ccval_len;++ty;}
-			}
-			ot_arr = ccarray[tx][ty];
+            ccval_len = ccvalues[tx].length;
+            ty = 1;
+            while(ccval_len>0)
+            {
+                if(new_cc[tx][ty] == split_id[1])
+                {
+                    break;
+                }
+                else{--ccval_len;++ty;}
+            }
+            ot_arr = ccarray[tx][ty];
 
-			for(ik=0;ik<ot_arr.length;ik++)
-			{
-				ih=0;
-				stags = svg.selectAll(".stutags");
+            for(ik=0;ik<ot_arr.length;ik++)
+            {
+                ih=0;
+                stags = svg.selectAll(".stutags");
 
-				for(ih=0;ih < stags[0].length;ih++)
-				{
+                for(ih=0;ih < stags[0].length;ih++)
+                {
+                    if(parseInt(stags[0][ih].getAttribute("id")) == ot_arr[ik])
+                    {
+                        stags[0][ih].style.fill = "blue";
+                        stags[0][ih].style.fontSize  = "15px";
+                        stags[0][ih].style.backgroundColor   = "red";
 
-							if(parseInt(stags[0][ih].getAttribute("id")) == ot_arr[ik])
-							{
+                    }
+                }
+            }
+          }
+          return tooltip.style("visibility", "visible");
+        })
+      .on("mouseout", function(d,i) {
+          color_index = (metadata['best-value-possible'] > metadata['worst-value-possible']) ? metadata['best-value-possible'] - d - metadata['worst-value-possible'] : d - metadata['best-value-possible'];
+          color_index = Math.round(color_index * colorKey[inputColorScheme].length / rankScale);
+          //console.log("d: " + d + ", color_idx: " + color_index);
+          this.style.fill = colorKey[inputColorScheme][Math.round(color_index)];
 
-								stags[0][ih].style.fill = "blue";
-								stags[0][ih].style.fontSize  = "15px";
-								stags[0][ih].style.backgroundColor   = "red";
+          idFromCircle = this.getAttribute("id");
+          //if crit comparer is defined in the json
+          if(idFromCircle != null){
+            split_id = idFromCircle.split("%");
+            critsplitid = split_id[1];
 
-							}
-
-
-				}
-			}
-
-		  }
-	  	}
-	  )
-	  .on("mouseout", function(d,i) {
-		  color_index = (metadata['best-value-possible'] > metadata['worst-value-possible']) ? metadata['best-value-possible'] - d - metadata['worst-value-possible'] : d - metadata['best-value-possible'];
-		  color_index = Math.round(color_index * colorKey[inputColorScheme].length / rankScale);
-		  //console.log("d: " + d + ", color_idx: " + color_index);
-		  this.style.fill = colorKey[inputColorScheme][Math.round(color_index)];
-
-		  idFromCircle = this.getAttribute("id");
-		  //if crit comparer is defined in the json
-		  if(idFromCircle != null){
-			split_id = idFromCircle.split("%");
-			critsplitid = split_id[1];
-
-			stags = svg.selectAll(".stutags");
-			ih=0;
+            stags = svg.selectAll(".stutags");
+            ih=0;
 
 
-			for(ih=0;ih < stags[0].length;ih++)
-			{
+            for(ih=0;ih < stags[0].length;ih++)
+            {
 
-						if(parseInt(stags[0][ih].getAttribute("id")) == critsplitid)
-						{
+                        if(parseInt(stags[0][ih].getAttribute("id")) == critsplitid)
+                        {
 
-							stags[0][ih].style.fill = "black";
-							stags[0][ih].style.fontSize  = "10px";
+                            stags[0][ih].style.fill = "black";
+                            stags[0][ih].style.fontSize  = "10px";
 
-						}
-
-
-			}
-
-			ccval_len = ccvalues.length;
-			tx = 0;
-			while(ccval_len>0)
-			{
-				if(ccvalues[tx][0] == split_id[0])
-				{
-					break;
-				}
-				else{--ccval_len;++tx;}
-			}
+                        }
 
 
-			ccval_len = ccvalues[tx].length;
-			ty = 1;
-			while(ccval_len>0)
-			{
-				if(new_cc[tx][ty] == split_id[1])
-				{
-					break;
-				}
-				else{--ccval_len;++ty;}
-			}
-			ot_arr = ccarray[tx][ty];
+            }
 
-			for(ik=0;ik<ot_arr.length;ik++)
-			{
-				ih=0;
-				stags = svg.selectAll(".stutags");
-
-				for(ih=0;ih < stags[0].length;ih++)
-				{
-
-							if(parseInt(stags[0][ih].getAttribute("id")) == ot_arr[ik])
-							{
-
-								stags[0][ih].style.fill = "black";
-								stags[0][ih].style.fontSize  = "10px";
-								stags[0][ih].style.backgroundColor   = "white";
-
-							}
+            ccval_len = ccvalues.length;
+            tx = 0;
+            while(ccval_len>0)
+            {
+                if(ccvalues[tx][0] == split_id[0])
+                {
+                    break;
+                }
+                else{--ccval_len;++tx;}
+            }
 
 
-				}
-			}
-		  }
+            ccval_len = ccvalues[tx].length;
+            ty = 1;
+            while(ccval_len>0)
+            {
+                if(new_cc[tx][ty] == split_id[1])
+                {
+                    break;
+                }
+                else{--ccval_len;++ty;}
+            }
+            ot_arr = ccarray[tx][ty];
 
-	 
-	 
-	 
-	 })
+            for(ik=0;ik<ot_arr.length;ik++)
+            {
+                ih=0;
+                stags = svg.selectAll(".stutags");
+
+                for(ih=0;ih < stags[0].length;ih++)
+                {
+
+                            if(parseInt(stags[0][ih].getAttribute("id")) == ot_arr[ik])
+                            {
+
+                                stags[0][ih].style.fill = "black";
+                                stags[0][ih].style.fontSize  = "10px";
+                                stags[0][ih].style.backgroundColor   = "white";
+
+                            }
+
+
+                }
+            }
+          }
+          return tooltip.style("visibility", "hidden");
+     })
+        .on("mousemove", function(d, i){
+            return tooltip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");
+        })
     
 
   svg.select("g")
@@ -561,13 +561,13 @@ svg2 = d3.select("body").append("svg")
     .attr("id","svg2")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
-  .append("g")
+    .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    svg2.append("g")
-      .attr("class", "x axis")
-      .attr("transform", "translate(0," + height + ")")
-      .call(xAxis2);
+svg2.append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + height + ")")
+    .call(xAxis2);
 
 svg2.append("rect")
     .attr("class", "grid-background")
@@ -576,18 +576,18 @@ svg2.append("rect")
 
 
 bar2 = svg2.selectAll(".bar")
-      .data(rankings)
+    .data(rankings)
     .enter().append("rect")
-      .attr("class", "bar")
-      .attr("x", function(d,i) { return (width/rankings.length) * i }) //draw the vertical bar at increasing positions.
-      .attr("width", width/rankings.length)
-      .attr("y", function(d){
+    .attr("class", "bar")
+    .attr("x", function(d,i) { return (width/rankings.length) * i }) //draw the vertical bar at increasing positions.
+    .attr("width", width/rankings.length)
+    .attr("y", function(d){
 		  if(d.rank_avg==0)
 			  return y2(rankScale+0.5);
 		  else
 			  return y2(d.rank_avg)
 	  })
-      .attr("height", function(d){
+    .attr("height", function(d){
 		  if(d.rank_avg==0)
 			  return height - y2(rankScale+0.5);
 		  if (d.rank_avg!=0)
