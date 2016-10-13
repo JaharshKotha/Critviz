@@ -281,10 +281,12 @@ p=0;
 p2=0;
 p3=0;
 p4=0;
+p5=0;
 t=0;
 t2=0;
 t3=0;
 t4=0;
+t5=0;
 cc=0;
 cclen=0;
 
@@ -339,17 +341,32 @@ cclen=0;
           if(rankings[p2].length==0) {
               p2++; return 0;
           }
+
+          //this piece of sh** causes a rendering bug if it founds 0s. I'm not sure what this is for.
+          /*
           if(d==0) {
-              p2++;
-              return 100;
+           p2++;
+           return 100;
           }
+          */
+
           return (height - y(rankings[p2].rank_avg))/rankings[p2].length - 1
       })
       .style("fill",function(d){
+          t5++;
+          if(t5==rankings[p5].length+1) {
+              p5++;
+              t5=1;
+          }
           color_index = (metadata['best-value-possible'] > metadata['worst-value-possible']) ? metadata['best-value-possible'] - d : d - metadata['best-value-possible'];
           color_index = Math.round(color_index * colorKey[inputColorScheme].length / rankScale);
+          color = colorKey[inputColorScheme][Math.round(color_index * color_scale)];
+
+          if(metadata["highlight-top-most-bar"] && t5==1)
+              color = ColorLuminance(color, 0.3)
           //console.log("d: " + d + ", color_idx: " + color_index);
-          return colorKey[inputColorScheme][color_index];
+
+          return color;
       })
       .attr("rx",8)
       .attr("ry",8)
@@ -361,9 +378,14 @@ cclen=0;
           return stcc[i];
       })
       .on("mouseover", function(d, i) {
+          //store the color and restore it when mouseout
+          original_color = this.style.fill
           this.style.fill = "gray";
+
           tooltip.text(d);
+
           idFromCircle = this.getAttribute("id");
+
           //if crit comparer is defined in the json
           if (idFromCircle != null){
             split_id = idFromCircle.split("%");
@@ -425,10 +447,15 @@ cclen=0;
           return tooltip.style("visibility", "visible");
         })
       .on("mouseout", function(d,i) {
+
+          /* no need to recalculate the color, just store it on mouseover then restore it on mouse out
           color_index = (metadata['best-value-possible'] > metadata['worst-value-possible']) ? metadata['best-value-possible'] - d : d - metadata['best-value-possible'];
           color_index = Math.round(color_index * colorKey[inputColorScheme].length / rankScale);
           //console.log("d: " + d + ", color_idx: " + color_index);
           this.style.fill = colorKey[inputColorScheme][color_index];
+          */
+
+          this.style.fill = original_color
 
           idFromCircle = this.getAttribute("id");
           //if crit comparer is defined in the json
@@ -534,124 +561,145 @@ function slider(){
     var height = (window.innerHeight * 0.2) -  margin.top - margin.bottom;
 
 
-// If appending/refreshing slider, remove the one earlier present.
-if(svg2!=null){
-  d3.select("#svg2").remove();
-}
+    // If appending/refreshing slider, remove the one earlier present.
+    if(svg2!=null){
+      d3.select("#svg2").remove();
+    }
 
-x2 = d3.scale.ordinal()
-    .rangeRoundBands([0, width]);
-
-
-y2 = d3.scale.linear()
-    .range([height, 0]);
-
-xAxis2 = d3.svg.axis()
-        .scale(x2)
-        .orient("bottom");
-
-//Brush is the rectangular bar that floats on the navigation graph. This is not the call, but just definition of function.
-//This function will be called later.
-brush = d3.svg.brush()
-    .x(x2)
-    .extent([0,400])
-    .on("brush", brushed)
+    x2 = d3.scale.ordinal()
+        .rangeRoundBands([0, width]);
 
 
-x2.domain(jsonData[0].data.map(function(d,i) {
-	if(d.first_name!="")
-		return (d.first_name);
-	else {
-		hideLabels = true;
-	}
-	return d.column_url;
-}));
+    y2 = d3.scale.linear()
+        .range([height, 0]);
 
-y2.domain([rankScale+0.5,0]);
+    xAxis2 = d3.svg.axis()
+            .scale(x2)
+            .orient("bottom");
 
-svg2 = d3.select("body").append("svg")
-    .attr("id","svg2")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-svg2.append("g")
-    .attr("class", "x axis")
-    .attr("transform", "translate(0," + height + ")")
-    .call(xAxis2);
-
-svg2.append("rect")
-    .attr("class", "grid-background")
-    .attr("width", width)
-    .attr("height", height);
+    //Brush is the rectangular bar that floats on the navigation graph. This is not the call, but just definition of function.
+    //This function will be called later.
+    brush = d3.svg.brush()
+        .x(x2)
+        .extent([0,400])
+        .on("brush", brushed)
 
 
-bar2 = svg2.selectAll(".bar")
-    .data(rankings)
-    .enter().append("rect")
-    .attr("class", "bar")
-    .attr("x", function(d,i) { return (width/rankings.length) * i }) //draw the vertical bar at increasing positions.
-    .attr("width", width/rankings.length)
-    .attr("y", function(d){
-		  if(d.rank_avg==0)
-			  return y2(rankScale+0.5);
-		  else
-			  return y2(d.rank_avg)
-	  })
-    .attr("height", function(d){
-		  if(d.rank_avg==0)
-			  return height - y2(rankScale+0.5);
-		  if (d.rank_avg!=0)
-			  return (height - y2(d.rank_avg));
-		  else
-			  return 0;
-	  })
-    .style("fill","blue")
-    .attr("rx",4)
-    .attr("ry",4);
+    x2.domain(jsonData[0].data.map(function(d,i) {
+        if(d.first_name!="")
+            return (d.first_name);
+        else {
+            hideLabels = true;
+        }
+        return d.column_url;
+    }));
+
+    y2.domain([rankScale+0.5,0]);
+
+    svg2 = d3.select("body").append("svg")
+        .attr("id","svg2")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    svg2.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis2);
+
+    svg2.append("rect")
+        .attr("class", "grid-background")
+        .attr("width", width)
+        .attr("height", height);
 
 
-//We don't need any labels on navigator. Remove the labels that come by default.
-  svg2.select("g")
-      .selectAll(".tick text")
-      .remove();
+    bar2 = svg2.selectAll(".bar")
+        .data(rankings)
+        .enter().append("rect")
+        .attr("class", "bar")
+        .attr("x", function(d,i) { return (width/rankings.length) * i }) //draw the vertical bar at increasing positions.
+        .attr("width", width/rankings.length)
+        .attr("y", function(d){
+              if(d.rank_avg==0)
+                  return y2(rankScale+0.5);
+              else
+                  return y2(d.rank_avg)
+          })
+        .attr("height", function(d){
+              if(d.rank_avg==0)
+                  return height - y2(rankScale+0.5);
+              if (d.rank_avg!=0)
+                  return (height - y2(d.rank_avg));
+              else
+                  return 0;
+          })
+        .style("fill","blue")
+        .attr("rx",4)
+        .attr("ry",4);
 
+
+    //We don't need any labels on navigator. Remove the labels that come by default.
       svg2.select("g")
-      .selectAll(".tick")
-      .remove();
+          .selectAll(".tick text")
+          .remove();
+
+          svg2.select("g")
+          .selectAll(".tick")
+          .remove();
 
 
-// We have specified the brush earlier, now it is time to use it to draw it.
-var gBrush = svg2.append("g")
-    .attr("class", "brush")
-    .call(brush); //this will draw the brush - with all the properties of 'brush'
+    // We have specified the brush earlier, now it is time to use it to draw it.
+    var gBrush = svg2.append("g")
+        .attr("class", "brush")
+        .call(brush); //this will draw the brush - with all the properties of 'brush'
 
-gBrush.selectAll("rect")
-    .attr("height", height);
-
-
-// Selected variable will specify what values are selected by brush
-// This will create an array "selected" with values corresponding to x-axis values of students selected on navigation bar.
-
-selected =  x2.domain().filter(function(d){
-        //This is being performed for all students because d3 iterates to the length of data
-        return (brush.extent()[0] <= x2(d)) && (x2(d) <= brush.extent()[1])
-      }
-    );                     
-      
+    gBrush.selectAll("rect")
+        .attr("height", height);
 
 
-//This is a nested function only accessible to slider function
-function brushed() {
-	//d3.event.stopPropagation();
-	brushCheck=true;
-	if (!d3.event.sourceEvent) return;
-	selected =  x2.domain().filter(function(d){
-			return (brush.extent()[0] <= x2(d)) && (x2(d) <= brush.extent()[1])
-	});
-	x.domain(selected);
-	visualizeGraph();
+    // Selected variable will specify what values are selected by brush
+    // This will create an array "selected" with values corresponding to x-axis values of students selected on navigation bar.
+
+    selected =  x2.domain().filter(function(d){
+            //This is being performed for all students because d3 iterates to the length of data
+            return (brush.extent()[0] <= x2(d)) && (x2(d) <= brush.extent()[1])
+          }
+        );
+
+
+
+    //This is a nested function only accessible to slider function
+    function brushed() {
+        //d3.event.stopPropagation();
+        brushCheck=true;
+        if (!d3.event.sourceEvent) return;
+        selected =  x2.domain().filter(function(d){
+                return (brush.extent()[0] <= x2(d)) && (x2(d) <= brush.extent()[1])
+        });
+        x.domain(selected);
+        visualizeGraph();
+    }
+
 }
 
+function ColorLuminance(hex, lum) {
+
+    // validate hex string
+    hex = String(hex).replace(/[^0-9a-f]/gi, '');
+    if (hex.length < 6) {
+        hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+    }
+    lum = lum || 0;
+
+    // convert to decimal and change luminosity
+    var rgb = "#", c, i;
+    for (i = 0; i < 3; i++) {
+        c = parseInt(hex.substr(i*2,2), 16);
+        c = Math.round(Math.min(Math.max(0, c + (c * lum)), 255)).toString(16);
+        rgb += ("00"+c).substr(c.length);
+    }
+
+    return rgb;
 }
+
