@@ -27,17 +27,15 @@
  var Rainbowgraph;
  
 function init(){
-Rainbowgraph=function (data){
-this.jsonData=data; //this variable will store all data read from json
-this.metadata=data[0].metadata;
-var svg,svg2;
-this.selected;
-inputColorScheme="5a";
-this.brushCheck=false;
-hideLabels= false;
-
-
-}
+    Rainbowgraph=function (data){
+        this.jsonData=data; //this variable will store all data read from json
+        this.metadata=data[0].metadata;
+        var svg,svg2;
+        this.selected;
+        inputColorScheme="5a";
+        this.brushCheck=false;
+        hideLabels= false;
+    }
 }
 // var visFlag = false;
 //create studentVariable accessible using student_id
@@ -75,34 +73,24 @@ function readJSON() {
             student[j] = Object.create(new Student(jsonData[0], j));
 
         }
-*/
-
-
+        */
        // metadata = jsonData[0].metadata;
        //console.log(data);
 	    rc = new Rainbowgraph(data);
 		
-		
 		for(var i=0;i<rc.jsonData[0].data.length;i++){
-			
 			if(rc.jsonData[0].data[i].primary_value == 0)
 			{
-			
 				rc.jsonData[0].data[i].primary_value=500;
 			}
 		}
 		
 		//rc.jsonData[0].data.sort();
-	  // console.log(rc.metadata);
-	  //rc.jsonData[0].data.sort(sort_by('primary_value', true, parseInt));
-	  rc.jsonData[0].data.sort(function(a, b) {
-    return parseFloat(a.primary_value) - parseFloat(b.primary_value);
-});
-
-		
+	    // console.log(rc.metadata);
+	    //rc.jsonData[0].data.sort(sort_by('primary_value', true, parseInt));
+        rc.jsonData[0].data.sort(function(a, b) {
+            return parseFloat(a.primary_value) - parseFloat(b.primary_value);
+        });
         visualizeGraph(rc);
-
     })
-
-
-   }
+}

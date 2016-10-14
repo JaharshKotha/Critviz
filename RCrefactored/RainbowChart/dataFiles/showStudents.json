@@ -2,23 +2,23 @@
 	"metadata": {
 		"title": "Intro to Digital Media, Assignment 1",
 		"primary-value-label": "rank average",
-		"higher_primary_value_better": false,
+
 		"values-label": "ranks",
-		"higher_values_better": false,
+		"higher-values-better": false,
 		"best-value-possible": 1,
 		"worst-value-possible": 5,
+        "higher-primary-value-better": false,
 		"y-axis-label": "Rank Average",
 		"x-axis-label": "Students",
 		"color-scheme": "3b",
 		"secondary-value-label": "variance"
-
 	},
 	
 
 
 	"data": [
   {
-    "first_name": "",
+    "first_name": "A",
     "last_name": "Jones",
     "column_url": "/assignments/737/responses/54715/showcrit?crit_assignment_id=744",
     "primary_value": 1.285714286,
@@ -42,7 +42,7 @@
   },
   
   {
-    "first_name": "",
+    "first_name": "B",
     "last_name": "Evans",
     "column_url": "/assignments/737/responses/54784/showcrit?crit_assignment_id=744",
     "primary_value": 4.333333333,
@@ -53,7 +53,7 @@
 	"critcomparer":[{"rank":3,"critid":10,"otherstu":[5,6]},{"rank":5,"critid":7,"otherstu":[5,6,8,9]},{"rank":5,"critid":8,"otherstu":[6,8,9]}]
   },
   {
-    "first_name": "",
+    "first_name": "C",
     "last_name": "Pudasaini",
     "column_url": "/assignments/737/responses/54823/showcrit?crit_assignment_id=744",
     "primary_value": 4.4,
@@ -64,7 +64,7 @@
 	"critcomparer":[{"rank":2,"critid":10,"otherstu":[5,6]},{"rank":5,"critid":7,"otherstu":[5,6,8,9]},{"rank":5,"critid":8,"otherstu":[6,8,9]}]
   },
   {
-    "first_name": "",
+    "first_name": "D",
     "last_name": "Harrington",
     "column_url": "/assignments/737/responses/54802/showcrit?crit_assignment_id=744",
     "primary_value": 4.6,
@@ -75,7 +75,7 @@
 	"critcomparer":[{"rank":3,"critid":10,"otherstu":[5,6]},{"rank":5,"critid":7,"otherstu":[5,6,8,9]},{"rank":5,"critid":8,"otherstu":[6,8,9]}]
   },
   {
-    "first_name": "",
+    "first_name": "F",
     "last_name": "Sullivan",
     "column_url": "/assignments/737/responses/54770/showcrit?crit_assignment_id=744",
     "primary_value": 4.666666667,
@@ -86,7 +86,7 @@
 	"critcomparer":[{"rank":3,"critid":10,"otherstu":[5,6]},{"rank":5,"critid":7,"otherstu":[5,6,8,9]},{"rank":5,"critid":8,"otherstu":[6,8,9]}]
   },
   {
-    "first_name": "",
+    "first_name": "G",
     "last_name": "Baral",
     "column_url": "/assignments/737/responses/54777/showcrit?crit_assignment_id=744",
     "primary_value": 5,
@@ -99,7 +99,7 @@
   },
   
   {
-    "first_name": "",
+    "first_name": "H",
     "last_name": "Pausch",
     "column_url": "/assignments/737/responses/54775/showcrit?crit_assignment_id=744",
     "primary_value": 5,
