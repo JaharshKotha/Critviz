@@ -87,7 +87,7 @@ else
       if(rc.jsonData[0].data[i].primary_value == 0)
       {
       
-        rc.jsonData[0].data[i].primary_value=500;
+        rc.jsonData[0].data[i].primary_value=Number.MAX_SAFE_INTEGER;
       }
     }
     
