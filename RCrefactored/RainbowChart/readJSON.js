@@ -55,7 +55,7 @@ function init(){
 */
 
 function readJSON() {
-    d3.json("dataFiles/showStudents.json", function (data) {
+    d3.json("mslip.json", function (data) {
         jsonData = data;
         init();
 		/*
@@ -98,7 +98,8 @@ else
     return parseFloat(a.primary_value) - parseFloat(b.primary_value);
 });
 }
-		console.log(rc.jsonData[0].data);
+    
+		
         visualizeGraph(rc);
 
     })
