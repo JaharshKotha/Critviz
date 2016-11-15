@@ -53,21 +53,9 @@ function init(){
     }
 }
 */
-var sort_by = function(field, reverse, primer){
-
-   var key = primer ? 
-       function(x) {return primer(x[field])} : 
-       function(x) {return x[field]};
-
-   reverse = !reverse ? 1 : -1;
-
-   return function (a, b) {
-       return a = key(a), b = key(b), reverse * ((a > b) - (b > a));
-     } 
-}
 
 function readJSON() {
-    d3.json("dataFiles/showStudents.json_no_crit_comparer", function (data) {
+    d3.json("mslip.json", function (data) {
         jsonData = data;
         init();
 		/*
@@ -82,23 +70,35 @@ function readJSON() {
        //console.log(data);
 	    rc = new Rainbowgraph(data);
 		
-		
-		for(var i=0;i<rc.jsonData[0].data.length;i++){
-			
-			if(rc.jsonData[0].data[i].primary_value == 0)
-			{
-			
-				rc.jsonData[0].data[i].primary_value=500;
-			}
-		}
+		if(rc.metadata['higher_primary_value_better'])
+    {
 		
 		//rc.jsonData[0].data.sort();
 	  // console.log(rc.metadata);
 	  //rc.jsonData[0].data.sort(sort_by('primary_value', true, parseInt));
 	  rc.jsonData[0].data.sort(function(a, b) {
+    return parseFloat(b.primary_value) - parseFloat(a.primary_value);
+});
+}
+else
+{
+  for(var i=0;i<rc.jsonData[0].data.length;i++){
+      
+      if(rc.jsonData[0].data[i].primary_value == 0)
+      {
+      
+        rc.jsonData[0].data[i].primary_value=Number.MAX_SAFE_INTEGER;
+      }
+    }
+    
+    //rc.jsonData[0].data.sort();
+    // console.log(rc.metadata);
+    //rc.jsonData[0].data.sort(sort_by('primary_value', true, parseInt));
+    rc.jsonData[0].data.sort(function(a, b) {
     return parseFloat(a.primary_value) - parseFloat(b.primary_value);
 });
-
+}
+    
 		
         visualizeGraph(rc);
 
