@@ -6,6 +6,21 @@ function visualizeGraph(rc){
     if(document.getElementById("title")!=undefined)
         document.getElementById("title").innerHTML = rc.metadata.title;
 
+    var select = d3.select('body')
+        .append('p')
+        .text('Sort by ')
+        .attr('class','right')
+            .append('select')
+            .attr('class','right')
+            .on('change',onSortByChange)
+
+    var options = select
+        .selectAll('option')
+        .data(["Primary Value", "Secondary Value", "X-label"]).enter()
+        .append('option')
+        .text(function (d) { return d; });
+
+
     if(rc.svg!=null)
         d3.select("#svg").remove();
 
@@ -33,10 +48,10 @@ function visualizeGraph(rc){
             p++;
         }
         rankings[i].rank_avg = rc.jsonData[0].data[i].primary_value; //rank avg corresponds to primary value in json file for each student
-
+        rankings[i].secondary_value = rc.jsonData[0].data[i].secondary_value;
+        rankings[i].first_name =  rc.jsonData[0].data[i].first_name;
         if(min_primary_val > rankings[i].rank_avg)
         {
-
             min_primary_val = Math.floor(rankings[i].rank_avg);
         }
         if(max_primary_val < rankings[i].rank_avg && rankings[i].rank_avg != Number.MAX_SAFE_INTEGER)
@@ -47,7 +62,7 @@ function visualizeGraph(rc){
 
     }
 
-    console.log(min_primary_val,max_primary_val,min_rank_val,max_rank_val);
+    console.debug(min_primary_val,max_primary_val,min_rank_val,max_rank_val);
 
     rankScale = Math.abs(rc.metadata['worst-value-possible']-rc.metadata['best-value-possible'] + 1);
 
@@ -114,9 +129,6 @@ function visualizeGraph(rc){
         .append("g")
         .attr("transform", "translate(" + ( margin.left) + "," + (margin.top) + ")")
 
-
-
-
     rc.svg.append("g")
         .attr("class", "x axis")
         .attr("transform", "translate(0," + height + ")")
@@ -182,14 +194,15 @@ function visualizeGraph(rc){
             t++;
             if(rankings[p].length==0) {
                 p++; return 0;
-            } if(t>rankings[p].length) {p++; t=1; return y(rankings[p].rank_avg) + (t-1) * ((height - y(rankings[p].rank_avg))/rankings[p].length);}   return y(rankings[p].rank_avg) + (t-1) * ((height - y(rankings[p].rank_avg))/rankings[p].length);  })
+            }
+            if(t>rankings[p].length) {p++; t=1; return y(rankings[p].rank_avg) + (t-1) * ((height - y(rankings[p].rank_avg))/rankings[p].length);}   return y(rankings[p].rank_avg) + (t-1) * ((height - y(rankings[p].rank_avg))/rankings[p].length);  })
         .attr("height", function(d,i) {
             t2++;
             if(t2==rankings[p2].length+1) {
                 p2++; t2=1;
             }
 
-            console.log(rc.jsonData[0].data[p2].first_name);
+            console.debug(rc.jsonData[0].data[p2].first_name);
 
             if(rankings[p2].length==0) {
                 p2++;
@@ -248,6 +261,77 @@ function visualizeGraph(rc){
         .filter(function(d){ return d=="" || d.startsWith("/")})  //this is a temporary logic. If our x axis parameter is other than url, then this will change.
         .remove();
 
+    var sortTimeout = setTimeout(function() {
+            //d3.select("select").property("change", true).each(onSortByChange);
+    }, 2000);
+
+    function onSortByChange() {
+        selectValue = d3.select('select').property('value')
+
+        clearTimeout(sortTimeout);
+
+        if (rc.metadata['higher_primary_value_better'])
+            add = 1
+        else
+            add = -1
+
+        // Copy-on-write since tweens are evaluated after a delay.
+        // sort x-axis
+        var x0 = x.domain(
+            rc.jsonData[0].data.sort(
+                function(a, b) {
+                    if(selectValue == "X-label")
+                        if(a.first_name != "" )
+                            return a.first_name.toLowerCase().localeCompare( b.first_name.toLowerCase());
+                        else
+                            return a.column_url.toLowerCase().localeCompare( b.column_url.toLowerCase());
+                    else if(selectValue == "Primary Value") {
+                        return a.primary_value > b.primary_value ? -add : add
+                    }else if(selectValue == "Secondary Value") {
+                        return a.secondary_value > b.secondary_value ? -add : add
+                    }
+                }
+            ).map(function(d,i) {
+                if(d.first_name != "")
+                    return (d.first_name);
+                else
+                    return(d.column_url);
+            })
+        );
+
+        p = 0
+        t = 0
+        rc.svg.selectAll("rect")
+            .sort(function(a, b) {
+                return 0;
+            });
+
+
+        var transition = rc.svg.transition().duration(750),
+            delay = function(d, i) {
+                return i * 10;
+            };
+
+        t3 = 0
+        p3 = 0
+        transition.selectAll("rect")
+            .delay(delay)
+            .attr("x", function(d,i) {
+                t3++;
+                if(rankings[p3].length==0)p3++;
+                if(t3>rankings[p3].length) {
+                    p3++;
+                    t3=1;
+                    return ((width/rankings.length)*(p3));
+                }
+                return ((width/rankings.length)*(p3));
+            })
+
+        transition.select(".x.axis")
+            .call(xAxis)
+            .selectAll("g")
+            .delay(delay);
+    };
 }
 
 

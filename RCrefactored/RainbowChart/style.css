@@ -37,6 +37,9 @@ rect.pane {
   display: none;
 }
 
+.select-right-align{
+
+}
 
 .labels{
 font-family : Helvetica;
@@ -65,3 +68,8 @@ font-size: 9px;
   shape-rendering: crispEdges;
 }
 
+.right {
+  float: right;
+  vertical-align: text-bottom;
+  width: 300px;
+}

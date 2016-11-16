@@ -55,7 +55,7 @@ function init(){
 */
 
 function readJSON() {
-    d3.json("mslip.json", function (data) {
+    d3.json("dataFiles/mslip.json", function (data) {
         jsonData = data;
         init();
 		/*
