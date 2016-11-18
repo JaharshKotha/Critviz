@@ -24,85 +24,36 @@
  "secondary_value": 0.489795918, //variance in critviz, ignore
  "values": [1, 1, 1, 1, 1, 1, 3], //ranks in critviz
  */
- var Rainbowgraph;
- 
-function init(){
-Rainbowgraph=function (data){
-this.jsonData=data; //this variable will store all data read from json
-this.metadata=data[0].metadata;
-var svg,svg2;
-this.selected;
-inputColorScheme="5a";
-this.brushCheck=false;
-hideLabels= false;
-
-
-}
-}
-// var visFlag = false;
-//create studentVariable accessible using student_id
-/*
-var Student; //global Class
-function init(){
-    Student = function(jsonData,j){
-        this.first_name = jsonData.data[j].first_name;
-        this.last_name = jsonData.data[j].last_name;
-        this.column_url = jsonData.data[j].column_url;
-        this.rank_avg = jsonData.data[j].primary_value;
-        this.rankings = jsonData.data[j].values;
-    }
-}
-*/
 
 function readJSON() {
+    var rc;
     d3.json("dataFiles/mslip.json", function (data) {
         jsonData = data;
-        init();
-		/*
-        for(var j=0;j < jsonData[0].data.length;j++) {
-            student[j] = Object.create(new Student(jsonData[0], j));
 
-        }
-*/
+        rc = new RainbowGraph(data);
 
+        /* sort by primary value
+         if (rc.metadata['higher_primary_value_better']) {
+         rc.jsonData[0].data.sort(function (a, b) {
+         return parseFloat(b.primary_value) - parseFloat(a.primary_value);
+         });
+         }
+         else {
+         for (var i = 0; i < rc.jsonData[0].data.length; i++) {
 
-       // metadata = jsonData[0].metadata;
-       //console.log(data);
-	    rc = new Rainbowgraph(data);
-		
-		if(rc.metadata['higher_primary_value_better'])
-    {
-		
-		//rc.jsonData[0].data.sort();
-	  // console.log(rc.metadata);
-	  //rc.jsonData[0].data.sort(sort_by('primary_value', true, parseInt));
-	  rc.jsonData[0].data.sort(function(a, b) {
-    return parseFloat(b.primary_value) - parseFloat(a.primary_value);
-});
-}
-else
-{
-  for(var i=0;i<rc.jsonData[0].data.length;i++){
-      
-      if(rc.jsonData[0].data[i].primary_value == 0)
-      {
-      
-        rc.jsonData[0].data[i].primary_value=Number.MAX_SAFE_INTEGER;
-      }
-    }
-    
-    //rc.jsonData[0].data.sort();
-    // console.log(rc.metadata);
-    //rc.jsonData[0].data.sort(sort_by('primary_value', true, parseInt));
-    rc.jsonData[0].data.sort(function(a, b) {
-    return parseFloat(a.primary_value) - parseFloat(b.primary_value);
-});
-}
-    
-		
-        visualizeGraph(rc);
+         if (rc.jsonData[0].data[i].primary_value == 0) {
 
+         rc.jsonData[0].data[i].primary_value = Number.MAX_SAFE_INTEGER;
+         }
+         }
+
+         rc.jsonData[0].data.sort(function (a, b) {
+         return parseFloat(a.primary_value) - parseFloat(b.primary_value);
+         });
+         }
+
+         */
+        rc.visualizeGraph();
     })
-
-
-   }
+    return rc;
+}

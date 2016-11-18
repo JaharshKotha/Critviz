@@ -1,82 +1,80 @@
-//rc.hideLabels are used to indicate if student names should be hidden in x axis or not.
-function visualizeGraph(rc){
-    //rc.inputColorScheme=document.getElementById("rc.inputColorScheme").value;
-    rc.inputColorScheme=rc.metadata["color-scheme"];
 
-    if(document.getElementById("title")!=undefined)
-        document.getElementById("title").innerHTML = rc.metadata.title;
+function RainbowGraph(data) {
+    this.jsonData = data; //this variable will store all data read from json
+    this.metadata = data[0].metadata;
+    var svg, svg2;
+    this.selected;
+    this.inputColorScheme = "5a";
+    this.brushCheck = false;
+    this.hideLabels = false;
+    this.colorKey = window.colorKey;
+    this.rankings = [];
+    this.allrankings = [];
 
-    var select = d3.select('body')
-        .append('p')
-        .text('Sort by ')
-        .attr('class','right')
-            .append('select')
-            .attr('class','right')
-            .on('change',onSortByChange)
+}
 
-    var options = select
-        .selectAll('option')
-        .data(["Primary Value", "Secondary Value", "X-label"]).enter()
-        .append('option')
-        .text(function (d) { return d; });
-
-
-    if(rc.svg!=null)
-        d3.select("#svg").remove();
-
+RainbowGraph.prototype.parseData = function () {
     //=====================================this needs to be replaced later=====================
-    rankings = []
-    allrankings = []
-    min_rank_val=Number.MAX_SAFE_INTEGER;
-    max_rank_val=0;
-    min_primary_val=Number.MAX_SAFE_INTEGER;
-    max_primary_val=0;
-    p=0
-    for(var i=0;i<rc.jsonData[0].data.length;i++){
-        rankings[i] = []
-        for(var j=0;j<rc.jsonData[0].data[i].values.length;j++){
-            rankings[i].push(rc.jsonData[0].data[i].values[j]); //rankings is a multidimensional array with rankings of each student
-            allrankings[p] = rc.jsonData[0].data[i].values[j];  //allrankings is single dimensional array with rankings of each students in order
-            if(min_rank_val>allrankings[p]  )
-            {
-                min_rank_val=allrankings[p];
+    min_rank_val = Number.MAX_SAFE_INTEGER;
+    max_rank_val = 0;
+    min_primary_val = Number.MAX_SAFE_INTEGER;
+    max_primary_val = 0;
+    p = 0
+    for (var i = 0; i < this.jsonData[0].data.length; i++) {
+        this.rankings[i] = []
+        for (var j = 0; j < this.jsonData[0].data[i].values.length; j++) {
+            this.rankings[i].push(this.jsonData[0].data[i].values[j]); //rankings is a multidimensional array with rankings of each student
+            var rank_val = new Object();
+            rank_val.value = this.jsonData[0].data[i].values[j];  //allrankings is single dimensional array with rankings of each students in order
+            rank_val.primary_value = this.jsonData[0].data[i].primary_value;
+            rank_val.secondary_value = this.jsonData[0].data[i].secondary_value;
+            rank_val.first_name = this.jsonData[0].data[i].first_name;
+            rank_val.x_pos = 0;
+            this.allrankings[p] = rank_val
+            if (min_rank_val > this.allrankings[p].value) {
+                min_rank_val = this.allrankings[p.value];
             }
-            if(max_rank_val<allrankings[p] && allrankings[p]!= Number.MAX_SAFE_INTEGER)
-            {
-                max_rank_val = allrankings[p];
+            if (max_rank_val < this.allrankings[p].value && this.allrankings[p].value != Number.MAX_SAFE_INTEGER) {
+                max_rank_val = this.allrankings[p].value;
             }
             p++;
         }
-        rankings[i].rank_avg = rc.jsonData[0].data[i].primary_value; //rank avg corresponds to primary value in json file for each student
-        rankings[i].secondary_value = rc.jsonData[0].data[i].secondary_value;
-        rankings[i].first_name =  rc.jsonData[0].data[i].first_name;
-        if(min_primary_val > rankings[i].rank_avg)
-        {
-            min_primary_val = Math.floor(rankings[i].rank_avg);
+        this.rankings[i].primary_value = this.jsonData[0].data[i].primary_value; //rank avg corresponds to primary value in json file for each student
+        this.rankings[i].secondary_value = this.jsonData[0].data[i].secondary_value;
+        this.rankings[i].first_name = this.jsonData[0].data[i].first_name;
+        this.rankings[i].x_pos = 0;
+        if (min_primary_val > this.rankings[i].primary_value) {
+            min_primary_val = Math.floor(this.rankings[i].primary_value);
         }
-        if(max_primary_val < rankings[i].rank_avg && rankings[i].rank_avg != Number.MAX_SAFE_INTEGER)
-        {
-            max_primary_val = Math.ceil(rankings[i].rank_avg);
-            
+        if (max_primary_val < this.rankings[i].primary_value && this.rankings[i].primary_value != Number.MAX_SAFE_INTEGER) {
+            max_primary_val = Math.ceil(this.rankings[i].primary_value);
         }
 
     }
 
-    console.debug(min_primary_val,max_primary_val,min_rank_val,max_rank_val);
+    console.debug(min_primary_val, max_primary_val, min_rank_val, max_rank_val);
+}
 
-    rankScale = Math.abs(rc.metadata['worst-value-possible']-rc.metadata['best-value-possible'] + 1);
+RainbowGraph.prototype.buildChart = function () {
 
-    var labels="";
+    var _this = this;
+    rankScale = Math.abs(this.metadata['worst-value-possible'] - this.metadata['best-value-possible'] + 1);
+
+    var labels = "";
+
+    if(this.svg!=null)
+        d3.select("#svg").remove();
 
     //Note how all the dimensions are a percentage of the window size. This makes the visualization window size independent.
     //This is very important part of creating a responsive page.
     var margin = {
             top: 0.1 * window.innerHeight,
             right: 0.01 * window.innerWidth,
-            bottom: 0.0, left: 0.05 * window.innerWidth},
-        width = window.innerWidth*0.9;
+            bottom: 0.0, left: 0.05 * window.innerWidth
+        },
+        width = window.innerWidth * 0.9;
 
-    height = (window.innerHeight * 0.6) -  margin.top - margin.bottom;
+    height = (window.innerHeight * 0.6) - margin.top - margin.bottom;
 
     y = d3.scale.linear()
         .range([height, 0]);
@@ -89,16 +87,16 @@ function visualizeGraph(rc){
         .orient("left");
 
     // if best-worst primary values are not defined, then take the min max from the data for the Y domain
-   
+
     //flip the Y axis
-    if (rc.metadata['higher_primary_value_better'])
-        y.domain([min_primary_val-0.5, max_primary_val]);
+    if (this.metadata['higher_primary_value_better'])
+        y.domain([min_primary_val - 0.5, max_primary_val]);
     else
-        y.domain([max_primary_val+0.5, min_primary_val]);
+        y.domain([max_primary_val + 0.5, min_primary_val]);
 
 
-    //If the user has not use brushing yet, this will make sure that all the students are being shown in the main graph.
-    if (rc.brushCheck==false){
+    //If the user has not use brushing yet, this will make sure _this all the students are being shown in the main graph.
+    if (this.brushCheck == false) {
 
         x = d3.scale.ordinal()
             .rangeBands([0, width]);
@@ -108,9 +106,11 @@ function visualizeGraph(rc){
             .orient("bottom");
 
         // If no student names are specified in the json file, d3 needs something unique on x-axis to plot the graph.
-        // In that case, it would be column_url. Also note that we rc.hideLabels as we dont want to show column_url in this case.
+        // In _this case, it would be column_url. Also note _this we this.hideLabels as we dont want to show column_url in this case.
         //TODO: Why does it not require column_url in return statement. It still works if it does not return.
-        x.domain(rc.jsonData[0].data.map(function(d,i) {if(d.first_name!="") return (d.first_name); else  return(d.column_url);  }));
+        x.domain(this.rankings.map(function (d, i) {
+            if (d.first_name != "") return (d.first_name); else  return (d.column_url);
+        }));
 
         //slider function takes care of building the navigation graph on top of our original graph.
         //slider();
@@ -119,94 +119,107 @@ function visualizeGraph(rc){
     //=====================================this needs to be replaced later=====================
 
 
-
     //=========================================================================================
 
-    rc.svg = d3.select("body").append("svg")
-        .attr("id","svg")
+    this.svg = d3.select("body").append("svg")
+        .attr("id", "svg")
         .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom+100)
+        .attr("height", height + margin.top + margin.bottom + 100)
         .append("g")
         .attr("transform", "translate(" + ( margin.left) + "," + (margin.top) + ")")
 
-    rc.svg.append("g")
+    var gx = this.svg.append("g")
         .attr("class", "x axis")
         .attr("transform", "translate(0," + height + ")")
         .call(xAxis)
         .selectAll(".tick text")
+        .attr("dx", -35)
+        .attr("dy", -5)
+
+    gx.transition()
+        .duration(1000)
         .attr("transform", "rotate(-90)")
-        .attr("dx",-35)
-        .attr("dy",-5)
-
-
+        .call(xAxis)
 
     //svg.select("g").append("tick")
 
-    rc.svg.append("g")
+    this.svg.append("g")
         .attr("class", "y axis")
         .call(yAxis)
         .append("text")
         .attr("transform", "rotate(-90)")
         .attr("y", -36)
-        .attr("x",-(height/2))
+        .attr("x", -(height / 2))
         .attr("dy", ".71em")
         .style("text-anchor", "end")
-        .text(rc.metadata['y-axis-label']);
+        .text(this.metadata['y-axis-label']);
 
 
-
-    k=0;
-    p=0;
-    p2=0;
-    p3=0;
-    p4=0;
-    p5=0;
-    t=0;
-    t2=0;
-    t3=0;
-    t4=0;
-    t5=0;
-    //https://coolors.co/browser
-
+    k = 0;
+    p = 0;
+    p2 = 0;
+    p3 = 0;
+    p4 = 0;
+    p5 = 0;
+    t = 0;
+    t2 = 0;
+    t3 = 0;
+    t4 = 0;
+    t5 = 0;
 
     var tooltip = d3.select("body")
         .append("div")
         .style("position", "absolute")
         .style("z-index", "10")
-        .style("visibility", "hidden")
-        .text(function(d) { return d; });
+        .style("visibility", "hidden");
 
-    bar = rc.svg.selectAll(".bar")
-        .data(allrankings)
+    bar = this.svg.selectAll(".bar")
+        .data(this.allrankings)
         .enter().append("rect")
-        .attr("x", function(d,i) {
+        .attr("x", function (d, i) {
             t3++;
-            if(rankings[p3].length==0)p3++;
-            if(t3>rankings[p3].length) {
+
+            if (_this.rankings[p3].length == 0) {
                 p3++;
-                t3=1;
-                return ((width/rankings.length)*(p3));
+                return _this.rankings[p3].x_pos;
             }
-            return ((width/rankings.length)*(p3));
+
+            if (t3 > _this.rankings[p3].length) {
+                p3++;
+                t3 = 1;
+            }
+
+            return _this.rankings[p3].x_pos;
         })
-        .attr("width", function(){return width/rankings.length})
-        .attr("y", function(d,i) {
+        .attr("width", function () {
+            return width / _this.rankings.length
+        })
+        .attr("y", function (d, i) {
             t++;
-            if(rankings[p].length==0) {
-                p++; return 0;
+
+            if (t > _this.rankings[p].length) {
+                p++;
+                t = 1;
+                if (_this.rankings[p].length == 0) {
+                    p++;
+                    return 0;
+                }
+                return y(_this.rankings[p].primary_value) + (t - 1) * ((height - y(_this.rankings[p].primary_value)) / _this.rankings[p].length);
             }
-            if(t>rankings[p].length) {p++; t=1; return y(rankings[p].rank_avg) + (t-1) * ((height - y(rankings[p].rank_avg))/rankings[p].length);}   return y(rankings[p].rank_avg) + (t-1) * ((height - y(rankings[p].rank_avg))/rankings[p].length);  })
-        .attr("height", function(d,i) {
+            return y(_this.rankings[p].primary_value) + (t - 1) * ((height - y(_this.rankings[p].primary_value)) / _this.rankings[p].length);
+        })
+        .attr("height", function (d, i) {
             t2++;
-            if(t2==rankings[p2].length+1) {
-                p2++; t2=1;
+            if (t2 == _this.rankings[p2].length + 1) {
+                p2++;
+                t2 = 1;
             }
 
-            console.debug(rc.jsonData[0].data[p2].first_name);
+            //console.debug(jsonData[0].data[p2].first_name);
 
-            if(rankings[p2].length==0) {
+            if (_this.rankings[p2].length == 0) {
                 p2++;
-                t2=1;
+                t2 = 1;
                 return 0;
             }
 
@@ -216,134 +229,159 @@ function visualizeGraph(rc){
             //    return 100;
             //}
 
-            return (height - y(rankings[p2].rank_avg))/rankings[p2].length - 1})
-        .style("fill",function(d){
+            return (height - y(_this.rankings[p2].primary_value)) / _this.rankings[p2].length - 1
+        })
+        .style("fill", function (d) {
             //determine if high score get first / last color
-            color_index = (rc.metadata['best-value-possible'] > rc.metadata['worst-value-possible']) ? rc.metadata['best-value-possible'] - d : d - rc.metadata['best-value-possible'];
+            color_index = (_this.metadata['best-value-possible'] > _this.metadata['worst-value-possible']) ? _this.metadata['best-value-possible'] - d.value : d.value - _this.metadata['best-value-possible'];
             //scale color in case, the available colors != the available ranking, we round the rating values to the nearest integer
-            color_scale = colorKey[rc.inputColorScheme].length / rankScale
-            color_index = Math.round(color_index * colorKey[rc.inputColorScheme].length / rankScale);
-            color = colorKey[rc.inputColorScheme][color_index];
+            color_scale = _this.colorKey[_this.inputColorScheme].length / rankScale
+            color_index = Math.round(color_index * _this.colorKey[_this.inputColorScheme].length / rankScale);
+            color = _this.colorKey[_this.inputColorScheme][color_index];
 
             //this section is used for CPR data
             //it highlights the top most rectangle in the bar (change the top most color to a lighter one)
             t5++;
-            if(t5 == rankings[p5].length + 1) {
+            if (t5 == _this.rankings[p5].length + 1) {
                 p5++;
-                t5=1;
+                t5 = 1;
             }
-            if(rc.metadata["highlight-top-most-bar"] && t5==1)
-                color = ColorLuminance(color, 0.3)
+            if (_this.metadata["highlight-top-most-bar"] && t5 == 1)
+                color = _this.colorLuminance(color, 0.3)
 
             return color;
         })
-        .attr("rx",8)
-        .attr("ry",8)
-        .on("mouseover", function(d) {
+        .attr("rx", 8)
+        .attr("ry", 8)
+        .on("mouseover", function (d) {
             this.original_color = this.style.fill;
             this.style.fill = "gray"
-            tooltip.text(d);
+            tooltip.text(_this.metadata["values-label"] + ":" + d.value + ", " + (_this.metadata["secondary-value-label"] + ":" + d.secondary_value.toFixed(2)));
             tooltip.style("visibility", "visible");
 
             //TODO: highlight the reviewer
         })
-        .on("mouseout", function(d,i) {
+        .on("mouseout", function (d, i) {
             this.style.fill = this.original_color
             return tooltip.style("visibility", "hidden");
         })
-        .on("mousemove", function(d, i){
-            tooltip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");
+        .on("mousemove", function (d, i) {
+            tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px");
         })
 
+    p6=0;
+    t6=0
+    bar.transition()
+        .duration(600)
+        .attr("x", function (d, i) {
+            t6++;
 
-    rc.svg.select("g")
+            if (_this.rankings[p6].length == 0) {
+                p6++;
+            }
+
+            if (t6 > _this.rankings[p6].length) {
+                p6++;
+                t6 = 1;
+            }
+
+            _this.rankings[p6].x_pos = ((width / _this.rankings.length) * (p6))
+            return ((width / _this.rankings.length) * (p6));
+        })
+
+    this.svg.select("g")
         .selectAll(".tick")
-        .filter(function(d){ return d=="" || d.startsWith("/")})  //this is a temporary logic. If our x axis parameter is other than url, then this will change.
+        .filter(function (d) {
+
+        })  //this is a temporary logic. If our x axis parameter is other than url, then this will change.
         .remove();
 
-    var sortTimeout = setTimeout(function() {
-            //d3.select("select").property("change", true).each(onSortByChange);
-    }, 2000);
+}
 
-    function onSortByChange() {
-        selectValue = d3.select('select').property('value')
+//this.hideLabels are used to indicate if student names should be hidden in x axis or not.
+RainbowGraph.prototype.visualizeGraph = function(){
+    var _this = this;
 
-        clearTimeout(sortTimeout);
+    this.parseData();
 
-        if (rc.metadata['higher_primary_value_better'])
-            add = 1
-        else
-            add = -1
+    this.inputColorScheme=this.metadata["color-scheme"];
 
-        // Copy-on-write since tweens are evaluated after a delay.
-        // sort x-axis
-        var x0 = x.domain(
-            rc.jsonData[0].data.sort(
-                function(a, b) {
-                    if(selectValue == "X-label")
-                        if(a.first_name != "" )
-                            return a.first_name.toLowerCase().localeCompare( b.first_name.toLowerCase());
-                        else
-                            return a.column_url.toLowerCase().localeCompare( b.column_url.toLowerCase());
-                    else if(selectValue == "Primary Value") {
-                        return a.primary_value > b.primary_value ? -add : add
-                    }else if(selectValue == "Secondary Value") {
-                        return a.secondary_value > b.secondary_value ? -add : add
-                    }
-                }
-            ).map(function(d,i) {
-                if(d.first_name != "")
-                    return (d.first_name);
-                else
-                    return(d.column_url);
-            })
-        );
+    if(document.getElementById("title")!=undefined)
+        document.getElementById("title").innerHTML = this.metadata.title;
 
-        p = 0
-        t = 0
-        rc.svg.selectAll("rect")
-            .sort(function(a, b) {
+    var select = d3.select('body')
+        .append('p')
+        .text('Sort by ')
+        .attr('class','right')
+        .append('select')
+        .attr('class','right')
+        .on('change', function(){
+            _this.onSortByChange(_this)
+        });
+
+    var options = select
+        .selectAll('option')
+        .data(["Primary Value", "Secondary Value", "X-label"]).enter()
+        .append('option')
+        .text(function (d) { return d; });
+
+
+
+
+
+    this.buildChart();
+
+
+};
+
+RainbowGraph.prototype.onSortByChange = function(obj) {
+
+    var _this = obj;
+    add =  _this.metadata['higher_primary_value_better']? 1 : -1
+
+    selectValue = d3.select('select').property('value');
+
+    _this.rankings.sort(function(a, b) {
+        if(selectValue == "X-label"){
+            if(a.first_name != "" )
+                return a.first_name.toLowerCase().localeCompare( b.first_name.toLowerCase());
+            else if (a.first_name == "" && b.first_name == "")
                 return 0;
-            });
+        }else if(selectValue == "Primary Value") {
+            if( a.primary_value > b.primary_value ) return -add
+            else if ( a.primary_value < b.primary_value ) return add
+        }else if(selectValue == "Secondary Value") {
+            if( a.secondary_value > b.secondary_value ) return -add
+            else if ( a.secondary_value < b.secondary_value ) return add
+        }
+        return 0;
+    });
 
+    p=0;
+    for (var i = 0; i < _this.rankings.length; i++) {
+        for (var j = 0; j < _this.rankings[i].length; j++) {
+            var rank_val = new Object();
+            rank_val.value = _this.rankings[i][j];  //allrankings is single dimensional array with rankings of each students in order
+            rank_val.primary_value = _this.rankings[i].primary_value;
+            rank_val.secondary_value = _this.rankings[i].secondary_value;
+            rank_val.first_name = _this.rankings[i].first_name;
+            rank_val.x_pos = _this.rankings[i].x_pos;
+            this.allrankings[p] = rank_val
+            p++;
+        }
+    }
 
-        var transition = rc.svg.transition().duration(750),
-            delay = function(d, i) {
-                return i * 10;
-            };
+    this.buildChart();
 
-        t3 = 0
-        p3 = 0
-        transition.selectAll("rect")
-            .delay(delay)
-            .attr("x", function(d,i) {
-                t3++;
-                if(rankings[p3].length==0)p3++;
-                if(t3>rankings[p3].length) {
-                    p3++;
-                    t3=1;
-                    return ((width/rankings.length)*(p3));
-                }
-                return ((width/rankings.length)*(p3));
-            })
+};
 
-        transition.select(".x.axis")
-            .call(xAxis)
-            .selectAll("g")
-            .delay(delay);
-    };
-}
-
-
-
-function type(d) {
-    d.rank_avg = +d.rank_avg;
+RainbowGraph.prototype.type = function(d) {
+    d.primary_value = +d.primary_value;
     return d;
-}
-
+};
 
 //calculate the lighter / darker color based on it's luminance
-function ColorLuminance(hex, lum) {
+RainbowGraph.prototype.colorLuminance = function(hex, lum) {
 
     // validate hex string
     hex = String(hex).replace(/[^0-9a-f]/gi, '');
@@ -361,4 +399,4 @@ function ColorLuminance(hex, lum) {
     }
 
     return rgb;
-}
+};
