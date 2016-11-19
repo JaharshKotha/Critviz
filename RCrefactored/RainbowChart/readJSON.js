@@ -26,34 +26,8 @@
  */
 
 function readJSON() {
-    var rc;
     d3.json("dataFiles/mslip.json", function (data) {
-        jsonData = data;
-
-        rc = new RainbowGraph(data);
-
-        /* sort by primary value
-         if (rc.metadata['higher_primary_value_better']) {
-         rc.jsonData[0].data.sort(function (a, b) {
-         return parseFloat(b.primary_value) - parseFloat(a.primary_value);
-         });
-         }
-         else {
-         for (var i = 0; i < rc.jsonData[0].data.length; i++) {
-
-         if (rc.jsonData[0].data[i].primary_value == 0) {
-
-         rc.jsonData[0].data[i].primary_value = Number.MAX_SAFE_INTEGER;
-         }
-         }
-
-         rc.jsonData[0].data.sort(function (a, b) {
-         return parseFloat(a.primary_value) - parseFloat(b.primary_value);
-         });
-         }
-
-         */
-        rc.visualizeGraph();
+        return new RainbowGraph(data);
     })
     return rc;
 }
