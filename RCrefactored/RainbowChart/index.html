@@ -15,8 +15,13 @@
 
 <center><h1 id="title"></h1></center>
 <script>
-readJSON();
-window.onresize = visualizeGraph;
+    d3.json("dataFiles/mslip.json", function (data) {
+        rc = new RainbowGraph(data)
+        window.onresize=function(){
+            console.log("resize");
+            rc.visualizeGraph();
+        }
+    });
 </script>
 
 
