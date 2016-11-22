@@ -460,12 +460,12 @@
     ],
     "metadata":{
       "primary-value-label":"Attainment",
-      "higher_values_better":false,
+      "higher-values-better":false,
       "color-scheme":"5b",
       "secondary-value-label":"Controversy",
       "values-label":"Rank",
       "y-axis-label":"Attainment",
-      "higher_primary_value_better":true,
+      "higher-primary-value-better":true,
       "x-axis-label":"Students",
       "best-value-possible":1,
       "worst-value-possible":6

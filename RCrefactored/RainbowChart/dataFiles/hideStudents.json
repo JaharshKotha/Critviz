@@ -2,9 +2,9 @@
 	"metadata": {
 		"title": "Intro to Digital Media, Assignment 1",
 		"primary-value-label": "rank average",
-		"higher_primary_value_better": false,
+		"higher-primary-value-better": false,
 		"values-label": "ranks",
-		"higher_values_better": false,
+		"higher-values-better": false,
 		"best-value-possible": 1,
 		"worst-value-possible": 5,
 		"y-axis-label": "Rank Average",
