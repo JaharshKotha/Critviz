@@ -15,12 +15,16 @@ function RainbowGraph(data) {
     this.max_rank_val = 0;
     this.min_primary_val = Number.MAX_SAFE_INTEGER;
     this.max_primary_val = 0;
+    this.duration = 1000;
 
 
 }
 
 RainbowGraph.prototype.parseData = function () {
     //=====================================this needs to be replaced later=====================
+
+    this.duration = Math.round (this.duration * this.jsonData[0].data.length / 45);
+
     p = 0
     for (var i = 0; i < this.jsonData[0].data.length; i++) {
         this.rankings[i] = []
@@ -149,7 +153,7 @@ RainbowGraph.prototype.buildChart = function () {
         .attr("dy", -5)
 
     gx.transition()
-        .duration(1000)
+        .duration(this.duration)
         .attr("transform", "rotate(-90)")
         .call(xAxis)
 
@@ -286,7 +290,7 @@ RainbowGraph.prototype.buildChart = function () {
     p6=0;
     t6=0
     bar.transition()
-        .duration(800)
+        .duration(this.duration)
         .attr("x", function (d, i) {
             t6++;
 
