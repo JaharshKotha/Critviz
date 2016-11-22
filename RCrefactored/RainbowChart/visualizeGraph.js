@@ -262,7 +262,7 @@ RainbowGraph.prototype.buildChart = function () {
             if (_this.metadata["highlight-top-most-bar"] && t5 == 1)
                 color = _this.colorLuminance(color, 0.3)
 
-            console.log("index : " + color_index + " color : " + color)
+            //console.debug("index : " + color_index + " color : " + color)
             return color;
         })
         .attr("rx", 8)
