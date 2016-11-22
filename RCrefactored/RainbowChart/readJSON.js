@@ -24,10 +24,11 @@
  "secondary_value": 0.489795918, //variance in critviz, ignore
  "values": [1, 1, 1, 1, 1, 1, 3], //ranks in critviz
  */
-
+/*
 function readJSON() {
     d3.json("dataFiles/mslip.json", function (data) {
         return new RainbowGraph(data);
     })
     return rc;
 }
+ */

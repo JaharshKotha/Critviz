@@ -17,6 +17,7 @@
 <script>
     d3.json("dataFiles/cprdata.json", function (data) {
         rc = new RainbowGraph(data)
+        //resize when the action is finished
         var resizeTimer;
         var redraw = function() {
             clearTimeout(resizeTimer);
