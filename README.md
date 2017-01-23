@@ -10,7 +10,7 @@ Rainbow Graph :
 The rainbow graph is a colorful visual representation of the student's peer evaluation data for any given assignment in CritViz. 
 
 ##### What's the input to the Rainbow Graph ? 
-The rainbow graph excepts the student's peer evaluation data in the format of a JSON file like this example.
+The rainbow graph excepts the student's peer evaluation data in the format of a JSON file like this [hideStudents.txt](https://github.com/JaharshKotha/Critviz/files/722651/hideStudents.txt).
 
 #### Skeleton structure of the JSON : 
 
