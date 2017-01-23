@@ -45,21 +45,21 @@ The rainbow graph excepts the student's peer evaluation data in the format of a 
  "values": [1, 1, 1, 1, 1, 1, 3], //ranks in critviz<br/>
  */<br/>
  
- 
- <h5> How do I use the code in this repository : </h5>
- 
- Using this library is as simple as it can get . Just download the entire package as a zip and place the directory as such in your project directory. Replace the data files mentioned in the data folder with your data and the scipt dynamically generates the visualization for your data.
 
 <h4>What does the geometric's of this graph convey ? </h4>
 
 Well the first thing that you oberserve is a set of horizontal bars.<br/> 
-Let's start with the height of each bar , The height of each horizonatal represents a student's performance and convey's the corresponding primary value for that student in your data set beautifully blended to your screen space.
+Let's start with the height of each bar , The height of each horizonatal represents a student's performance and convey's the corresponding primary value for that student in your data set beautifully blended to your screen space.<br/>
+![screen shot 2017-01-23 at 10 59 30 am](https://cloud.githubusercontent.com/assets/9432757/22216160/2f9598dc-e15b-11e6-9515-42080e7bdf4b.png)
 
 
 Now , each of the horizontal bar is split into tiny portions corresponding to the number of persons who have critqued him for that assignment and each portion is colored proportional to the rank he has from that  critique.On hovering over each cell in the bar shows out the rank that student has received .
 
 
+ <h5> How do I use the code in this repository : </h5>
  
+ Using this library is as simple as it can get . Just download the entire package as a zip and place the directory as such in your project directory. Replace the data files mentioned in the data folder with your data and the scipt dynamically generates the visualization for your data.
+
  
  
 <h5> Technologies used : </h5>
