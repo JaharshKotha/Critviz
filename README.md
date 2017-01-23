@@ -49,12 +49,20 @@ The rainbow graph excepts the student's peer evaluation data in the format of a 
  <h5> How do I use the code in this repository : </h5>
  
  Using this library is as simple as it can get . Just download the entire package as a zip and place the directory as such in your project directory. Replace the data files mentioned in the data folder with your data and the scipt dynamically generates the visualization for your data.
+
+<h4>What does the geometric's of this graph convey ? </h4>
+
+Well the first thing that you oberserve is a set of horizontal bars.<br/> 
+Let's start with the height of each bar , The height of each horizonatal represents a student's performance and convey's the corresponding primary value for that student in your data set beautifully blended to your screen space.
+
+
+Now , each of the horizontal bar is split into tiny portions corresponding to the number of persons who have critqued him for that assignment and each portion is colored proportional to the rank he has from that  critique.On hovering over each cell in the bar shows out the rank that student has received .
+
+
  
  
  
- 
- 
- ##### Technologies used : 
+<h5> Technologies used : </h5>
  
  JQuery , JavaScript , D3.js.
  
