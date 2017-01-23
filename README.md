@@ -46,7 +46,7 @@ The rainbow graph excepts the student's peer evaluation data in the format of a 
  */<br/>
  
  
- ##### How do I use the code in this repository : 
+ <h5> How do I use the code in this repository : </h5>
  
  Using this library is as simple as it can get . Just download the entire package as a zip and place the directory as such in your project directory. Replace the data files mentioned in the data folder with your data and the scipt dynamically generates the visualization for your data.
  
