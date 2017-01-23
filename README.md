@@ -28,10 +28,10 @@ The rainbow graph excepts the student's peer evaluation data in the format of a 
  "y-axis-label": "Rank Average",<br/>
  "x-axis-label": "Students",<br/>
  "secondary-value-label": "variance, not in use right now, ignored",<br/>
- "values-range-low": 1,<br/>
- "values-range-high": 5,<br/>
- "number-of-colors": 5,<br/>
- "color-scheme": 1<br/>
+ "values-range-low": "Range of possible values - LOW",<br/>
+ "values-range-high": "Range of possible values - High",<br/>
+ "number-of-colors": "No.of colours to be used in filling your cells",<br/>
+ "color-scheme": "Wether you would like to use any shades of colors"<br/>
  },<br/>
  */
 
@@ -39,7 +39,7 @@ The rainbow graph excepts the student's peer evaluation data in the format of a 
 /* jsonData have the following "data" keys for all students. Also given is what is Critviz using
  "first_name": "", empty in student view for other students <br/>
  "last_name": "", <br/>
- "column_url": "/assignments/737/responses/54715/showcrit?crit_assignment_id=744", url specifying the assignment<br/>
+ "column_url": "/assignments/737/responses/54715/showcrit?crit_assignment_id=744", //Any unique url specifying the assignment<br/>
  "primary_value": 1.285714286, //rank average in critviz<br/>
  "secondary_value": 0.489795918, //variance in critviz, ignore<br/>
  "values": [1, 1, 1, 1, 1, 1, 3], //ranks in critviz<br/>
