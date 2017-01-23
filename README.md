@@ -59,7 +59,7 @@ Now , each of the horizontal bar is split into tiny portions corresponding to th
 
  <h5> How do I use the code in this repository : </h5>
  
- Using this library is as simple as it can get . Just download the entire package as a zip and place the directory as such in your project directory. Replace the data files mentioned in the data folder with your data and the scipt dynamically generates the visualization for your data.
+ Using this library is as simple as it can get . Just download the entire package as a zip and place the directory as such in your project directory. Replace the data files mentioned in the data folder with your data and the script dynamically generates the visualization for your data.
 
  
  
