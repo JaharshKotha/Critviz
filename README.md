@@ -17,7 +17,7 @@ The rainbow graph excepts the student's peer evaluation data in the format of a 
 
 #### Skeleton structure of the JSON : 
 
-####Metadata : 
+##### Metadata : 
 /* jsonData have following "metadata" keys. ALso given is what is Critviz using
  "title": "Title of the graph",
  "primary-value-label": "rank average",
@@ -36,7 +36,7 @@ The rainbow graph excepts the student's peer evaluation data in the format of a 
  },
  */
 
-####Studentdata : 
+##### Studentdata : 
 /* jsonData have the following "data" keys for all students. Also given is what is Critviz using
  "first_name": "", empty in student view for other students
  "last_name": "", empty in student view for other students
@@ -47,13 +47,13 @@ The rainbow graph excepts the student's peer evaluation data in the format of a 
  */
  
  
- ####How do I use the code in this repository ? :
+ ##### How do I use the code in this repository ? :
  
  Using this library is as simple as it can get . Just download the entire package as a zip and place the directory as such in your project directory. Replace the data files mentioned in the data folder with your data and the scipt dynamically generates the visualization for your data.
  
  
  
- ####Technologies used : 
+ ##### Technologies used : 
  
  JQuery , JavaScript , D3.js.
  
