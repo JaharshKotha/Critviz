@@ -17,7 +17,7 @@ The rainbow graph excepts the student's peer evaluation data in the format of a 
 
 #### Skeleton structure of the JSON : 
 
-##Metadata : 
+####Metadata : 
 /* jsonData have following "metadata" keys. ALso given is what is Critviz using
  "title": "Title of the graph",
  "primary-value-label": "rank average",
@@ -36,7 +36,7 @@ The rainbow graph excepts the student's peer evaluation data in the format of a 
  },
  */
 
-##Studentdata : 
+####Studentdata : 
 /* jsonData have the following "data" keys for all students. Also given is what is Critviz using
  "first_name": "", empty in student view for other students
  "last_name": "", empty in student view for other students
