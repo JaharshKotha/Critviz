@@ -9,6 +9,11 @@ Rainbow Graph :
 ##### What's the Rainbow Graph in a single line ? 
 The rainbow graph is a colorful visual representation of the student's peer evaluation data for any given assignment in CritViz. 
 
+### File Structure : 
+
+
+
+
 ##### What's the input to the Rainbow Graph ? 
 The rainbow graph excepts the student's peer evaluation data in the format of a JSON file like this [hideStudents.txt](https://github.com/JaharshKotha/Critviz/files/722651/hideStudents.txt).
 
@@ -42,6 +47,19 @@ The rainbow graph excepts the student's peer evaluation data in the format of a 
  "secondary_value": 0.489795918, //variance in critviz, ignore
  "values": [1, 1, 1, 1, 1, 1, 3], //ranks in critviz
  */
+ 
+ 
+ ##### How do I use the code in this repository ? :
+ 
+ Using this library is as simple as it can get . Just download the entire package as a zip and place the directory as such in your project directory. Replace the data files mentioned in the data folder with your data and the scipt dynamically generates the visualization for your data.
+ 
+ 
+ 
+ ##### Technologies used : 
+ 
+ JQuery , JavaScript , D3.js.
+ 
+ 
  
  
  
