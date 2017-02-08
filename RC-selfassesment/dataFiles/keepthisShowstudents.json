@@ -1,0 +1,113 @@
+[{
+	"metadata": {
+		"title": "Intro to Digital Media, Assignment 1",
+		"primary-value-label": "rank average",
+		"higher-primary-value_better": false,
+		"values-label": "ranks",
+		"higher-values-better": false,
+		"best-value-possible": 1,
+		"worst-value-possible": 5,
+		"y-axis-label": "Rank Average",
+		"x-axis-label": "Students",
+		"color-scheme": "3b",
+		"secondary-value-label": "variance"
+
+	},
+	
+
+
+	"data": [
+  {
+    "first_name": "",
+    "last_name": "Jones",
+    "column_url": "/assignments/737/responses/54715/showcrit?crit_assignment_id=744",
+    "primary_value": 1.285714286,
+    "secondary_value": 0.489795918,
+    "values": [3, 1, 1],
+	"stuid":4,
+	"current_login":1,
+	"critcomparer":[{"rank":1,"critid":10,"otherstu":[5,6]},{"rank":1,"critid":7,"otherstu":[5,6,8,9]},{"rank":3,"critid":8,"otherstu":[6,8,9]}]
+	
+  },
+  {
+    "first_name": "Ryan",
+    "last_name": "Starks",
+    "column_url": "/assignments/737/responses/54771/showcrit?crit_assignment_id=744",
+    "primary_value": 1.666666667,
+    "secondary_value": 0.555555556,
+    "values": [ 5, 2, 3],
+	"stuid":5,
+	"current_login":0,
+	"critcomparer":[{"rank":2,"critid":10,"otherstu":[5,6]},{"rank":5,"critid":6,"otherstu":[5,6,8,9]},{"rank":3,"critid":8,"otherstu":[6,8,9]}]
+  },
+  
+  {
+    "first_name": "",
+    "last_name": "Evans",
+    "column_url": "/assignments/737/responses/54784/showcrit?crit_assignment_id=744",
+    "primary_value": 4.333333333,
+    "secondary_value": 0.888888889,
+    "values": [3, 5, 5],
+	"stuid":6,
+	"current_login":1,
+	"critcomparer":[{"rank":3,"critid":10,"otherstu":[5,6]},{"rank":5,"critid":7,"otherstu":[5,6,8,9]},{"rank":5,"critid":8,"otherstu":[6,8,9]}]
+  },
+  {
+    "first_name": "",
+    "last_name": "Pudasaini",
+    "column_url": "/assignments/737/responses/54823/showcrit?crit_assignment_id=744",
+    "primary_value": 4.4,
+    "secondary_value": 1.44,
+    "values": [2, 5, 5],
+	"stuid":7,
+	"current_login":1,
+	"critcomparer":[{"rank":2,"critid":10,"otherstu":[5,6]},{"rank":5,"critid":7,"otherstu":[5,6,8,9]},{"rank":5,"critid":8,"otherstu":[6,8,9]}]
+  },
+  {
+    "first_name": "",
+    "last_name": "Harrington",
+    "column_url": "/assignments/737/responses/54802/showcrit?crit_assignment_id=744",
+    "primary_value": 4.6,
+    "secondary_value": 0.64,
+    "values": [3, 5, 5],
+	"stuid":8,
+	"current_login":1,
+	"critcomparer":[{"rank":3,"critid":10,"otherstu":[5,6]},{"rank":5,"critid":7,"otherstu":[5,6,8,9]},{"rank":5,"critid":8,"otherstu":[6,8,9]}]
+  },
+  {
+    "first_name": "",
+    "last_name": "Sullivan",
+    "column_url": "/assignments/737/responses/54770/showcrit?crit_assignment_id=744",
+    "primary_value": 4.666666667,
+    "secondary_value": 0.555555556,
+    "values": [3, 5, 5],
+	"stuid":9,
+	"current_login":1,
+	"critcomparer":[{"rank":3,"critid":10,"otherstu":[5,6]},{"rank":5,"critid":7,"otherstu":[5,6,8,9]},{"rank":5,"critid":8,"otherstu":[6,8,9]}]
+  },
+  {
+    "first_name": "",
+    "last_name": "Baral",
+    "column_url": "/assignments/737/responses/54777/showcrit?crit_assignment_id=744",
+    "primary_value": 5,
+    "secondary_value": 0,
+    "values": [5, 5, 5],
+	"stuid":10,
+	"current_login":1,
+	"critcomparer":[{"rank":5,"critid":10,"otherstu":[5,6]},{"rank":5,"critid":7,"otherstu":[5,6,8,9]},{"rank":5,"critid":8,"otherstu":[6,8,9]}]
+
+  },
+  
+  {
+    "first_name": "",
+    "last_name": "Pausch",
+    "column_url": "/assignments/737/responses/54775/showcrit?crit_assignment_id=744",
+    "primary_value": 5,
+    "secondary_value": 0,
+    "values": [5,5,5],
+	"stuid":11,
+	"current_login":1,
+	"critcomparer":[{"rank":5,"critid":10,"otherstu":[5,6]},{"rank":5,"critid":7,"otherstu":[5,6,8,9]},{"rank":5,"critid":8,"otherstu":[6,8,9]}]
+  }
+]
+}]
