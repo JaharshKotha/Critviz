@@ -1,3 +1,5 @@
+
+// viz with self-assessment
 function RainbowGraph(data) {
     this.jsonData = data; //this variable will store all data read from json
     this.metadata = data[0].metadata;
