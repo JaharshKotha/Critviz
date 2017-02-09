@@ -1,5 +1,3 @@
-
-// viz with self-assessment
 function RainbowGraph(data) {
     this.jsonData = data; //this variable will store all data read from json
     this.metadata = data[0].metadata;
@@ -34,7 +32,8 @@ RainbowGraph.prototype.parseData = function () {
         this.rankings[i] = []
         this.sas[i]= this.jsonData[0].data[i].sas;
         for (var j = 0; j < this.jsonData[0].data[i].values.length; j++) {
-            this.rankings[i].push(this.jsonData[0].data[i].values[j]); //rankings is a multidimensional array with rankings of each student
+            this.rankings[i].push(this.jsonData[0].data[i].values[j]); 
+            //rankings is a multidimensional array with rankings of each student
             var rank_val = new Object();
             rank_val.value = this.jsonData[0].data[i].values[j];  //allrankings is single dimensional array with rankings of each students in order
             rank_val.primary_value = this.jsonData[0].data[i].primary_value;
@@ -51,6 +50,7 @@ RainbowGraph.prototype.parseData = function () {
             } 
             p++;
         }
+        console.log(this.rankings[i]+" "+this.jsonData[0].data[i].first_name);
         this.rankings[i].primary_value = this.jsonData[0].data[i].primary_value; //rank avg corresponds to primary value in json file for each student
         this.rankings[i].secondary_value = this.jsonData[0].data[i].secondary_value;
         this.rankings[i].first_name = this.jsonData[0].data[i].first_name;
@@ -315,6 +315,8 @@ RainbowGraph.prototype.buildChart = function () {
         })
      t=-1;
     p=0;
+   min=0;
+    ts=-1;
     bar1 = this.svg.selectAll(".bar1")
         .data(this.sas)
         .enter().append("rect")
@@ -336,12 +338,30 @@ RainbowGraph.prototype.buildChart = function () {
         
         })
         .attr("height", function (d, i) {
-            
+       
+        ++ts;
+         min = _this.rankings[ts].primary_value;
+        
+       
+            if(_this.sas[ts] < min)
+                {
+                   
+                    
+                    
+                    return (y(min) -y(_this.sas[ts]))
+                }
+        else{
 
             return (10 )
+        }
         })
-        .style("fill", "black")
-        
+        .style("fill", "null")
+         .style("stroke", "red")
+    .style("stroke-width", ".5")
+    .style("opacity", 0.5)
+     .attr("rx", 28)
+        .attr("ry", 28)
+       
         .on("mouseover", function (d) {
             this.original_color = this.style.fill;
             this.style.fill = "gray"
@@ -369,7 +389,8 @@ RainbowGraph.prototype.buildChart = function () {
         ++p6;
           return ((width / _this.rankings.length) * (p6));
         })
-
+    
+   
 
     this.svg.select("g")
         .selectAll(".tick")
