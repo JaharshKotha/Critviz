@@ -50,7 +50,7 @@ RainbowGraph.prototype.parseData = function () {
             } 
             p++;
         }
-        console.log(this.rankings[i]+" "+this.jsonData[0].data[i].first_name);
+       
         this.rankings[i].primary_value = this.jsonData[0].data[i].primary_value; //rank avg corresponds to primary value in json file for each student
         this.rankings[i].secondary_value = this.jsonData[0].data[i].secondary_value;
         this.rankings[i].first_name = this.jsonData[0].data[i].first_name;
@@ -279,6 +279,7 @@ RainbowGraph.prototype.buildChart = function () {
         .attr("rx", 8)
         .attr("ry", 8)
         .on("mouseover", function (d) {
+        console.log(d);
             this.original_color = this.style.fill;
             this.style.fill = "gray"
             tooltip.text(_this.metadata["values-label"] + ":" + d.value + ", " + (_this.metadata["secondary-value-label"] + ":" + d.secondary_value.toFixed(2)));
@@ -321,7 +322,8 @@ RainbowGraph.prototype.buildChart = function () {
         .data(this.sas)
         .enter().append("rect")
         .attr("x", function (d, i) {
- ++p6;
+        
+          ++p6;
           return ((width / _this.rankings.length) * (p6));
             
         }
@@ -330,42 +332,52 @@ RainbowGraph.prototype.buildChart = function () {
             return width / _this.rankings.length
         })
         .attr("y", function (d, i) {
-            
-      
-  t++;
-           
-            return y(_this.sas[t]);
+            t++;
+          return y(_this.sas[t]);
         
         })
         .attr("height", function (d, i) {
        
         ++ts;
          min = _this.rankings[ts].primary_value;
-        
-       
-            if(_this.sas[ts] < min)
+         add =  _this.metadata['higher-primary-value-better']? 1 : -1;
+       if(add)
+           {
+               
+        if(_this.sas[ts] > min)
                 {
-                   
-                    
-                    
+                    return (y(min) - y(_this.sas[ts]) )
+                }
+        else{
+
+            return (15);
+        }
+        }
+           
+        else
+            {
+        
+        if(_this.sas[ts] < min)
+                {
                     return (y(min) -y(_this.sas[ts]))
                 }
         else{
 
-            return (10 )
+            return (15);
         }
-        })
-        .style("fill", "null")
-         .style("stroke", "red")
+        }
+    })
+    .style("fill", "null")
+    .style("stroke", "red")
     .style("stroke-width", ".5")
     .style("opacity", 0.5)
-     .attr("rx", 28)
-        .attr("ry", 28)
-       
+    .attr("rx", 28)
+    .attr("ry", 28)
         .on("mouseover", function (d) {
+         console.log(d);
             this.original_color = this.style.fill;
             this.style.fill = "gray"
-            tooltip.text(_this.metadata["values-label"] + ":" + d.value + ", " + (_this.metadata["secondary-value-label"] + ":" + d.secondary_value.toFixed(2)));
+            tooltip.text(_this.metadata["values-label"] + ":" + d );
             tooltip.style("visibility", "visible");
 
             //TODO: highlight the reviewer
@@ -377,7 +389,7 @@ RainbowGraph.prototype.buildChart = function () {
         .on("mousemove", function (d, i) {
             tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px");
         })
-    ////////////////////////////??//////////////////////////////////////////////////
+   
      
 
     p6=-1;
@@ -443,6 +455,7 @@ RainbowGraph.prototype.onSortByChange = function(obj) {
     add =  _this.metadata['higher-primary-value-better']? 1 : -1
 
     selectValue = d3.select('select').property('value');
+   
     _this.rankings.sort(function(a, b) {
         if(selectValue == _this.metadata["x-axis-label"]){
             if(a.first_name != "" )
@@ -469,6 +482,7 @@ RainbowGraph.prototype.onSortByChange = function(obj) {
             rank_val.first_name = _this.rankings[i].first_name;
             rank_val.x_pos = _this.rankings[i].x_pos;
             this.allrankings[p] = rank_val
+            
             p++;
         }
     }
@@ -476,6 +490,7 @@ RainbowGraph.prototype.onSortByChange = function(obj) {
     this.buildChart();
 
 };
+
 
 RainbowGraph.prototype.type = function(d) {
     d.primary_value = +d.primary_value;
