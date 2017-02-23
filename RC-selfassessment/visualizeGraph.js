@@ -371,8 +371,8 @@ RainbowGraph.prototype.buildChart = function () {
     .style("stroke", "red")
     .style("stroke-width", ".5")
     .style("opacity", 0.5)
-    .attr("rx", 28)
-    .attr("ry", 28)
+    .style(" border-top-color", "green")
+
         .on("mouseover", function (d) {
          console.log(d);
             this.original_color = this.style.fill;
@@ -402,7 +402,64 @@ RainbowGraph.prototype.buildChart = function () {
           return ((width / _this.rankings.length) * (p6));
         })
     
+   t=-1;
+     bar2 = this.svg.selectAll(".bar2")
+        .data(this.sas)
+        .enter().append("rect")
+        .attr("x", function (d, i) {
+        
+          ++p6;
+          return ((width / _this.rankings.length) * (p6));
+            
+        }
+        )
+        .attr("width", function () {
+            return width / _this.rankings.length
+        })
+        .attr("y", function (d, i) {
+            t++;
+          return y(_this.sas[t]);
+        
+        })
+        .attr("height", function (d, i) {
+       
+        return 15;
+    })
+    .style("fill", "null")
+    .style("stroke", "red")
+    .style("stroke-width", ".5")
+    .style("opacity", 1)
+    .style(" border-top-color", "green")
+
+        .on("mouseover", function (d) {
+         console.log(d);
+            this.original_color = this.style.fill;
+            this.style.fill = "gray"
+            tooltip.text(_this.metadata["values-label"] + ":" + d );
+            tooltip.style("visibility", "visible");
+
+            //TODO: highlight the reviewer
+        })
+        .on("mouseout", function (d, i) {
+            this.style.fill = this.original_color
+            return tooltip.style("visibility", "hidden");
+        })
+        .on("mousemove", function (d, i) {
+            tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px");
+        })
    
+     
+
+    p6=-1;
+    t6=0
+    t3=0
+    bar2.transition()
+        .duration(this.duration)
+        .attr("x", function (d, i) {
+        ++p6;
+          return ((width / _this.rankings.length) * (p6));
+        })
+    
 
     this.svg.select("g")
         .selectAll(".tick")
