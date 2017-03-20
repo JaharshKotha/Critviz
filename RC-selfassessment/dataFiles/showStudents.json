@@ -23,7 +23,8 @@
     "column_url": "/assignments/737/responses/54715/showcrit?crit_assignment_id=744",
     "primary_value": 1.285714286,
     "secondary_value": 0.489795918,
-    "values": [1, 1, 1, 1, 1, 1, 3]
+    "values": [1, 1, 1, 1, 1, 1, 3],
+    "sas": 5
   },
   
   {
@@ -32,7 +33,8 @@
     "column_url": "/assignments/737/responses/54781/showcrit?crit_assignment_id=744",
     "primary_value": 1.714285714,
     "secondary_value": 1.346938776,
-    "values": [1, 1, 1, 1, 1, 3, 4]
+    "values": [1, 1, 1, 1, 1, 3, 4],
+    "sas": 3
   },
   {
     "first_name": "Craig",
@@ -40,7 +42,8 @@
     "column_url": "/assignments/737/responses/54771/showcrit?crit_assignment_id=744",
     "primary_value": 1.666666667,
     "secondary_value": 0.555555556,
-    "values": [1, 1, 1, 2, 2, 3]
+    "values": [1, 1, 1, 2, 2, 3],
+    "sas": 2
   },
   {
     "first_name": "Meredith",
@@ -48,7 +51,8 @@
     "column_url": "/assignments/737/responses/54769/showcrit?crit_assignment_id=744",
     "primary_value": 1.8,
     "secondary_value": 1.36,
-    "values":[1, 1, 1, 2, 4]
+    "values":[1, 1, 1, 2, 4],
+    "sas": 3
   },
   {
     "first_name": "Maytte",
@@ -56,7 +60,8 @@
     "column_url": "/assignments/737/responses/54914/showcrit?crit_assignment_id=744",
     "primary_value": 1.833333333,
     "secondary_value": 1.138888889,
-    "values": [1, 1, 1, 2, 2, 4]
+    "values": [1, 1, 1, 2, 2, 4],
+    "sas": 3
   },
   {
     "first_name": "Kristel",
@@ -64,7 +69,7 @@
     "column_url": "/assignments/737/responses/54788/showcrit?crit_assignment_id=744",
     "primary_value": 2,
     "secondary_value": 1.2,
-    "values": [1, 1, 2, 2, 4]
+    "values": [1, 1, 2, 2, 4],"sas": 3
   },
   {
     "first_name": "Alexis",
@@ -72,7 +77,7 @@
     "column_url": "/assignments/737/responses/54916/showcrit?crit_assignment_id=744",
     "primary_value": 2,
     "secondary_value": 0.5,
-    "values": [1, 2, 2, 3]
+    "values": [1, 2, 2, 3],"sas": 3
   },
   {
     "first_name": "Dylan",
@@ -80,7 +85,7 @@
     "column_url": "/assignments/737/responses/54815/showcrit?crit_assignment_id=744",
     "primary_value": 2.142857143,
     "secondary_value": 1.836734694,
-    "values": [1, 1, 1, 2, 2, 3, 5]
+    "values": [1, 1, 1, 2, 2, 3, 5],"sas": 3
   },
   {
     "first_name": "ian",
@@ -88,7 +93,7 @@
     "column_url": "/assignments/737/responses/54854/showcrit?crit_assignment_id=744",
     "primary_value": 2.142857143,
     "secondary_value": 1.265306122,
-    "values": [1, 1, 1, 2, 3, 3, 4]
+    "values": [1, 1, 1, 2, 3, 3, 4],"sas": 3
   },
   {
     "first_name": "Davin",
@@ -96,7 +101,7 @@
     "column_url": "/assignments/737/responses/54734/showcrit?crit_assignment_id=744",
     "primary_value": 2.25,
     "secondary_value": 2.6875,
-    "values": [1, 1, 2, 5]
+    "values": [1, 1, 2, 5],"sas": 3
   },
   {
     "first_name": "Christian",
@@ -104,7 +109,7 @@
     "column_url": "/assignments/737/responses/54768/showcrit?crit_assignment_id=744",
     "primary_value": 2.25,
     "secondary_value": 1.1875,
-    "values": [1, 2, 2, 4]
+    "values": [1, 2, 2, 4],"sas": 3
   },
   {
     "first_name": "Lynzie",
@@ -112,7 +117,7 @@
     "column_url": "/assignments/737/responses/54853/showcrit?crit_assignment_id=744",
     "primary_value": 2.25,
     "secondary_value": 0.6875,
-    "values": [1, 2, 3, 3]
+    "values": [1, 2, 3, 3],"sas": 3
   },
   {
     "first_name": "Cristina",
@@ -120,7 +125,7 @@
     "column_url": "/assignments/737/responses/54819/showcrit?crit_assignment_id=744",
     "primary_value": 2.428571429,
     "secondary_value": 0.530612245,
-    "values": [2, 2, 2, 2, 2, 3, 4]
+    "values": [2, 2, 2, 2, 2, 3, 4],"sas": 3
   },
   {
     "first_name": "Brenna",
@@ -128,7 +133,7 @@
     "column_url": "/assignments/737/responses/54778/showcrit?crit_assignment_id=744",
     "primary_value": 2.6,
     "secondary_value": 1.84,
-    "values": [1, 2, 2, 3, 5]
+    "values": [1, 2, 2, 3, 5],"sas": 3
   },
   {
     "first_name": "Mahogany",
@@ -136,7 +141,7 @@
     "column_url": "/assignments/737/responses/54761/showcrit?crit_assignment_id=744",
     "primary_value": 2.666666667,
     "secondary_value": 1.555555556,
-    "values": [1, 3, 4]
+    "values": [1, 3, 4],"sas": 3
   },
   {
     "first_name": "Jonathan",
@@ -144,7 +149,7 @@
     "column_url": "/assignments/737/responses/54931/showcrit?crit_assignment_id=744",
     "primary_value": 2.75,
     "secondary_value": 2.1875,
-    "values": [1, 2, 3, 5]
+    "values": [1, 2, 3, 5],"sas": 3
   },
   {
     "first_name": "jacob",
@@ -152,7 +157,7 @@
     "column_url": "/assignments/737/responses/54773/showcrit?crit_assignment_id=744",
     "primary_value": 2.8,
     "secondary_value": 0.56,
-    "values": [2, 2, 3, 3, 4]
+    "values": [2, 2, 3, 3, 4],"sas": 3
   },
   {
     "first_name": "Benjamin",
@@ -160,7 +165,7 @@
     "column_url": "/assignments/737/responses/54743/showcrit?crit_assignment_id=744",
     "primary_value": 2.833333333,
     "secondary_value": 0.472222222,
-    "values": [2, 2, 3, 3, 3, 4]
+    "values": [2, 2, 3, 3, 3, 4],"sas": 4
   },
   {
     "first_name": "Connor",
@@ -168,7 +173,7 @@
     "column_url": "/assignments/737/responses/54796/showcrit?crit_assignment_id=744",
     "primary_value": 2.833333333,
     "secondary_value": 2.472222222,
-    "values": [1, 1, 2, 4, 4, 5]
+    "values": [1, 1, 2, 4, 4, 5],"sas": 3
   },
   {
     "first_name": "Cory",
@@ -176,7 +181,7 @@
     "column_url": "/assignments/737/responses/54928/showcrit?crit_assignment_id=744",
     "primary_value": 2.833333333,
     "secondary_value": 0.805555556,
-    "values": [2, 2, 2, 3, 4, 4]
+    "values": [2, 2, 2, 3, 4, 4],"sas": 3
   },
   {
     "first_name": "Morgan",
@@ -184,7 +189,7 @@
     "column_url": "/assignments/737/responses/54721/showcrit?crit_assignment_id=744",
     "primary_value": 2.857142857,
     "secondary_value": 1.265306122,
-    "values": [1, 2, 2, 3, 4, 4, 4]
+    "values": [1, 2, 2, 3, 4, 4, 4],"sas": 3
   },
   {
     "first_name": "Alonzo",
@@ -192,7 +197,7 @@
     "column_url": "/assignments/737/responses/54729/showcrit?crit_assignment_id=744",
     "primary_value": 2.857142857,
     "secondary_value": 0.979591837,
-    "values": [1, 2, 3, 3, 3, 4, 4]
+    "values": [1, 2, 3, 3, 3, 4, 4],"sas": 3
   },
   {
     "first_name": "Megan",
@@ -200,7 +205,7 @@
     "column_url": "/assignments/737/responses/54716/showcrit?crit_assignment_id=744",
     "primary_value": 3,
     "secondary_value": 1,
-    "values": [1, 3, 3, 3, 4, 4]
+    "values": [1, 3, 3, 3, 4, 4],"sas": 3
   },
   {
     "first_name": "Brenda",
@@ -208,7 +213,7 @@
     "column_url": "/assignments/737/responses/54720/showcrit?crit_assignment_id=744",
     "primary_value": 3,
     "secondary_value": 2,
-    "values": [1, 1, 3, 3, 4, 4, 5]
+    "values": [1, 1, 3, 3, 4, 4, 5],"sas": 3
   },
   {
     "first_name": "Warissara",
@@ -216,7 +221,7 @@
     "column_url": "/assignments/737/responses/54774/showcrit?crit_assignment_id=744",
     "primary_value": 3,
     "secondary_value": 2.8,
-    "values": [1, 2, 2, 5, 5]
+    "values": [1, 2, 2, 5, 5],"sas": 3
   },
   {
     "first_name": "Jose Maria",
@@ -224,7 +229,7 @@
     "column_url": "/assignments/737/responses/54843/showcrit?crit_assignment_id=744",
     "primary_value": 3,
     "secondary_value": 1.2,
-    "values": [1, 3, 3, 4, 4]
+    "values": [1, 3, 3, 4, 4],"sas": 3
   },
   {
     "first_name": "Walker",
@@ -232,7 +237,7 @@
     "column_url": "/assignments/737/responses/54934/showcrit?crit_assignment_id=744",
     "primary_value": 3,
     "secondary_value": 1.142857143,
-    "values": [1, 2, 3, 3, 4, 4, 4]
+    "values": [1, 2, 3, 3, 4, 4, 4],"sas": 3
   },
   {
     "first_name": "Johnathan",
@@ -240,7 +245,7 @@
     "column_url": "/assignments/737/responses/54917/showcrit?crit_assignment_id=744",
     "primary_value": 3.333333333,
     "secondary_value": 2.222222222,
-    "values": [1, 2, 3, 4, 5, 5]
+    "values": [1, 2, 3, 4, 5, 5],"sas": 3
   },
   {
     "first_name": "Daeyeob",
@@ -248,7 +253,7 @@
     "column_url": "/assignments/737/responses/54780/showcrit?crit_assignment_id=744",
     "primary_value": 3.5,
     "secondary_value": 1.25,
-    "values": [2, 3, 4, 5]
+    "values": [2, 3, 4, 5],"sas": 3
   },
   {
     "first_name": "Anthony",
@@ -256,7 +261,7 @@
     "column_url": "/assignments/737/responses/54783/showcrit?crit_assignment_id=744",
     "primary_value": 3.5,
     "secondary_value": 0.916666667,
-    "values": [2, 3, 3, 4, 4, 5]
+    "values": [2, 3, 3, 4, 4, 5],"sas": 3
   },
   {
     "first_name": "Jack",
@@ -264,7 +269,7 @@
     "column_url": "/assignments/737/responses/54820/showcrit?crit_assignment_id=744",
     "primary_value": 3.5,
     "secondary_value": 1.25,
-    "values": [2, 3, 4, 5]
+    "values": [2, 3, 4, 5],"sas": 3
   },
   {
     "first_name": "Chris",
@@ -272,7 +277,7 @@
     "column_url": "/assignments/737/responses/54821/showcrit?crit_assignment_id=744",
     "primary_value": 3.5,
     "secondary_value": 2.25,
-    "values": [1, 2, 4, 4, 5, 5]
+    "values": [1, 2, 4, 4, 5, 5],"sas": 3
   },
   {
     "first_name": "Saydi",
@@ -280,7 +285,7 @@
     "column_url": "/assignments/737/responses/54718/showcrit?crit_assignment_id=744",
     "primary_value": 3.571428571,
     "secondary_value": 1.102040816,
-    "values": [2, 3, 3, 3, 4, 5, 5]
+    "values": [2, 3, 3, 3, 4, 5, 5],"sas": 3
   },
   {
     "first_name": "Daniel",
@@ -288,7 +293,7 @@
     "column_url": "/assignments/737/responses/54872/showcrit?crit_assignment_id=744",
     "primary_value": 3.571428571,
     "secondary_value": 0.816326531,
-    "values": [2, 3, 3, 4, 4, 4, 5]
+    "values": [2, 3, 3, 4, 4, 4, 5],"sas": 3
   },
   {
     "first_name": "Alexander",
@@ -296,7 +301,7 @@
     "column_url": "/assignments/737/responses/54919/showcrit?crit_assignment_id=744",
     "primary_value": 3.714285714,
     "secondary_value": 0.775510204,
-    "values": [2, 3, 4, 4, 4, 4, 5]
+    "values": [2, 3, 4, 4, 4, 4, 5],"sas": 3
   },
   {
     "first_name": "Olivia",
@@ -304,7 +309,7 @@
     "column_url": "/assignments/737/responses/54847/showcrit?crit_assignment_id=744",
     "primary_value": 4,
     "secondary_value": 0.8,
-    "values": [3, 3, 4, 5, 5]
+    "values": [3, 3, 4, 5, 5],"sas": 3
   },
   {
     "first_name": "Zachery",
@@ -312,7 +317,7 @@
     "column_url": "/assignments/737/responses/54855/showcrit?crit_assignment_id=744",
     "primary_value": 4,
     "secondary_value": 0.857142857,
-    "values": [2, 4, 4, 4, 4, 5, 5]
+    "values": [2, 4, 4, 4, 4, 5, 5],"sas": 3
   },
   {
     "first_name": "Mathew",
@@ -320,7 +325,7 @@
     "column_url": "/assignments/737/responses/54784/showcrit?crit_assignment_id=744",
     "primary_value": 4.333333333,
     "secondary_value": 0.888888889,
-    "values": [3, 5, 5]
+    "values": [3, 5, 5],"sas": 3
   },
   {
     "first_name": "Rupash",
@@ -328,7 +333,7 @@
     "column_url": "/assignments/737/responses/54823/showcrit?crit_assignment_id=744",
     "primary_value": 4.4,
     "secondary_value": 1.44,
-    "values": [2, 5, 5, 5, 5]
+    "values": [2, 5, 5, 5, 5],"sas": 3
   },
   {
     "first_name": "Jennifer",
@@ -336,7 +341,7 @@
     "column_url": "/assignments/737/responses/54802/showcrit?crit_assignment_id=744",
     "primary_value": 4.6,
     "secondary_value": 0.64,
-    "values": [3, 5, 5, 5, 5]
+    "values": [3, 5, 5, 5, 5],"sas": 3
   },
   {
     "first_name": "Jacob",
@@ -344,7 +349,7 @@
     "column_url": "/assignments/737/responses/54770/showcrit?crit_assignment_id=744",
     "primary_value": 4.666666667,
     "secondary_value": 0.555555556,
-    "values": [3, 5, 5, 5, 5, 5]
+    "values": [3, 5, 5, 5, 5, 5],"sas": 3
   },
   
   {
@@ -353,7 +358,7 @@
     "column_url": "/assignments/737/responses/54922/showcrit?crit_assignment_id=744",
     "primary_value": 5,
     "secondary_value": 0,
-    "values": [5, 5, 5]
+    "values": [5, 5, 5],"sas": 2
   },
   {
     "first_name": "Keyaanna",
@@ -361,7 +366,7 @@
     "column_url": "/assignments/737/responses/54775/showcrit?crit_assignment_id=744",
     "primary_value": 0,
     "secondary_value": 0,
-    "values": []
+    "values": [],"sas": 1
   }
 ]
 }]

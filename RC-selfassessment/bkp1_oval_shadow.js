@@ -1,4 +1,3 @@
-
 function RainbowGraph(data) {
     this.jsonData = data; //this variable will store all data read from json
     this.metadata = data[0].metadata;
@@ -15,7 +14,8 @@ function RainbowGraph(data) {
     this.max_rank_val = 0;
     this.min_primary_val = Number.MAX_SAFE_INTEGER;
     this.max_primary_val = 0;
-    this.duration = 500;
+    this.duration = 1000;
+     this.sas = [];
 
 
 }
@@ -23,13 +23,17 @@ function RainbowGraph(data) {
 RainbowGraph.prototype.parseData = function () {
     //=====================================this needs to be replaced later=====================
 
+    
     this.duration = Math.round (this.duration * this.jsonData[0].data.length / 45);
+    
 
     p = 0
     for (var i = 0; i < this.jsonData[0].data.length; i++) {
         this.rankings[i] = []
+        this.sas[i]= this.jsonData[0].data[i].sas;
         for (var j = 0; j < this.jsonData[0].data[i].values.length; j++) {
-            this.rankings[i].push(this.jsonData[0].data[i].values[j]); //rankings is a multidimensional array with rankings of each student
+            this.rankings[i].push(this.jsonData[0].data[i].values[j]); 
+            //rankings is a multidimensional array with rankings of each student
             var rank_val = new Object();
             rank_val.value = this.jsonData[0].data[i].values[j];  //allrankings is single dimensional array with rankings of each students in order
             rank_val.primary_value = this.jsonData[0].data[i].primary_value;
@@ -43,9 +47,10 @@ RainbowGraph.prototype.parseData = function () {
             }
             if (this.max_rank_val < this.allrankings[p].value && this.allrankings[p].value != Number.MAX_SAFE_INTEGER) {
                 this.max_rank_val = this.allrankings[p].value;
-            }
+            } 
             p++;
         }
+       
         this.rankings[i].primary_value = this.jsonData[0].data[i].primary_value; //rank avg corresponds to primary value in json file for each student
         this.rankings[i].secondary_value = this.jsonData[0].data[i].secondary_value;
         this.rankings[i].first_name = this.jsonData[0].data[i].first_name;
@@ -94,6 +99,7 @@ RainbowGraph.prototype.buildChart = function () {
 
     y = d3.scale.linear()
         .range([height, 0]);
+    
 
     yAxis = d3.svg.axis()
         .scale(y)
@@ -112,7 +118,7 @@ RainbowGraph.prototype.buildChart = function () {
 
 
     //If the user has not use brushing yet, this will make sure _this all the students are being shown in the main graph.
-    if (this.brushCheck == false) {
+    if (this.brushCheck == false) { 
 
         x = d3.scale.ordinal()
             .rangeBands([0, width]);
@@ -194,7 +200,7 @@ RainbowGraph.prototype.buildChart = function () {
         .enter().append("rect")
         .attr("x", function (d, i) {
             t3++;
-
+            
             if (_this.rankings[p3].length == 0) {
                 p3++;
                 return _this.rankings[p3].x_pos;
@@ -204,7 +210,7 @@ RainbowGraph.prototype.buildChart = function () {
                 p3++;
                 t3 = 1;
             }
-
+            //cconsole.log(t3+"position = "+_this.rankings[p3].x_pos);
             return _this.rankings[p3].x_pos;
         })
         .attr("width", function () {
@@ -220,6 +226,7 @@ RainbowGraph.prototype.buildChart = function () {
                     p++;
                     return 0;
                 }
+               // console.log(y(_this.rankings[p].primary_value) + (t - 1));
                 return y(_this.rankings[p].primary_value) + (t - 1) * ((height - y(_this.rankings[p].primary_value)) / _this.rankings[p].length);
             }
             return y(_this.rankings[p].primary_value) + (t - 1) * ((height - y(_this.rankings[p].primary_value)) / _this.rankings[p].length);
@@ -272,6 +279,7 @@ RainbowGraph.prototype.buildChart = function () {
         .attr("rx", 8)
         .attr("ry", 8)
         .on("mouseover", function (d) {
+        console.log(d);
             this.original_color = this.style.fill;
             this.style.fill = "gray"
             tooltip.text(_this.metadata["values-label"] + ":" + d.value + ", " + (_this.metadata["secondary-value-label"] + ":" + d.secondary_value.toFixed(2)));
@@ -306,6 +314,95 @@ RainbowGraph.prototype.buildChart = function () {
             _this.rankings[p6].x_pos = ((width / _this.rankings.length) * (p6))
             return ((width / _this.rankings.length) * (p6));
         })
+     t=-1;
+    p=0;
+   min=0;
+    ts=-1;
+    bar1 = this.svg.selectAll(".bar1")
+        .data(this.sas)
+        .enter().append("rect")
+        .attr("x", function (d, i) {
+        
+          ++p6;
+          return ((width / _this.rankings.length) * (p6));
+            
+        }
+        )
+        .attr("width", function () {
+            return width / _this.rankings.length
+        })
+        .attr("y", function (d, i) {
+            t++;
+          return y(_this.sas[t]);
+        
+        })
+        .attr("height", function (d, i) {
+       
+        ++ts;
+         min = _this.rankings[ts].primary_value;
+         add =  _this.metadata['higher-primary-value-better']? 1 : -1;
+       if(add)
+           {
+               
+        if(_this.sas[ts] > min)
+                {
+                    return (y(min) - y(_this.sas[ts]) )
+                }
+        else{
+
+            return (15);
+        }
+        }
+           
+        else
+            {
+        
+        if(_this.sas[ts] < min)
+                {
+                    return (y(min) -y(_this.sas[ts]))
+                }
+        else{
+
+            return (15);
+        }
+        }
+    })
+    .style("fill", "null")
+    .style("stroke", "red")
+    .style("stroke-width", ".5")
+    .style("opacity", 0.5)
+    .attr("rx", 28)
+    .attr("ry", 28)
+        .on("mouseover", function (d) {
+         console.log(d);
+            this.original_color = this.style.fill;
+            this.style.fill = "gray"
+            tooltip.text(_this.metadata["values-label"] + ":" + d );
+            tooltip.style("visibility", "visible");
+
+            //TODO: highlight the reviewer
+        })
+        .on("mouseout", function (d, i) {
+            this.style.fill = this.original_color
+            return tooltip.style("visibility", "hidden");
+        })
+        .on("mousemove", function (d, i) {
+            tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px");
+        })
+   
+     
+
+    p6=-1;
+    t6=0
+    t3=0
+    bar1.transition()
+        .duration(this.duration)
+        .attr("x", function (d, i) {
+        ++p6;
+          return ((width / _this.rankings.length) * (p6));
+        })
+    
+   
 
     this.svg.select("g")
         .selectAll(".tick")
@@ -358,6 +455,7 @@ RainbowGraph.prototype.onSortByChange = function(obj) {
     add =  _this.metadata['higher-primary-value-better']? 1 : -1
 
     selectValue = d3.select('select').property('value');
+   
     _this.rankings.sort(function(a, b) {
         if(selectValue == _this.metadata["x-axis-label"]){
             if(a.first_name != "" )
@@ -384,6 +482,7 @@ RainbowGraph.prototype.onSortByChange = function(obj) {
             rank_val.first_name = _this.rankings[i].first_name;
             rank_val.x_pos = _this.rankings[i].x_pos;
             this.allrankings[p] = rank_val
+            
             p++;
         }
     }
@@ -391,6 +490,7 @@ RainbowGraph.prototype.onSortByChange = function(obj) {
     this.buildChart();
 
 };
+
 
 RainbowGraph.prototype.type = function(d) {
     d.primary_value = +d.primary_value;

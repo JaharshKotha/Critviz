@@ -1,0 +1,471 @@
+[{
+    "data": [{
+        "column_url": "",
+        "first_name": " Melanie",
+        "last_name": "Garcia",
+        "primary_value": 9.0,
+        "secondary_value": 1.6329931618554521,
+        "values": [7.0, 10.0, 8.0, 6.0]
+    }, {
+        "column_url": "",
+        "first_name": " Kamayani",
+        "last_name": "Gaur",
+        "primary_value": 9.0,
+        "secondary_value": 0.0,
+        "values": [9.0, 9.0, 9.0, 9.0]
+    }, {
+        "column_url": "",
+        "first_name": " Jingke",
+        "last_name": "Liu",
+        "primary_value": 9.0,
+        "secondary_value": 0.47140452079103168,
+        "values": [8.0, 9.0, 9.0, 8.0]
+    }, {
+        "column_url": "",
+        "first_name": " Kevin",
+        "last_name": "Nguyen",
+        "primary_value": 9.0,
+        "secondary_value": 0.0,
+        "values": [9.0, 9.0, 9.0]
+    }, {
+        "column_url": "",
+        "first_name": " Yiwei",
+        "last_name": "Sun",
+        "primary_value": 9.0,
+        "secondary_value": 0.0,
+        "values": [9.0, 9.0, 9.0, 9.0]
+    }, {
+        "column_url": "",
+        "first_name": " Alice",
+        "last_name": "Tang",
+        "primary_value": 9.0,
+        "secondary_value": 0.47140452079103168,
+        "values": [10.0, 9.0, 9.0, 8.0]
+    }, {
+        "column_url": "",
+        "first_name": " Son",
+        "last_name": "Truong",
+        "primary_value": 9.0,
+        "secondary_value": 0.5,
+        "values": [0, 10.0, 9.0]
+    }, {
+        "column_url": "",
+        "first_name": " Leighton",
+        "last_name": "Paradis",
+        "primary_value": 8.75,
+        "secondary_value": 2.3570226039551581,
+        "values": [5.0, 9.0, 9.0, 4.0]
+    }, {
+        "column_url": "",
+        "first_name": " Paula",
+        "last_name": "Pelayo",
+        "primary_value": 8.67,
+        "secondary_value": 2.1602468994692869,
+        "values": [6.0, 9.0, 8.0, 4.0]
+    }, {
+        "column_url": "",
+        "first_name": " Wensong",
+        "last_name": "Huang",
+        "primary_value": 8.61,
+        "secondary_value": 1.247219128924647,
+        "values": [9.0, 10.0, 8.0, 7.0]
+    }, {
+        "column_url": "",
+        "first_name": " Ya",
+        "last_name": "Xiong",
+        "primary_value": 8.51,
+        "secondary_value": 0.47140452079103168,
+        "values": [8.0, 9.0, 8.0, 8.0]
+    }, {
+        "column_url": "",
+        "first_name": " James",
+        "last_name": "Chang",
+        "primary_value": 8.5,
+        "secondary_value": 1.247219128924647,
+        "values": [9.0, 9.0, 8.0, 6.0]
+    }, {
+        "column_url": "",
+        "first_name": " Siyi",
+        "last_name": "Guo",
+        "primary_value": 8.0,
+        "secondary_value": 0.0,
+        "values": [9.0, 8.0, 8.0, 8.0]
+    }, {
+        "column_url": "",
+        "first_name": " Sebastian",
+        "last_name": "Hanet",
+        "primary_value": 8.0,
+        "secondary_value": 0.0,
+        "values": [7.0, 8.0, 8.0, 8.0]
+    }, {
+        "column_url": "",
+        "first_name": " Zhanyang",
+        "last_name": "Li",
+        "primary_value": 8.0,
+        "secondary_value": 0.5,
+        "values": [8.0, 9.0, 8.0]
+    }, {
+        "column_url": "",
+        "first_name": " Kevin",
+        "last_name": "Lee",
+        "primary_value": 7.79,
+        "secondary_value": 1.4142135623730951,
+        "values": [0, 9.0, 9.0, 6.0]
+    }, {
+        "column_url": "",
+        "first_name": " Stanley",
+        "last_name": "Chen",
+        "primary_value": 7.67,
+        "secondary_value": 0.5,
+        "values": [4.0, 8.0, 7.0]
+    }, {
+        "column_url": "",
+        "first_name": " Charvi",
+        "last_name": "Aggarwal",
+        "primary_value": 7.66,
+        "secondary_value": 1.0,
+        "values": [6.0, 9.0, 7.0]
+    }, {
+        "column_url": "",
+        "first_name": " Zanchen",
+        "last_name": "Li",
+        "primary_value": 7.58,
+        "secondary_value": 1.247219128924647,
+        "values": [8.0, 10.0, 8.0, 7.0]
+    }, {
+        "column_url": "",
+        "first_name": " Angeleigh",
+        "last_name": "Kumpel",
+        "primary_value": 7.51,
+        "secondary_value": 0.94280904158206336,
+        "values": [5.0, 9.0, 7.0, 7.0]
+    }, {
+        "column_url": "",
+        "first_name": " Jordan",
+        "last_name": "Curry",
+        "primary_value": 7.5,
+        "secondary_value": 0.47140452079103168,
+        "values": [8.0, 8.0, 7.0, 7.0]
+    }, {
+        "column_url": "",
+        "first_name": " Erin",
+        "last_name": "Sakaji",
+        "primary_value": 7.5,
+        "secondary_value": 0.81649658092772603,
+        "values": [7.0, 8.0, 7.0, 6.0]
+    }, {
+        "column_url": "",
+        "first_name": " Matthew",
+        "last_name": "Hsiao",
+        "primary_value": 7.26,
+        "secondary_value": 1.247219128924647,
+        "values": [6.0, 9.0, 7.0, 6.0]
+    }, {
+        "column_url": "",
+        "first_name": " Akilah",
+        "last_name": "Miller",
+        "primary_value": 7.26,
+        "secondary_value": 0.81649658092772603,
+        "values": [4.0, 8.0, 7.0, 6.0]
+    }, {
+        "column_url": "",
+        "first_name": " Sydney",
+        "last_name": "Nanton",
+        "primary_value": 7.26,
+        "secondary_value": 0.0,
+        "values": [9.0, 8.0]
+    }, {
+        "column_url": "",
+        "first_name": " Se",
+        "last_name": "Kim",
+        "primary_value": 7.08,
+        "secondary_value": 0.94280904158206336,
+        "values": [9.0, 9.0, 7.0, 7.0]
+    }, {
+        "column_url": "",
+        "first_name": " Sahm",
+        "last_name": "Bazargan",
+        "primary_value": 7.0,
+        "secondary_value": 0.47140452079103168,
+        "values": [9.0, 7.0, 7.0, 6.0]
+    }, {
+        "column_url": "",
+        "first_name": " Neda",
+        "last_name": "Mesgarzadeh",
+        "primary_value": 7.0,
+        "secondary_value": 1.4142135623730951,
+        "values": [9.0, 10.0, 7.0, 7.0]
+    }, {
+        "column_url": "",
+        "first_name": " Maryellie",
+        "last_name": "Ramler",
+        "primary_value": 7.0,
+        "secondary_value": 0.47140452079103168,
+        "values": [9.0, 8.0, 7.0, 7.0]
+    }, {
+        "column_url": "",
+        "first_name": " Jayne",
+        "last_name": "Skinner",
+        "primary_value": 7.0,
+        "secondary_value": 1.4142135623730951,
+        "values": [9.0, 9.0, 6.0, 6.0]
+    }, {
+        "column_url": "",
+        "first_name": " Jun",
+        "last_name": "Pak",
+        "primary_value": 6.92,
+        "secondary_value": 0.81649658092772603,
+        "values": [5.0, 8.0, 7.0, 6.0]
+    }, {
+        "column_url": "",
+        "first_name": " Zicheng",
+        "last_name": "Liu",
+        "primary_value": 6.75,
+        "secondary_value": 1.247219128924647,
+        "values": [9.0, 8.0, 7.0, 5.0]
+    }, {
+        "column_url": "",
+        "first_name": " Nanshan",
+        "last_name": "Li",
+        "primary_value": 6.67,
+        "secondary_value": 1.699673171197595,
+        "values": [5.0, 9.0, 6.0, 5.0]
+    }, {
+        "column_url": "",
+        "first_name": " Steven",
+        "last_name": "Candelaria",
+        "primary_value": 6.57,
+        "secondary_value": 1.699673171197595,
+        "values": [9.0, 8.0, 7.0, 4.0]
+    }, {
+        "column_url": "",
+        "first_name": " Huy",
+        "last_name": "Hua",
+        "primary_value": 6.5,
+        "secondary_value": 2.3570226039551581,
+        "values": [8.0, 9.0, 9.0, 4.0]
+    }, {
+        "column_url": "",
+        "first_name": " Martin",
+        "last_name": "Villegas",
+        "primary_value": 6.5,
+        "secondary_value": 2.3570226039551581,
+        "values": [6.0, 9.0, 9.0, 4.0]
+    }, {
+        "column_url": "",
+        "first_name": " Joonho",
+        "last_name": "Gha",
+        "primary_value": 6.34,
+        "secondary_value": 1.6329931618554521,
+        "values": [7.0, 9.0, 7.0, 5.0]
+    }, {
+        "column_url": "",
+        "first_name": " Laurence",
+        "last_name": "Ng-cordell",
+        "primary_value": 6.27,
+        "secondary_value": 2.6246692913372702,
+        "values": [5.0, 8.0, 7.0, 2.0]
+    }, {
+        "column_url": "",
+        "first_name": " Steffanie",
+        "last_name": "Pecarich",
+        "primary_value": 6.11,
+        "secondary_value": 0.81649658092772603,
+        "values": [8.0, 7.0, 6.0, 5.0]
+    }, {
+        "column_url": "",
+        "first_name": " Yanbo",
+        "last_name": "Ren",
+        "primary_value": 6.01,
+        "secondary_value": 2.0548046676563256,
+        "values": [9.0, 9.0, 7.0, 4.0]
+    }, {
+        "column_url": "",
+        "first_name": " Tianyu",
+        "last_name": "Chu",
+        "primary_value": 6.0,
+        "secondary_value": 0.5,
+        "values": [4.0, 7.0, 6.0]
+    }, {
+        "column_url": "",
+        "first_name": " Patrick",
+        "last_name": "Tran",
+        "primary_value": 6.0,
+        "secondary_value": 0.94280904158206336,
+        "values": [8.0, 8.0, 6.0, 6.0]
+    }, {
+        "column_url": "",
+        "first_name": " Brett",
+        "last_name": "Choy",
+        "primary_value": 5.82,
+        "secondary_value": 1.247219128924647,
+        "values": [7.0, 7.0, 6.0, 4.0]
+    }, {
+        "column_url": "",
+        "first_name": " Wenchy",
+        "last_name": "Siu",
+        "primary_value": 5.5,
+        "secondary_value": 1.5,
+        "values": [8.0, 7.0, 4.0]
+    }, {
+        "column_url": "",
+        "first_name": " Phillip",
+        "last_name": "Hsu",
+        "primary_value": 5.16,
+        "secondary_value": 1.247219128924647,
+        "values": [8.0, 7.0, 6.0, 4.0]
+    }, {
+        "column_url": "",
+        "first_name": " Afshin",
+        "last_name": "Chenari",
+        "primary_value": 5.1,
+        "secondary_value": 0.94280904158206336,
+        "values": [0, 6.0, 6.0, 4.0]
+    }, {
+        "column_url": "",
+        "first_name": " Sun",
+        "last_name": "Baek",
+        "primary_value": 5.0,
+        "secondary_value": 1.699673171197595,
+        "values": [9.0, 9.0, 8.0, 5.0]
+    }, {
+        "column_url": "",
+        "first_name": " Young",
+        "last_name": "Chung",
+        "primary_value": 5.0,
+        "secondary_value": 1.0,
+        "values": [8.0, 7.0, 5.0]
+    }, {
+        "column_url": "",
+        "first_name": " Chetan",
+        "last_name": "Rangachar",
+        "primary_value": 5.0,
+        "secondary_value": 1.0,
+        "values": [9.0, 6.0, 4.0]
+    }, {
+        "column_url": "",
+        "first_name": " Yuanlin",
+        "last_name": "Tan",
+        "primary_value": 4.99,
+        "secondary_value": 2.0548046676563256,
+        "values": [6.0, 9.0, 7.0, 4.0]
+    }, {
+        "column_url": "",
+        "first_name": " Harrison",
+        "last_name": "Shrock",
+        "primary_value": 4.6,
+        "secondary_value": 0.5,
+        "values": [8.0, 5.0, 4.0]
+    }, {
+        "column_url": "",
+        "first_name": " Samuel",
+        "last_name": "Esquivel",
+        "primary_value": 4.38,
+        "secondary_value": 1.699673171197595,
+        "values": [7.0, 7.0, 6.0, 3.0]
+    }, {
+        "column_url": "",
+        "first_name": " Matthew",
+        "last_name": "Bello",
+        "primary_value": 4.33,
+        "secondary_value": 2.0548046676563256,
+        "values": [9.0, 7.0, 4.0, 2.0]
+    }, {
+        "column_url": "",
+        "first_name": " Ronald",
+        "last_name": "Giddens",
+        "primary_value": 4.0,
+        "secondary_value": 1.247219128924647,
+        "values": [7.0, 7.0, 5.0, 4.0]
+    }, {
+        "column_url": "",
+        "first_name": " Hao",
+        "last_name": "Qu",
+        "primary_value": 4.0,
+        "secondary_value": 2.1602468994692869,
+        "values": [5.0, 9.0, 8.0, 4.0]
+    }, {
+        "column_url": "",
+        "first_name": " Kamala",
+        "last_name": "Eyango",
+        "primary_value": 3.44,
+        "secondary_value": 1.699673171197595,
+        "values": [5.0, 6.0, 3.0, 2.0]
+    }, {
+        "column_url": "",
+        "first_name": " Fabian",
+        "last_name": "Rodriguez",
+        "primary_value": 3.01,
+        "secondary_value": 1.247219128924647,
+        "values": [0, 4.0, 3.0, 1.0]
+    }, {
+        "column_url": "",
+        "first_name": " Willis",
+        "last_name": "Wung",
+        "primary_value": 3.0,
+        "secondary_value": 0.81649658092772603,
+        "values": [8.0, 4.0, 3.0, 2.0]
+    }, {
+        "column_url": "",
+        "first_name": " Luiza",
+        "last_name": "Harutyunyan",
+        "primary_value": 2.59,
+        "secondary_value": 1.6329931618554521,
+        "values": [8.0, 5.0, 3.0, 1.0]
+    }, {
+        "column_url": "",
+        "first_name": " Dillan",
+        "last_name": "Seebaran",
+        "primary_value": 2.32,
+        "secondary_value": 2.1602468994692869,
+        "values": [6.0, 7.0, 6.0, 2.0]
+    }, {
+        "column_url": "",
+        "first_name": " Seungjun",
+        "last_name": "Lee",
+        "primary_value": 2.11,
+        "secondary_value": 0.81649658092772603,
+        "values": [6.0, 3.0, 2.0, 1.0]
+    }, {
+        "column_url": "",
+        "first_name": " Jackie",
+        "last_name": "Lum",
+        "primary_value": 2.0,
+        "secondary_value": 0.0,
+        "values": [5.0, 2.0, 2.0, 2.0]
+    }, {
+        "column_url": "",
+        "first_name": " Richard",
+        "last_name": "Yano",
+        "primary_value": 1.06,
+        "secondary_value": 0.81649658092772603,
+        "values": [5.0, 3.0, 2.0, 1.0]
+    }, {
+        "column_url": "",
+        "first_name": " Nicko",
+        "last_name": "Atencio",
+        "primary_value": 1.0,
+        "secondary_value": 2.3570226039551585,
+        "values": [2.0, 6.0, 1.0, 1.0]
+    }, {
+        "column_url": "",
+        "first_name": " Kathleen",
+        "last_name": "Guzman",
+        "primary_value": 1.0,
+        "secondary_value": 0.0,
+        "values": [4.0, 1.0, 1.0, 1.0]
+    }],
+    "metadata": {
+        "worst-value-possible": 0,
+        "best-value-possible": 10,
+        "color-scheme": "11b",
+        "higher-primary-value-better": true,
+        "higher-values-better": false,
+        "highlight-top-most-bar": true,
+        "primary-value-label": "Average Rate",
+        "secondary-value-label": "Controversy",
+        "values-label": "Rating",
+        "x-axis-label": "Students",
+        "y-axis-label": "Average Rate"
+    }
+}]
