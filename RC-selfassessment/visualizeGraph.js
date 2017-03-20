@@ -55,7 +55,7 @@ RainbowGraph.prototype.parseData = function () {
         this.rankings[i].secondary_value = this.jsonData[0].data[i].secondary_value;
         this.rankings[i].first_name = this.jsonData[0].data[i].first_name;
         this.rankings[i].x_pos = 0;
-
+        this.rankings[i].sas = this.jsonData[0].data[i].sas;
 
         if (this.min_primary_val > this.rankings[i].primary_value) {
             this.min_primary_val = Math.floor(this.rankings[i].primary_value);
@@ -322,7 +322,7 @@ RainbowGraph.prototype.buildChart = function () {
     ts=-1;
     add =  _this.metadata['higher-primary-value-better']? 1 : -1;
     sasBodyBar = this.svg.selectAll(".sasBodyBar")
-        .data(this.sas)
+        .data(this.rankings)
         .enter().append("rect")
         .attr("x", function (d, i) {
             ++p6;
@@ -333,7 +333,7 @@ RainbowGraph.prototype.buildChart = function () {
         })
         .attr("y", function (d, i) {
             t++;
-            return y(_this.sas[t]) + (8*add);
+            return y(_this.rankings[t].sas) + (8*add);
         })
         .attr("height", function (d, i) {
             ++ts;
@@ -341,14 +341,14 @@ RainbowGraph.prototype.buildChart = function () {
             min = (_this.rankings[ts].primary_value == 0? _this.rankings[ts].primary_value - (0.5 * add) : _this.rankings[ts].primary_value) + (0.08*add);
 
        if(add){
-            if(_this.sas[ts] > min){
-                return (y(min) - y(_this.sas[ts]) )
+            if(_this.rankings[ts].sas > min){
+                return (y(min) - y(_this.rankings[ts].sas) )
             }else{
                 return (0);
             }
         }else{
-            if(_this.sas[ts] < min){
-                    return (y(min) -y(_this.sas[ts]))
+            if(_this.rankings[ts].sas < min){
+                    return (y(min) -y(_this.rankings[ts].sas))
             }else{
                 return (0);
             }
@@ -392,7 +392,7 @@ RainbowGraph.prototype.buildChart = function () {
    t=-1;
    t2=-1;
    sasTopBar = this.svg.selectAll(".sasTopBar")
-        .data(this.sas)
+        .data(this.rankings)
         .enter().append("rect")
         .attr("x", function (d, i) {
         
@@ -406,7 +406,7 @@ RainbowGraph.prototype.buildChart = function () {
         })
         .attr("y", function (d, i) {
             t++;
-            return y(_this.sas[t]);
+            return y(_this.rankings[t].sas);
         
         })
         .attr("height", function (d, i) {
@@ -415,7 +415,7 @@ RainbowGraph.prototype.buildChart = function () {
     })
     .style("fill", function(){
         t2++;
-        if(_this.sas[t2] > _this.rankings[t2].primary_value)
+        if(_this.rankings[t2].sas > _this.rankings[t2].primary_value)
             return "grey"
         else
             return "white"
