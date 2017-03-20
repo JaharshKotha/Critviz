@@ -273,7 +273,7 @@ RainbowGraph.prototype.buildChart = function () {
     p6=0;
     t6=0
     bar.transition()
-        .duration(800)
+        .duration(500)
         .attr("x", function (d, i) {
             t6++;
 
