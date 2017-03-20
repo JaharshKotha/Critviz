@@ -262,7 +262,7 @@ hei=0;
 
 
 
-  bar = rc.svg.selectAll(".bar")
+  scoreBar = rc.svg.selectAll(".scoreBar")
       .data(allrankings)
     .enter().append("rect")
       .attr("class", function(d,i){ return allstids[i];})
@@ -416,7 +416,7 @@ xAxis2 = d3.svg.axis()
         .scale(x2)
         .orient("bottom");
 
-//Brush is the rectangular bar that floats on the navigation graph. This is not the call, but just definition of function.
+//Brush is the rectangular scoreBar that floats on the navigation graph. This is not the call, but just definition of function.
 //This function will be called later.
 brush = d3.svg.brush()
     .x(x2)
@@ -445,11 +445,11 @@ rc.svg2.append("rect")
     .attr("height", height);
 
 
-bar2 = rc.svg2.selectAll(".bar")
+sasTopBar = rc.svg2.selectAll(".scoreBar")
       .data(rankings)
     .enter().append("rect")
-      .attr("class", "bar")
-      .attr("x", function(d,i) { return (width/rankings.length) * i }) //draw the vertical bar at increasing positions.
+      .attr("class", "scoreBar")
+      .attr("x", function(d,i) { return (width/rankings.length) * i }) //draw the vertical scoreBar at increasing positions.
       .attr("width", width/rankings.length)
       .attr("y", function(d){ if(d.rank_avg==0) return y2(rankScale+0.5); else return y2(d.rank_avg)})
       .attr("height", function(d){ if(d.rank_avg==0) return height - y2(rankScale+0.5); if (d.rank_avg!=0) return (height - y2(d.rank_avg)); else return 0; })
@@ -478,7 +478,7 @@ gBrush.selectAll("rect")
 
 
 // Selected variable will specify what values are selected by brush
-// This will create an array "selected" with values corresponding to x-axis values of students selected on navigation bar.
+// This will create an array "selected" with values corresponding to x-axis values of students selected on navigation scoreBar.
 
 rc.selected =  x2.domain().filter(function(d){
         //This is being performed for all students because d3 iterates to the length of data

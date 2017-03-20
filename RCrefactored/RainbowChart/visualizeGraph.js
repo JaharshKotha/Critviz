@@ -189,7 +189,7 @@ RainbowGraph.prototype.buildChart = function () {
         .style("z-index", "10")
         .style("visibility", "hidden");
 
-    bar = this.svg.selectAll(".bar")
+    scoreBar = this.svg.selectAll(".scoreBar")
         .data(this.allrankings)
         .enter().append("rect")
         .attr("x", function (d, i) {
@@ -256,14 +256,14 @@ RainbowGraph.prototype.buildChart = function () {
             color = _this.colorKey[_this.inputColorScheme][color_index];
 
             //this section is used for CPR data
-            //it highlights the top most rectangle in the bar (change the top most color to a lighter one)
+            //it highlights the top most rectangle in the scoreBar (change the top most color to a lighter one)
             t5++;
             if (t5 == _this.rankings[p5].length + 1) {
                 p5++;
                 t5 = 1;
             }
 
-            if (_this.metadata["highlight-top-most-bar"] && t5 == 1)
+            if (_this.metadata["highlight-top-most-scoreBar"] && t5 == 1)
                 color = _this.colorLuminance(color, 0.3)
 
             //console.debug("index : " + color_index + " color : " + color)
@@ -289,7 +289,7 @@ RainbowGraph.prototype.buildChart = function () {
 
     p6=0;
     t6=0
-    bar.transition()
+    scoreBar.transition()
         .duration(this.duration)
         .attr("x", function (d, i) {
             t6++;

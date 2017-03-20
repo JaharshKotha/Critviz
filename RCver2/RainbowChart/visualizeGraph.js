@@ -302,10 +302,10 @@ cclen=0;
         .text(function(d) { return d; });
 
 
-    bar = svg.selectAll(".bar")
+    scoreBar = svg.selectAll(".scoreBar")
       .data(allrankings)
       .enter().append("rect")
-      .attr("class", "bar")
+      .attr("class", "scoreBar")
       .attr("x", function(d,i) {
           t3++;
           if(rankings[p3].length==0)p3++;
@@ -362,7 +362,7 @@ cclen=0;
           color_index = Math.round(color_index * colorKey[inputColorScheme].length / rankScale);
           color = colorKey[inputColorScheme][Math.round(color_index * color_scale)];
 
-          if(metadata["highlight-top-most-bar"] && t5==1)
+          if(metadata["highlight-top-most-scoreBar"] && t5==1)
               color = ColorLuminance(color, 0.3)
           //console.log("d: " + d + ", color_idx: " + color_index);
 
@@ -577,7 +577,7 @@ function slider(){
             .scale(x2)
             .orient("bottom");
 
-    //Brush is the rectangular bar that floats on the navigation graph. This is not the call, but just definition of function.
+    //Brush is the rectangular scoreBar that floats on the navigation graph. This is not the call, but just definition of function.
     //This function will be called later.
     brush = d3.svg.brush()
         .x(x2)
@@ -614,11 +614,11 @@ function slider(){
         .attr("height", height);
 
 
-    bar2 = svg2.selectAll(".bar")
+    sasTopBar = svg2.selectAll(".scoreBar")
         .data(rankings)
         .enter().append("rect")
-        .attr("class", "bar")
-        .attr("x", function(d,i) { return (width/rankings.length) * i }) //draw the vertical bar at increasing positions.
+        .attr("class", "scoreBar")
+        .attr("x", function(d,i) { return (width/rankings.length) * i }) //draw the vertical scoreBar at increasing positions.
         .attr("width", width/rankings.length)
         .attr("y", function(d){
               if(d.rank_avg==0)
@@ -659,7 +659,7 @@ function slider(){
 
 
     // Selected variable will specify what values are selected by brush
-    // This will create an array "selected" with values corresponding to x-axis values of students selected on navigation bar.
+    // This will create an array "selected" with values corresponding to x-axis values of students selected on navigation scoreBar.
 
     selected =  x2.domain().filter(function(d){
             //This is being performed for all students because d3 iterates to the length of data

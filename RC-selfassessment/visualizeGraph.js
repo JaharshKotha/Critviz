@@ -15,7 +15,7 @@ function RainbowGraph(data) {
     this.min_primary_val = Number.MAX_SAFE_INTEGER;
     this.max_primary_val = 0;
     this.duration = 1000;
-     this.sas = [];
+    this.sas = [];
 
 
 }
@@ -195,7 +195,7 @@ RainbowGraph.prototype.buildChart = function () {
         .style("z-index", "10")
         .style("visibility", "hidden");
 
-    bar = this.svg.selectAll(".bar")
+    scoreBar = this.svg.selectAll(".scoreBar")
         .data(this.allrankings)
         .enter().append("rect")
         .attr("x", function (d, i) {
@@ -263,14 +263,14 @@ RainbowGraph.prototype.buildChart = function () {
             color = _this.colorKey[_this.inputColorScheme][color_index];
 
             //this section is used for CPR data
-            //it highlights the top most rectangle in the bar (change the top most color to a lighter one)
+            //it highlights the top most rectangle in the scoreBar (change the top most color to a lighter one)
             t5++;
             if (t5 == _this.rankings[p5].length + 1) {
                 p5++;
                 t5 = 1;
             }
 
-            if (_this.metadata["highlight-top-most-bar"] && t5 == 1)
+            if (_this.metadata["highlight-top-most-scoreBar"] && t5 == 1)
                 color = _this.colorLuminance(color, 0.3)
 
             //console.debug("index : " + color_index + " color : " + color)
@@ -297,7 +297,7 @@ RainbowGraph.prototype.buildChart = function () {
 
     p6=0;
     t6=0
-    bar.transition()
+    scoreBar.transition()
         .duration(this.duration)
         .attr("x", function (d, i) {
             t6++;
@@ -314,64 +314,51 @@ RainbowGraph.prototype.buildChart = function () {
             _this.rankings[p6].x_pos = ((width / _this.rankings.length) * (p6))
             return ((width / _this.rankings.length) * (p6));
         })
-     t=-1;
+
+    //
+    t=-1;
     p=0;
-   min=0;
+    min=0;
     ts=-1;
-    bar1 = this.svg.selectAll(".bar1")
+    add =  _this.metadata['higher-primary-value-better']? 1 : -1;
+    sasBodyBar = this.svg.selectAll(".sasBodyBar")
         .data(this.sas)
         .enter().append("rect")
         .attr("x", function (d, i) {
-        
-          ++p6;
-          return ((width / _this.rankings.length) * (p6));
-            
-        }
-        )
+            ++p6;
+            return ((width / _this.rankings.length) * (p6));
+        })
         .attr("width", function () {
             return width / _this.rankings.length
         })
         .attr("y", function (d, i) {
             t++;
-          return y(_this.sas[t]);
-        
+            return y(_this.sas[t]) + (8*add);
         })
         .attr("height", function (d, i) {
-       
-        ++ts;
-         min = _this.rankings[ts].primary_value;
-         add =  _this.metadata['higher-primary-value-better']? 1 : -1;
-       if(add)
-           {
-               
-        if(_this.sas[ts] > min)
-                {
-                    return (y(min) - y(_this.sas[ts]) )
-                }
-        else{
+            ++ts;
+            //set the starting value for the grey box to the primary val, unless it's 0 then start where the Y-axis starts.
+            min = (_this.rankings[ts].primary_value == 0? _this.rankings[ts].primary_value - (0.5 * add) : _this.rankings[ts].primary_value) + (0.08*add);
 
-            return (15);
-        }
-        }
-           
-        else
-            {
-        
-        if(_this.sas[ts] < min)
-                {
+       if(add){
+            if(_this.sas[ts] > min){
+                return (y(min) - y(_this.sas[ts]) )
+            }else{
+                return (0);
+            }
+        }else{
+            if(_this.sas[ts] < min){
                     return (y(min) -y(_this.sas[ts]))
-                }
-        else{
-
-            return (15);
-        }
+            }else{
+                return (0);
+            }
         }
     })
     .style("fill", "null")
     .style("stroke", "red")
     .style("stroke-width", ".5")
-    .style("opacity", 0.5)
-    .style(" border-top-color", "green")
+    .style("opacity", 0.3)
+    .style("border-top-color", "green")
 
         .on("mouseover", function (d) {
          console.log(d);
@@ -395,7 +382,7 @@ RainbowGraph.prototype.buildChart = function () {
     p6=-1;
     t6=0
     t3=0
-    bar1.transition()
+    sasBodyBar.transition()
         .duration(this.duration)
         .attr("x", function (d, i) {
         ++p6;
@@ -403,7 +390,8 @@ RainbowGraph.prototype.buildChart = function () {
         })
     
    t=-1;
-     bar2 = this.svg.selectAll(".bar2")
+   t2=-1;
+   sasTopBar = this.svg.selectAll(".sasTopBar")
         .data(this.sas)
         .enter().append("rect")
         .attr("x", function (d, i) {
@@ -418,42 +406,49 @@ RainbowGraph.prototype.buildChart = function () {
         })
         .attr("y", function (d, i) {
             t++;
-          return y(_this.sas[t]);
+            return y(_this.sas[t]);
         
         })
         .attr("height", function (d, i) {
        
         return 15;
     })
-    .style("fill", "null")
+    .style("fill", function(){
+        t2++;
+        if(_this.sas[t2] > _this.rankings[t2].primary_value)
+            return "grey"
+        else
+            return "white"
+    })
     .style("stroke", "red")
     .style("stroke-width", ".5")
     .style("opacity", 1)
     .style(" border-top-color", "green")
+    .attr("rx", 8)
+    .attr("ry", 8)
+    .on("mouseover", function (d) {
+     console.log(d);
+        this.original_color = this.style.fill;
+        this.style.fill = "gray"
+        tooltip.text(_this.metadata["values-label"] + ":" + d );
+        tooltip.style("visibility", "visible");
 
-        .on("mouseover", function (d) {
-         console.log(d);
-            this.original_color = this.style.fill;
-            this.style.fill = "gray"
-            tooltip.text(_this.metadata["values-label"] + ":" + d );
-            tooltip.style("visibility", "visible");
-
-            //TODO: highlight the reviewer
-        })
-        .on("mouseout", function (d, i) {
-            this.style.fill = this.original_color
-            return tooltip.style("visibility", "hidden");
-        })
-        .on("mousemove", function (d, i) {
-            tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px");
-        })
+        //TODO: highlight the reviewer
+    })
+    .on("mouseout", function (d, i) {
+        this.style.fill = this.original_color
+        return tooltip.style("visibility", "hidden");
+    })
+    .on("mousemove", function (d, i) {
+        tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px");
+    })
    
      
 
     p6=-1;
     t6=0
     t3=0
-    bar2.transition()
+    sasTopBar.transition()
         .duration(this.duration)
         .attr("x", function (d, i) {
         ++p6;
