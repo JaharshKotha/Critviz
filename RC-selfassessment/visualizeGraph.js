@@ -200,15 +200,13 @@ RainbowGraph.prototype.buildChart = function () {
         .enter().append("rect")
         .attr("x", function (d, i) {
             t3++;
-            
-            if (_this.rankings[p3].length == 0) {
-                p3++;
-                return _this.rankings[p3].x_pos;
-            }
-
             if (t3 > _this.rankings[p3].length) {
                 p3++;
                 t3 = 1;
+                //if no data available for this bar, skip to the next one
+                if (_this.rankings[p3].length == 0) {
+                    p3++;
+                }
             }
             //cconsole.log(t3+"position = "+_this.rankings[p3].x_pos);
             return _this.rankings[p3].x_pos;
@@ -218,40 +216,27 @@ RainbowGraph.prototype.buildChart = function () {
         })
         .attr("y", function (d, i) {
             t++;
-
             if (t > _this.rankings[p].length) {
                 p++;
                 t = 1;
+                //if no data available for this bar, skip to the next one
                 if (_this.rankings[p].length == 0) {
                     p++;
-                    return 0;
+                    //console.log("empty col");
                 }
-               // console.log(y(_this.rankings[p].primary_value) + (t - 1));
-                return y(_this.rankings[p].primary_value) + (t - 1) * ((height - y(_this.rankings[p].primary_value)) / _this.rankings[p].length);
             }
+            //console.log("p:" + p + " t:" + t + " y:" + (_this.rankings[p].primary_value) + (t - 1) * ((height - y(_this.rankings[p].primary_value)) / _this.rankings[p].length));
             return y(_this.rankings[p].primary_value) + (t - 1) * ((height - y(_this.rankings[p].primary_value)) / _this.rankings[p].length);
         })
         .attr("height", function (d, i) {
             t2++;
-            if (t2 == _this.rankings[p2].length + 1) {
+            if (t2 > _this.rankings[p2].length) {
                 p2++;
                 t2 = 1;
+                if (_this.rankings[p2].length == 0) {
+                    p2++;
+                }
             }
-
-            //console.debug(jsonData[0].data[p2].first_name);
-
-            if (_this.rankings[p2].length == 0) {
-                p2++;
-                t2 = 1;
-                return 0;
-            }
-
-            // cause some rendering error if the value is 0, see data file from Arlene
-            //if(d==0) {
-            //    p2++;
-            //    return 100;
-            //}
-
             return (height - y(_this.rankings[p2].primary_value)) / _this.rankings[p2].length - 1
         })
         .style("fill", function (d) {
@@ -265,7 +250,7 @@ RainbowGraph.prototype.buildChart = function () {
             //this section is used for CPR data
             //it highlights the top most rectangle in the scoreBar (change the top most color to a lighter one)
             t5++;
-            if (t5 == _this.rankings[p5].length + 1) {
+            if (t5 > _this.rankings[p5].length) {
                 p5++;
                 t5 = 1;
             }
@@ -276,10 +261,11 @@ RainbowGraph.prototype.buildChart = function () {
             //console.debug("index : " + color_index + " color : " + color)
             return color;
         })
+        .style("z-index", "9")
         .attr("rx", 8)
         .attr("ry", 8)
         .on("mouseover", function (d) {
-        console.log(d);
+            //console.log(d);
             this.original_color = this.style.fill;
             this.style.fill = "gray"
             tooltip.text(_this.metadata["values-label"] + ":" + d.value + ", " + (_this.metadata["secondary-value-label"] + ":" + d.secondary_value.toFixed(2)));
@@ -301,21 +287,19 @@ RainbowGraph.prototype.buildChart = function () {
         .duration(this.duration)
         .attr("x", function (d, i) {
             t6++;
-
-            if (_this.rankings[p6].length == 0) {
-                p6++;
-            }
-
             if (t6 > _this.rankings[p6].length) {
                 p6++;
                 t6 = 1;
+                //if no data available for this bar, skip to the next one
+                if (_this.rankings[p6].length == 0) {
+                    p6++;
+                }
             }
-
             _this.rankings[p6].x_pos = ((width / _this.rankings.length) * (p6))
             return ((width / _this.rankings.length) * (p6));
         })
 
-    //
+//self assessment bars
     t=-1;
     p=0;
     min=0;
@@ -336,35 +320,34 @@ RainbowGraph.prototype.buildChart = function () {
             return y(_this.rankings[t].sas) + (8*add);
         })
         .attr("height", function (d, i) {
-            ++ts;
+           ++ts;
             //set the starting value for the grey box to the primary val, unless it's 0 then start where the Y-axis starts.
-            min = (_this.rankings[ts].primary_value == 0? _this.rankings[ts].primary_value - (0.5 * add) : _this.rankings[ts].primary_value) + (0.08*add);
-
-       if(add){
-            if(_this.rankings[ts].sas > min){
-                return (y(min) - y(_this.rankings[ts].sas) )
+           min = (_this.rankings[ts].primary_value == 0? _this.rankings[ts].primary_value - (0.5 * add) : _this.rankings[ts].primary_value);
+           min = min + (0.1 * add)
+            if(add){
+                if(_this.rankings[ts].sas > min){
+                    return (y(min) - y(_this.rankings[ts].sas) )
+                }else{
+                    return (0);
+                }
             }else{
-                return (0);
+                if(_this.rankings[ts].sas < min){
+                        return (y(min) -y(_this.rankings[ts].sas))
+                }else{
+                    return (0);
+                }
             }
-        }else{
-            if(_this.rankings[ts].sas < min){
-                    return (y(min) -y(_this.rankings[ts].sas))
-            }else{
-                return (0);
-            }
-        }
-    })
-    .style("fill", "null")
-    .style("stroke", "red")
-    .style("stroke-width", ".5")
-    .style("opacity", 0.3)
-    .style("border-top-color", "green")
-
+        })
+        .style("fill", "null")
+        .style("stroke", "red")
+        .style("stroke-width", ".5")
+        .style("opacity", 0.3)
+        .style("z-index", "7")
         .on("mouseover", function (d) {
-         console.log(d);
+            //console.log(d);
             this.original_color = this.style.fill;
             this.style.fill = "gray"
-            tooltip.text(_this.metadata["values-label"] + ":" + d );
+            tooltip.text("self-assessement" + ":" + d.sas );
             tooltip.style("visibility", "visible");
 
             //TODO: highlight the reviewer
@@ -376,8 +359,8 @@ RainbowGraph.prototype.buildChart = function () {
         .on("mousemove", function (d, i) {
             tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px");
         })
-   
-     
+
+
 
     p6=-1;
     t6=0
@@ -388,62 +371,60 @@ RainbowGraph.prototype.buildChart = function () {
         ++p6;
           return ((width / _this.rankings.length) * (p6));
         })
-    
+
    t=-1;
    t2=-1;
    sasTopBar = this.svg.selectAll(".sasTopBar")
         .data(this.rankings)
         .enter().append("rect")
         .attr("x", function (d, i) {
-        
+
           ++p6;
           return ((width / _this.rankings.length) * (p6));
-            
-        }
-        )
+
+        })
         .attr("width", function () {
             return width / _this.rankings.length
         })
         .attr("y", function (d, i) {
             t++;
             return y(_this.rankings[t].sas);
-        
+
         })
         .attr("height", function (d, i) {
-       
-        return 15;
-    })
-    .style("fill", function(){
-        t2++;
-        if(_this.rankings[t2].sas > _this.rankings[t2].primary_value)
-            return "grey"
-        else
-            return "white"
-    })
-    .style("stroke", "red")
-    .style("stroke-width", ".5")
-    .style("opacity", 1)
-    .style(" border-top-color", "green")
-    .attr("rx", 8)
-    .attr("ry", 8)
-    .on("mouseover", function (d) {
-     console.log(d);
-        this.original_color = this.style.fill;
-        this.style.fill = "gray"
-        tooltip.text(_this.metadata["values-label"] + ":" + d );
-        tooltip.style("visibility", "visible");
+            return 15;
+        })
+        .style("fill", function(){
+            t2++;
+            if(_this.rankings[t2].sas > _this.rankings[t2].primary_value)
+                return "grey"
+            else
+                return "white"
+        })
+        .style("stroke", "red")
+        .style("stroke-width", ".5")
+        .style("opacity", 1)
+        .style("z-index", "8")
+        .attr("rx", 8)
+        .attr("ry", 8)
+        .on("mouseover", function (d) {
+            //console.log(d);
+            this.original_color = this.style.fill;
+            this.style.fill = "gray"
+            tooltip.text("self-assessement" + ":" + d.sas );
+            tooltip.style("visibility", "visible");
 
-        //TODO: highlight the reviewer
-    })
-    .on("mouseout", function (d, i) {
-        this.style.fill = this.original_color
-        return tooltip.style("visibility", "hidden");
-    })
-    .on("mousemove", function (d, i) {
-        tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px");
-    })
-   
-     
+            //TODO: highlight the reviewer
+        })
+        .on("mouseout", function (d, i) {
+            this.style.fill = this.original_color
+            return tooltip.style("visibility", "hidden");
+        })
+        .on("mousemove", function (d, i) {
+            tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px");
+        })
+
+
 
     p6=-1;
     t6=0
@@ -454,7 +435,7 @@ RainbowGraph.prototype.buildChart = function () {
         ++p6;
           return ((width / _this.rankings.length) * (p6));
         })
-    
+
 
     this.svg.select("g")
         .selectAll(".tick")
