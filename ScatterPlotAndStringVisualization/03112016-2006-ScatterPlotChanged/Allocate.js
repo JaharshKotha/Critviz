@@ -108,7 +108,7 @@ for(i=0;i<studentId.length;i++){
 // }
 
 //create a json with id, student's name, rank_avg, variance, array of 5 assigned students.
-//later we need to add students id who were 
+//later we need to higher_better students id who were
 
 
 

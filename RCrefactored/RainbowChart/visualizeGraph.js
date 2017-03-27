@@ -25,7 +25,7 @@ RainbowGraph.prototype.parseData = function () {
 
     this.duration = Math.round (this.duration * this.jsonData[0].data.length / 45);
 
-    p = 0
+    allrankingIndex = 0
     for (var i = 0; i < this.jsonData[0].data.length; i++) {
         this.rankings[i] = []
         for (var j = 0; j < this.jsonData[0].data[i].values.length; j++) {
@@ -36,15 +36,15 @@ RainbowGraph.prototype.parseData = function () {
             rank_val.secondary_value = this.jsonData[0].data[i].secondary_value;
             rank_val.first_name = this.jsonData[0].data[i].first_name;
             rank_val.x_pos = 0;
-            this.allrankings[p] = rank_val
+            this.allrankings[allrankingIndex] = rank_val
 
-            if (this.min_rank_val > this.allrankings[p].value) {
-                this.min_rank_val = this.allrankings[p.value];
+            if (this.min_rank_val > this.allrankings[allrankingIndex].value) {
+                this.min_rank_val = this.allrankings[allrankingIndex.value];
             }
-            if (this.max_rank_val < this.allrankings[p].value && this.allrankings[p].value != Number.MAX_SAFE_INTEGER) {
-                this.max_rank_val = this.allrankings[p].value;
+            if (this.max_rank_val < this.allrankings[allrankingIndex].value && this.allrankings[allrankingIndex].value != Number.MAX_SAFE_INTEGER) {
+                this.max_rank_val = this.allrankings[allrankingIndex].value;
             }
-            p++;
+            allrankingIndex++;
         }
         this.rankings[i].primary_value = this.jsonData[0].data[i].primary_value; //rank avg corresponds to primary value in json file for each student
         this.rankings[i].secondary_value = this.jsonData[0].data[i].secondary_value;
@@ -172,7 +172,7 @@ RainbowGraph.prototype.buildChart = function () {
 
 
     k = 0;
-    p = 0;
+    allrankingIndex = 0;
     p2 = 0;
     p3 = 0;
     p4 = 0;
@@ -213,16 +213,16 @@ RainbowGraph.prototype.buildChart = function () {
         .attr("y", function (d, i) {
             t++;
 
-            if (t > _this.rankings[p].length) {
-                p++;
+            if (t > _this.rankings[allrankingIndex].length) {
+                allrankingIndex++;
                 t = 1;
-                if (_this.rankings[p].length == 0) {
-                    p++;
+                if (_this.rankings[allrankingIndex].length == 0) {
+                    allrankingIndex++;
                     return 0;
                 }
-                return y(_this.rankings[p].primary_value) + (t - 1) * ((height - y(_this.rankings[p].primary_value)) / _this.rankings[p].length);
+                return y(_this.rankings[allrankingIndex].primary_value) + (t - 1) * ((height - y(_this.rankings[allrankingIndex].primary_value)) / _this.rankings[allrankingIndex].length);
             }
-            return y(_this.rankings[p].primary_value) + (t - 1) * ((height - y(_this.rankings[p].primary_value)) / _this.rankings[p].length);
+            return y(_this.rankings[allrankingIndex].primary_value) + (t - 1) * ((height - y(_this.rankings[allrankingIndex].primary_value)) / _this.rankings[allrankingIndex].length);
         })
         .attr("height", function (d, i) {
             t2++;
@@ -329,11 +329,11 @@ RainbowGraph.prototype.visualizeGraph = function(){
 
     if(this.dropdown!=null)
         d3.select('body')
-            .selectAll('p')
+            .selectAll('allrankingIndex')
             .remove();
 
     this.dropdown = d3.select('body')
-        .append('p')
+        .append('allrankingIndex')
         .text('Sort by ')
         .attr('class','right-align')
         .append('select')
@@ -355,7 +355,7 @@ RainbowGraph.prototype.visualizeGraph = function(){
 RainbowGraph.prototype.onSortByChange = function(obj) {
 
     var _this = obj;
-    add =  _this.metadata['higher-primary-value-better']? 1 : -1
+    higher_better =  _this.metadata['higher-primary-value-better']? 1 : -1
 
     selectValue = d3.select('select').property('value');
     _this.rankings.sort(function(a, b) {
@@ -365,16 +365,16 @@ RainbowGraph.prototype.onSortByChange = function(obj) {
             else if (a.first_name == "" && b.first_name == "")
                 return 0;
         }else if(selectValue == _this.metadata["primary-value-label"]) {
-            if( a.primary_value > b.primary_value ) return -add
-            else if ( a.primary_value < b.primary_value ) return add
+            if( a.primary_value > b.primary_value ) return -higher_better
+            else if ( a.primary_value < b.primary_value ) return higher_better
         }else if(selectValue == _this.metadata["secondary-value-label"]) {
-            if( a.secondary_value > b.secondary_value ) return -add
-            else if ( a.secondary_value < b.secondary_value ) return add
+            if( a.secondary_value > b.secondary_value ) return -higher_better
+            else if ( a.secondary_value < b.secondary_value ) return higher_better
         }
         return 0;
     });
 
-    p=0;
+    allrankingIndex=0;
     for (var i = 0; i < _this.rankings.length; i++) {
         for (var j = 0; j < _this.rankings[i].length; j++) {
             var rank_val = new Object();
@@ -383,8 +383,8 @@ RainbowGraph.prototype.onSortByChange = function(obj) {
             rank_val.secondary_value = _this.rankings[i].secondary_value;
             rank_val.first_name = _this.rankings[i].first_name;
             rank_val.x_pos = _this.rankings[i].x_pos;
-            this.allrankings[p] = rank_val
-            p++;
+            this.allrankings[allrankingIndex] = rank_val
+            allrankingIndex++;
         }
     }
 

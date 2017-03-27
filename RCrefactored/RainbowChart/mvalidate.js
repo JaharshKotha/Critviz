@@ -1,6 +1,6 @@
 function mvalidate(rc){
 
-p=0
+allrankingIndex=0
     
 //console.log(min_rank_val+" "+max_rank_val);
 
@@ -44,16 +44,16 @@ for(var i=0;i<rc.jsonData[0].data.length;i++){
         rankings[i] = []
         for(var j=0;j<rc.jsonData[0].data[i].values.length;j++){
             rankings[i].push(rc.jsonData[0].data[i].values[j]); //rankings is a multidimensional array with rankings of each student
-            allrankings[p] = rc.jsonData[0].data[i].values[j];  //allrankings is single dimensional array with rankings of each students in order
-            if(min_rank_val>allrankings[p]  )
+            allrankings[allrankingIndex] = rc.jsonData[0].data[i].values[j];  //allrankings is single dimensional array with rankings of each students in order
+            if(min_rank_val>allrankings[allrankingIndex]  )
             {
-                min_rank_val=allrankings[p];
+                min_rank_val=allrankings[allrankingIndex];
             }
-            if(max_rank_val<allrankings[p] && allrankings[p]!= Number.MAX_SAFE_INTEGER)
+            if(max_rank_val<allrankings[allrankingIndex] && allrankings[allrankingIndex]!= Number.MAX_SAFE_INTEGER)
             {
-                max_rank_val = allrankings[p];
+                max_rank_val = allrankings[allrankingIndex];
             }
-            p++;
+            allrankingIndex++;
         }
         rankings[i].rank_avg = rc.jsonData[0].data[i].primary_value; //rank avg corresponds to primary value in json file for each student
         if(min_primary_value > rankings[i].rank_avg)

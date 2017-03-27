@@ -16,13 +16,13 @@ if(svg!=null)
 //=====================================this needs to be replaced later=====================
 rankings = []
 allrankings = []
-p=0;
+allrankingIndex=0;
 for(var i=0;i<jsonData[0].data.length;i++){
   rankings[i] = []
   for(var j=0;j<jsonData[0].data[i].values.length;j++){
   rankings[i].push(jsonData[0].data[i].values[j]); //rankings is a multidimensional array with rankings of each student
-  allrankings[p] = jsonData[0].data[i].values[j];  //allrankings is single dimensional array with rankings of each students in order
-  p++;
+  allrankings[allrankingIndex] = jsonData[0].data[i].values[j];  //allrankings is single dimensional array with rankings of each students in order
+  allrankingIndex++;
   }
 rankings[i].rank_avg = jsonData[0].data[i].primary_value; //rank avg corresponds to primary value in json file for each student
 }
@@ -95,13 +95,13 @@ while(jsonData[0].data[fextent].column_url!=find && jsonData[0].data[fextent].fi
 
 rankings = [];
 allrankings = [];
-p=0;
+allrankingIndex=0;
 for(var i=0;i<fextent-f;i++){
   rankings[i] = []
   for(var j=0;j<jsonData[0].data[f+i].values.length;j++){
   rankings[i].push(jsonData[0].data[f+i].values[j]);
-  allrankings[p] = jsonData[0].data[f+i].values[j];
-  p++;
+  allrankings[allrankingIndex] = jsonData[0].data[f+i].values[j];
+  allrankingIndex++;
   }
 rankings[i].rank_avg = jsonData[0].data[f+i].primary_value;
 }
@@ -145,7 +145,7 @@ rankings[i].rank_avg = jsonData[0].data[f+i].primary_value;
 
 
 k=0;
-p=0;
+allrankingIndex=0;
 p2=0;
 p3=0;
 p4=0;
@@ -164,7 +164,7 @@ t4=0;
       .attr("class", "scoreBar")
       .attr("x", function(d,i) {t3++; if(rankings[p3].length==0){p3++;} if(t3>rankings[p3].length) {p3++; t3=1; return ((width/rankings.length)*(p3));} return ((width/rankings.length)*(p3)); })
       .attr("width", function(){return width/rankings.length})
-      .attr("y", function(d,i) { t++; if(rankings[p].length==0) { p++; return 0;} if(t>rankings[p].length) {p++; t=1; return y(rankings[p].rank_avg) + (t-1) * ((height - y(rankings[p].rank_avg))/rankings[p].length);}   return y(rankings[p].rank_avg) + (t-1) * ((height - y(rankings[p].rank_avg))/rankings[p].length);  })
+      .attr("y", function(d,i) { t++; if(rankings[allrankingIndex].length==0) { allrankingIndex++; return 0;} if(t>rankings[allrankingIndex].length) {allrankingIndex++; t=1; return y(rankings[allrankingIndex].rank_avg) + (t-1) * ((height - y(rankings[allrankingIndex].rank_avg))/rankings[allrankingIndex].length);}   return y(rankings[allrankingIndex].rank_avg) + (t-1) * ((height - y(rankings[allrankingIndex].rank_avg))/rankings[allrankingIndex].length);  })
       .attr("height", function(d,i) {  t2++; if(t2==rankings[p2].length+1) {p2++; t2=1;} if(rankings[p2].length==0) { p2++; return 0;} if(d==0) {p2++;  return 100;}   return (height - y(rankings[p2].rank_avg))/rankings[p2].length - 1})
 	  .style("fill",function(d){return colorKey[inputColorScheme][Math.floor(((d-1)*colorKey[inputColorScheme].length / rankScale))];})
 	  .attr("rx",8)

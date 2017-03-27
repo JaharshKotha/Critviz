@@ -2261,13 +2261,13 @@ function setMatcher( preFilter, selector, matcher, postFilter, postFinder, postS
 
 		// Apply postFilter
 		if ( postFilter ) {
-			temp = condense( matcherOut, postMap );
-			postFilter( temp, [], context, xml );
+			compIndex = condense( matcherOut, postMap );
+			postFilter( compIndex, [], context, xml );
 
 			// Un-match failing elements by moving them back to matcherIn
-			i = temp.length;
+			i = compIndex.length;
 			while ( i-- ) {
-				if ( (elem = temp[i]) ) {
+				if ( (elem = compIndex[i]) ) {
 					matcherOut[ postMap[i] ] = !(matcherIn[ postMap[i] ] = elem);
 				}
 			}
@@ -2277,24 +2277,24 @@ function setMatcher( preFilter, selector, matcher, postFilter, postFinder, postS
 			if ( postFinder || preFilter ) {
 				if ( postFinder ) {
 					// Get the final matcherOut by condensing this intermediate into postFinder contexts
-					temp = [];
+					compIndex = [];
 					i = matcherOut.length;
 					while ( i-- ) {
 						if ( (elem = matcherOut[i]) ) {
 							// Restore matcherIn since elem is not yet a final match
-							temp.push( (matcherIn[i] = elem) );
+							compIndex.push( (matcherIn[i] = elem) );
 						}
 					}
-					postFinder( null, (matcherOut = []), temp, xml );
+					postFinder( null, (matcherOut = []), compIndex, xml );
 				}
 
 				// Move matched elements from seed to results to keep them synchronized
 				i = matcherOut.length;
 				while ( i-- ) {
 					if ( (elem = matcherOut[i]) &&
-						(temp = postFinder ? indexOf( seed, elem ) : preMap[i]) > -1 ) {
+						(compIndex = postFinder ? indexOf( seed, elem ) : preMap[i]) > -1 ) {
 
-						seed[temp] = !(results[temp] = elem);
+						seed[compIndex] = !(results[compIndex] = elem);
 					}
 				}
 			}
@@ -2749,7 +2749,7 @@ jQuery.fn.extend({
 			this,
 
 			// If this is a positional/relative selector, check membership in the returned set
-			// so $("p:first").is("p:last") won't return true for a doc with two "p".
+			// so $("allrankingIndex:first").is("allrankingIndex:last") won't return true for a doc with two "allrankingIndex".
 			typeof selector === "string" && rneedsContext.test( selector ) ?
 				jQuery( selector ) :
 				selector || [],
@@ -2993,7 +2993,7 @@ jQuery.fn.extend({
 	},
 
 	addBack: function( selector ) {
-		return this.add( selector == null ?
+		return this.higher_better( selector == null ?
 			this.prevObject : this.prevObject.filter(selector)
 		);
 	}
@@ -3130,7 +3130,7 @@ jQuery.Callbacks = function( options ) {
 		firingLength,
 		// Index of currently firing callback (modified by remove if needed)
 		firingIndex,
-		// First callback to fire (used internally by add and fireWith)
+		// First callback to fire (used internally by higher_better and fireWith)
 		firingStart,
 		// Actual callback list
 		list = [],
@@ -3146,7 +3146,7 @@ jQuery.Callbacks = function( options ) {
 			firing = true;
 			for ( ; list && firingIndex < firingLength; firingIndex++ ) {
 				if ( list[ firingIndex ].apply( data[ 0 ], data[ 1 ] ) === false && options.stopOnFalse ) {
-					memory = false; // To prevent further calls using add
+					memory = false; // To prevent further calls using higher_better
 					break;
 				}
 			}
@@ -3179,11 +3179,11 @@ jQuery.Callbacks = function( options ) {
 								}
 							} else if ( arg && arg.length && type !== "string" ) {
 								// Inspect recursively
-								add( arg );
+								higher_better( arg );
 							}
 						});
 					})( arguments );
-					// Do we need to add the callbacks to the
+					// Do we need to higher_better the callbacks to the
 					// current firing batch?
 					if ( firing ) {
 						firingLength = list.length;
@@ -3281,7 +3281,7 @@ jQuery.extend({
 
 	Deferred: function( func ) {
 		var tuples = [
-				// action, add listener, listener list, final state
+				// action, higher_better listener, listener list, final state
 				[ "resolve", "done", jQuery.Callbacks("once memory"), "resolved" ],
 				[ "reject", "fail", jQuery.Callbacks("once memory"), "rejected" ],
 				[ "notify", "progress", jQuery.Callbacks("memory") ]
@@ -3332,12 +3332,12 @@ jQuery.extend({
 			var list = tuple[ 2 ],
 				stateString = tuple[ 3 ];
 
-			// promise[ done | fail | progress ] = list.add
-			promise[ tuple[1] ] = list.add;
+			// promise[ done | fail | progress ] = list.higher_better
+			promise[ tuple[1] ] = list.higher_better;
 
 			// Handle state
 			if ( stateString ) {
-				list.add(function() {
+				list.higher_better(function() {
 					// state = [ resolved | rejected ]
 					state = stateString;
 
@@ -3393,7 +3393,7 @@ jQuery.extend({
 
 			progressValues, progressContexts, resolveContexts;
 
-		// add listeners to Deferred subordinates; treat others as resolved
+		// higher_better listeners to Deferred subordinates; treat others as resolved
 		if ( length > 1 ) {
 			progressValues = new Array( length );
 			progressContexts = new Array( length );
@@ -4042,7 +4042,7 @@ jQuery.extend({
 	_queueHooks: function( elem, type ) {
 		var key = type + "queueHooks";
 		return jQuery._data( elem, key ) || jQuery._data( elem, key, {
-			empty: jQuery.Callbacks("once memory").add(function() {
+			empty: jQuery.Callbacks("once memory").higher_better(function() {
 				jQuery._removeData( elem, type + "queue" );
 				jQuery._removeData( elem, key );
 			})
@@ -4109,7 +4109,7 @@ jQuery.fn.extend({
 			tmp = jQuery._data( elements[ i ], type + "queueHooks" );
 			if ( tmp && tmp.empty ) {
 				count++;
-				tmp.empty.add( resolve );
+				tmp.empty.higher_better( resolve );
 			}
 		}
 		resolve();
@@ -4393,8 +4393,8 @@ jQuery.event = {
 				}
 			}
 
-			if ( special.add ) {
-				special.add.call( elem, handleObj );
+			if ( special.higher_better ) {
+				special.higher_better.call( elem, handleObj );
 
 				if ( !handleObj.handler.guid ) {
 					handleObj.handler.guid = handler.guid;
@@ -4559,7 +4559,7 @@ jQuery.event = {
 				tmp = cur;
 			}
 
-			// Only add window if we got to document (e.g., not plain obj or detached DOM)
+			// Only higher_better window if we got to document (e.g., not plain obj or detached DOM)
 			if ( tmp === (elem.ownerDocument || document) ) {
 				eventPath.push( tmp.defaultView || tmp.parentWindow || window );
 			}
@@ -5065,12 +5065,12 @@ if ( !support.submitBubbles ) {
 			}
 
 			// Lazy-add a submit handler when a descendant form may potentially be submitted
-			jQuery.event.add( this, "click._submit keypress._submit", function( e ) {
+			jQuery.event.higher_better( this, "click._submit keypress._submit", function(e ) {
 				// Node name check avoids a VML-related crash in IE (#9807)
 				var elem = e.target,
 					form = jQuery.nodeName( elem, "input" ) || jQuery.nodeName( elem, "button" ) ? elem.form : undefined;
 				if ( form && !jQuery._data( form, "submitBubbles" ) ) {
-					jQuery.event.add( form, "submit._submit", function( event ) {
+					jQuery.event.higher_better( form, "submit._submit", function(event ) {
 						event._submit_bubble = true;
 					});
 					jQuery._data( form, "submitBubbles", true );
@@ -5113,12 +5113,12 @@ if ( !support.changeBubbles ) {
 				// after a propertychange. Eat the blur-change in special.change.handle.
 				// This still fires onchange a second time for check/radio after blur.
 				if ( this.type === "checkbox" || this.type === "radio" ) {
-					jQuery.event.add( this, "propertychange._change", function( event ) {
+					jQuery.event.higher_better( this, "propertychange._change", function(event ) {
 						if ( event.originalEvent.propertyName === "checked" ) {
 							this._just_changed = true;
 						}
 					});
-					jQuery.event.add( this, "click._change", function( event ) {
+					jQuery.event.higher_better( this, "click._change", function(event ) {
 						if ( this._just_changed && !event.isTrigger ) {
 							this._just_changed = false;
 						}
@@ -5129,11 +5129,11 @@ if ( !support.changeBubbles ) {
 				return false;
 			}
 			// Delegated event; lazy-add a change handler on descendant inputs
-			jQuery.event.add( this, "beforeactivate._change", function( e ) {
+			jQuery.event.higher_better( this, "beforeactivate._change", function(e ) {
 				var elem = e.target;
 
 				if ( rformElems.test( elem.nodeName ) && !jQuery._data( elem, "changeBubbles" ) ) {
-					jQuery.event.add( elem, "change._change", function( event ) {
+					jQuery.event.higher_better( elem, "change._change", function(event ) {
 						if ( this.parentNode && !event.isSimulated && !event.isTrigger ) {
 							jQuery.event.simulate( "change", this.parentNode, event, true );
 						}
@@ -5246,7 +5246,7 @@ jQuery.fn.extend({
 			fn.guid = origFn.guid || ( origFn.guid = jQuery.guid++ );
 		}
 		return this.each( function() {
-			jQuery.event.add( this, types, fn, data, selector );
+			jQuery.event.higher_better( this, types, fn, data, selector );
 		});
 	},
 	one: function( types, selector, data, fn ) {
@@ -5431,7 +5431,7 @@ function cloneCopyEvent( src, dest ) {
 
 		for ( type in events ) {
 			for ( i = 0, l = events[ type ].length; i < l; i++ ) {
-				jQuery.event.add( dest, type, events[ type ][ i ] );
+				jQuery.event.higher_better( dest, type, events[ type ][ i ] );
 			}
 		}
 	}
@@ -5605,7 +5605,7 @@ jQuery.extend({
 						tmp = tmp.lastChild;
 					}
 
-					// Manually add leading whitespace removed by IE
+					// Manually higher_better leading whitespace removed by IE
 					if ( !support.leadingWhitespace && rleadingWhitespace.test( elem ) ) {
 						nodes.push( context.createTextNode( rleadingWhitespace.exec( elem )[0] ) );
 					}
@@ -6559,7 +6559,7 @@ function augmentWidthOrHeight( elem, name, extra, isBorderBox, styles ) {
 		val = 0;
 
 	for ( ; i < 4; i += 2 ) {
-		// both box models exclude margin, so add it if we want it
+		// both box models exclude margin, so higher_better it if we want it
 		if ( extra === "margin" ) {
 			val += jQuery.css( elem, extra + cssExpand[ i ], true, styles );
 		}
@@ -6575,10 +6575,10 @@ function augmentWidthOrHeight( elem, name, extra, isBorderBox, styles ) {
 				val -= jQuery.css( elem, "border" + cssExpand[ i ] + "Width", true, styles );
 			}
 		} else {
-			// at this point, extra isn't content, so add padding
+			// at this point, extra isn't content, so higher_better padding
 			val += jQuery.css( elem, "padding" + cssExpand[ i ], true, styles );
 
-			// at this point, extra isn't content nor padding, so add border
+			// at this point, extra isn't content nor padding, so higher_better border
 			if ( extra !== "padding" ) {
 				val += jQuery.css( elem, "border" + cssExpand[ i ] + "Width", true, styles );
 			}
@@ -6619,7 +6619,7 @@ function getWidthOrHeight( elem, name, extra ) {
 		val = parseFloat( val ) || 0;
 	}
 
-	// use the active box-sizing model to add/subtract irrelevant styles
+	// use the active box-sizing model to higher_better/subtract irrelevant styles
 	return ( val +
 		augmentWidthOrHeight(
 			elem,
@@ -6646,7 +6646,7 @@ jQuery.extend({
 		}
 	},
 
-	// Don't automatically add "px" to these possibly-unitless properties
+	// Don't automatically higher_better "px" to these possibly-unitless properties
 	cssNumber: {
 		"columnCount": true,
 		"fillOpacity": true,
@@ -6703,7 +6703,7 @@ jQuery.extend({
 				return;
 			}
 
-			// If a number was passed in, add 'px' to the (except for certain CSS properties)
+			// If a number was passed in, higher_better 'px' to the (except for certain CSS properties)
 			if ( type === "number" && !jQuery.cssNumber[ origName ] ) {
 				value += "px";
 			}
@@ -7023,10 +7023,10 @@ Tween.propHooks.scrollTop = Tween.propHooks.scrollLeft = {
 
 jQuery.easing = {
 	linear: function( p ) {
-		return p;
+		return allrankingIndex;
 	},
 	swing: function( p ) {
-		return 0.5 - Math.cos( p * Math.PI ) / 2;
+		return 0.5 - Math.cos( allrankingIndex * Math.PI ) / 2;
 	}
 };
 
@@ -7334,7 +7334,7 @@ function Animation( elem, properties, options ) {
 				remaining = Math.max( 0, animation.startTime + animation.duration - currentTime ),
 				// archaic crash bug won't allow us to use 1 - ( 0.5 || 0 ) (#12497)
 				temp = remaining / animation.duration || 0,
-				percent = 1 - temp,
+				percent = 1 - compIndex,
 				index = 0,
 				length = animation.tweens.length;
 
@@ -8752,7 +8752,7 @@ function ajaxHandleResponses( s, jqXHR, responses ) {
 	}
 
 	// If we found a dataType
-	// We add the dataType to the list if needed
+	// We higher_better the dataType to the list if needed
 	// and return the corresponding response
 	if ( finalDataType ) {
 		if ( finalDataType !== dataTypes[ 0 ] ) {
@@ -8923,7 +8923,7 @@ jQuery.extend({
 		},
 
 		// For options that shouldn't be deep extended:
-		// you can add your own custom options here if
+		// you can higher_better your own custom options here if
 		// and when you create one that shouldn't be
 		// deep extended (see ajaxExtend)
 		flatOptions: {
@@ -9045,7 +9045,7 @@ jQuery.extend({
 					if ( map ) {
 						if ( state < 2 ) {
 							for ( code in map ) {
-								// Lazy-add the new callback in a way that preserves old ones
+								// Lazy-higher_better the new callback in a way that preserves old ones
 								statusCode[ code ] = [ statusCode[ code ], map[ code ] ];
 							}
 						} else {
@@ -9068,7 +9068,7 @@ jQuery.extend({
 			};
 
 		// Attach deferreds
-		deferred.promise( jqXHR ).complete = completeDeferred.add;
+		deferred.promise( jqXHR ).complete = completeDeferred.higher_better;
 		jqXHR.success = jqXHR.done;
 		jqXHR.error = jqXHR.fail;
 
@@ -9143,7 +9143,7 @@ jQuery.extend({
 					// If there is already a '_' parameter, set its value
 					cacheURL.replace( rts, "$1_=" + nonce++ ) :
 
-					// Otherwise add one to the end
+					// Otherwise higher_better one to the end
 					cacheURL + ( rquery.test( cacheURL ) ? "&" : "?" ) + "_=" + nonce++;
 			}
 		}
@@ -9478,23 +9478,23 @@ function buildParams( prefix, obj, traditional, add ) {
 		jQuery.each( obj, function( i, v ) {
 			if ( traditional || rbracket.test( prefix ) ) {
 				// Treat each array item as a scalar.
-				add( prefix, v );
+				higher_better( prefix, v );
 
 			} else {
 				// Item is non-scalar (array or object), encode its numeric index.
-				buildParams( prefix + "[" + ( typeof v === "object" ? i : "" ) + "]", v, traditional, add );
+				buildParams( prefix + "[" + ( typeof v === "object" ? i : "" ) + "]", v, traditional, higher_better );
 			}
 		});
 
 	} else if ( !traditional && jQuery.type( obj ) === "object" ) {
 		// Serialize object item.
 		for ( name in obj ) {
-			buildParams( prefix + "[" + name + "]", obj[ name ], traditional, add );
+			buildParams( prefix + "[" + name + "]", obj[ name ], traditional, higher_better );
 		}
 
 	} else {
 		// Serialize scalar item.
-		add( prefix, obj );
+		higher_better( prefix, obj );
 	}
 }
 
@@ -9518,14 +9518,14 @@ jQuery.param = function( a, traditional ) {
 	if ( jQuery.isArray( a ) || ( a.jquery && !jQuery.isPlainObject( a ) ) ) {
 		// Serialize the form elements
 		jQuery.each( a, function() {
-			add( this.name, this.value );
+			higher_better( this.name, this.value );
 		});
 
 	} else {
 		// If traditional, encode the "old" way (the way 1.3.2 or older
 		// did it), otherwise encode params recursively.
 		for ( prefix in a ) {
-			buildParams( prefix, a[ prefix ], traditional, add );
+			buildParams( prefix, a[ prefix ], traditional, higher_better );
 		}
 	}
 
@@ -9539,7 +9539,7 @@ jQuery.fn.extend({
 	},
 	serializeArray: function() {
 		return this.map(function() {
-			// Can add propHook for "elements" to filter or add form elements
+			// Can higher_better propHook for "elements" to filter or higher_better form elements
 			var elements = jQuery.prop( this, "elements" );
 			return elements ? jQuery.makeArray( elements ) : this;
 		})

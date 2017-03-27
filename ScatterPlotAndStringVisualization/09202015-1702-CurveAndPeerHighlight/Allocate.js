@@ -42,16 +42,16 @@ for(i=0;i<numberOfStudents;i++){
 		if(randomPool[(5*i)+j] != i)
 			assigned[i][j] = randomPool[(5*i)+j];
 		else
-			{ temp = randomPool[(5*i)+j];
+			{ compIndex = randomPool[(5*i)+j];
 			  randomPool[(5*i)+j] = randomPool[(5*i)+j+1];
-			  randomPool[(5*i)+j+1]  = temp;
+			  randomPool[(5*i)+j+1]  = compIndex;
 			  assigned[i][j] = randomPool[(5*i)+j];
 			}
 	}
 }
 
 //create a json with id, student's name, rank_avg, variance, array of 5 assigned students.
-//later we need to add students id who were 
+//later we need to higher_better students id who were
 
 
 checkPeers();
