@@ -11,7 +11,8 @@
 		"x-axis-label": "Students",
 		"color-scheme": "5b",
 		"secondary-value-label": "variance",
-        "crit_comparer": "yes"
+        "crit_comparer": "yes",
+		"sas": "yes"
 	},
 	"data": [{
 		"first_name": "Jonathan",
@@ -19,7 +20,8 @@
 		"column_url": "http://localhost:3000/assignments/584/responses/42846/showcrit?crit_assignment_id=594",
 		"primary_value": 1.0,
 		"secondary_value": 0.0,
-		"values": [1, 1, 1, 1, 1],    "sas": 3 ,
+		"values": [1, 1, 1, 1, 1],
+		"sas": 3 ,
 		"studentID": 744,
 		"critcomparer": [{
 			"rank": 1,
