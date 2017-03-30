@@ -17,7 +17,7 @@ function RainbowGraph(data) {
     this.duration = 1000;
     this.sas = [];
     this.crit_comparer = [];
-    
+
 
 }
 
@@ -53,13 +53,14 @@ RainbowGraph.prototype.parseData = function () {
         for (var j = 0; j < this.jsonData[0].data[i].values.length; j++) {
             if(this.jsonData[0].data[i].values[j] == 0)
                 continue;
-            this.rankings[i].push(this.jsonData[0].data[i].values[j]); 
+            this.rankings[i].push(this.jsonData[0].data[i].values[j]);
             //rankings is a multidimensional array with rankings of each student
             var rank_val = new Object();
             rank_val.value = this.jsonData[0].data[i].values[j];  //allrankings is single dimensional array with rankings of each students in order
             rank_val.primary_value = this.jsonData[0].data[i].primary_value;
             rank_val.secondary_value = this.jsonData[0].data[i].secondary_value;
             rank_val.first_name = this.jsonData[0].data[i].first_name;
+            rank_val.last_name = this.jsonData[0].data[i].last_name;
             rank_val.stu_id = this.jsonData[0].data[i].studentID;
             rank_val.x_pos = 0;
             //get crit comparer data if they're available. Attach them to the flatened allrankings[i]
@@ -67,7 +68,7 @@ RainbowGraph.prototype.parseData = function () {
                 rank_val.crit_comparer = this.rankings[i].sorted_comparer[j];
 
             this.allrankings[allrankingIndex] = rank_val
-            
+
             if (this.min_rank_val > this.allrankings[allrankingIndex].value) {
                 this.min_rank_val = this.allrankings[allrankingIndex.value];
             }
@@ -76,10 +77,11 @@ RainbowGraph.prototype.parseData = function () {
             }
             allrankingIndex++;
         }
-       
+
         this.rankings[i].primary_value = this.jsonData[0].data[i].primary_value; //rank avg corresponds to primary value in json file for each student
         this.rankings[i].secondary_value = this.jsonData[0].data[i].secondary_value;
         this.rankings[i].first_name = this.jsonData[0].data[i].first_name;
+        this.rankings[i].last_name = this.jsonData[0].data[i].last_name;
         this.rankings[i].x_pos = 0;
         this.rankings[i].sas = this.jsonData[0].data[i].sas;
         this.rankings[i].stu_id = this.jsonData[0].data[i].studentID;
@@ -123,12 +125,12 @@ RainbowGraph.prototype.buildChart = function () {
             bottom: 0.0, left: 0.05 * window.innerWidth
         },
         width = window.innerWidth * 0.9;
-    
+
     height = (window.innerHeight * 0.6) - margin.top - margin.bottom;
 
     y = d3.scale.linear()
         .range([height, 0]);
-    
+
 
     yAxis = d3.svg.axis()
         .scale(y)
@@ -161,13 +163,13 @@ RainbowGraph.prototype.buildChart = function () {
             .tickFormat(function(i){ //relabel the x-axis with student fullnames
                 d = _this.rankings[i];
                 if (d.last_name != undefined && d.first_name != undefined )
-                     return d.last_name + ', ' + d.first_name;
+                    return d.last_name + ', ' + d.first_name;
                 else if (d.last_name != undefined)
-                     return d.last_name
+                    return d.last_name
                 else if (d.first_name != undefined)
-                     return d.first_name
+                    return d.first_name
                 else
-                     return (d.column_url);
+                    return (d.column_url);
             })
             .orient("bottom");
 
@@ -208,7 +210,7 @@ RainbowGraph.prototype.buildChart = function () {
         .style("text-anchor", "end")
         .text(this.metadata['y-axis-label']);
 
-    
+
     k = 0;
     allrankingIndex = 0;
     p2 = 0;
@@ -255,10 +257,10 @@ RainbowGraph.prototype.buildChart = function () {
                 //if no data available for this bar, skip to the next one
                 if (_this.rankings[allrankingIndex].length == 0) {
                     allrankingIndex++;
-                    
+
                 }
             }
-            
+
             return y(_this.rankings[allrankingIndex].primary_value) + (t - 1) * ((height - y(_this.rankings[allrankingIndex].primary_value)) / _this.rankings[allrankingIndex].length);
         })
         .attr("height", function (d, i) {
@@ -292,7 +294,7 @@ RainbowGraph.prototype.buildChart = function () {
             if (_this.metadata["highlight-top-most-scoreBar"] && t5 == 1)
                 color = _this.colorLuminance(color, 0.3)
 
-            
+
             return color;
         })
         .style("z-index", "9")
@@ -301,7 +303,7 @@ RainbowGraph.prototype.buildChart = function () {
         .on("mouseover", function (d) {
             if(_this.useCritComparer)
                 showReviewerDataOnMouseOver.call(this);
-            
+
             tooltip.text(_this.metadata["values-label"] + ":" + d.value + ", " + (_this.metadata["secondary-value-label"] + ":" + d.secondary_value.toFixed(2)));
             tooltip.style("visibility", "visible");
 
@@ -310,10 +312,10 @@ RainbowGraph.prototype.buildChart = function () {
         .on("mouseout", function (d, i) {
             if(_this.useCritComparer)
                 hideReviewerDataOnMouseLeave();
-        
+
             this.style.fill = this.original_color
             return tooltip.style("visibility", "hidden");
-        
+
         })
         .on("mousemove", function (d, i) {
             tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px");
@@ -542,12 +544,12 @@ RainbowGraph.prototype.buildChart = function () {
 
     }
     /*this.svg.select("g")
-        .selectAll(".tick")
-        .filter(function (d) {
+     .selectAll(".tick")
+     .filter(function (d) {
 
-        })  //this is a temporary logic. If our x axis parameter is other than url, then this will change.
-        .remove();
-        */
+     })  //this is a temporary logic. If our x axis parameter is other than url, then this will change.
+     .remove();
+     */
 
 };
 
@@ -601,7 +603,7 @@ RainbowGraph.prototype.onSortByChange = function(obj) {
         if(selectValue == _this.metadata["x-axis-label"]){
             if(a.last_name != undefined )
                 return a.last_name.toLowerCase().localeCompare( b.last_name.toLowerCase());
-            else if (a.first_name != undefined)
+            else if (a.last_name != undefined)
                 return a.first_name.toLowerCase().localeCompare( b.first_name.toLowerCase());
         }else if(selectValue == _this.metadata["primary-value-label"]) {
             if( a.secondary_value != undefined && b.secondary_value != undefined)
@@ -628,6 +630,7 @@ RainbowGraph.prototype.onSortByChange = function(obj) {
             rank_val.primary_value = _this.rankings[i].primary_value;
             rank_val.secondary_value = _this.rankings[i].secondary_value;
             rank_val.first_name = _this.rankings[i].first_name;
+            rank_val.last_name = _this.rankings[i].last_name;
             rank_val.x_pos = _this.rankings[i].x_pos;
             rank_val.sas = _this.rankings[i].sas;
             rank_val.stu_id = _this.rankings[i].stu_id;
@@ -667,3 +670,4 @@ RainbowGraph.prototype.colorLuminance = function(hex, lum) {
 
     return rgb;
 };
+
