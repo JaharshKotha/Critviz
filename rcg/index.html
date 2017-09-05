@@ -1,0 +1,36 @@
+<html>
+<meta charset="utf-8"></meta>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="d3.min.js"></script>
+    <script src="readJSON.js"></script>
+    <script src="visualizeGraph.js"></script>
+    <script src="colorPalette.js"></script>
+
+    <link rel="stylesheet" href="style.css"></link>
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css"></link>
+</head>
+<body>
+
+<center><h1 id="title"></h1></center>
+<script>
+    d3.json("dataFiles/valid.json", function (data) {
+        rc = new RainbowGraph(data)
+        //resize when the action is finished
+        var resizeTimer;
+        var redraw = function() {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(function () {
+                rc.visualizeGraph();
+            }, 500);
+        }
+        window.onresize=redraw;
+        window.onload=redraw;
+    });
+</script>
+
+
+</body>
+
+</html>
